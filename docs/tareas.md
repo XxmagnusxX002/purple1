@@ -20,7 +20,7 @@
 - [x] 1.13 Datos mock que imitan la API (`js/mock-data.js` + `js/mock-api.js`)
 - [x] 1.14 Quitar la contraseña de MySQL del código (`.env`)
 - [x] 1.15 Subir el repositorio a GitHub
-- [ ] 1.16 Publicar el front en Vercel y probar la URL pública
+- [x] 1.16 Publicar el front en Vercel y probar la URL pública
 - [ ] 1.17 Verificar F1 a F5 en la URL pública a 390 px y a 1280 px
 
 ## Back (U4)

@@ -4,7 +4,7 @@
 
 Tienda web de merch de F1 con precios en la moneda del comprador, pronósticos de carreras con **PitCoins** (moneda virtual sin valor real) y un **avatar** en el perfil que se viste con lo que ganas.
 
-- **Demo pública:** [purple1.vercel.app](https://purple1.vercel.app/)
+- **Demo pública:** [purple1-seven.vercel.app](https://purple1-seven.vercel.app/)
 - **Documentación (SDD):** [docs/](docs/README.md)
 
 ![Pantalla principal](docs/diseno/referencias/pantalla-principal.png)

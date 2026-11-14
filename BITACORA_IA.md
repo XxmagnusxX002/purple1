@@ -14,7 +14,7 @@
 | Diseño en Figma | "Haz la interfaz para Figma y que sea funcional" | 6 pantallas en SVG con las conexiones entre ellas |
 | Documentación SDD | "Organiza la documentación de problema y solución para el diplomado" | `docs/` con producto, arquitectura, identidad, specs, decisiones y tareas |
 | Publicar en Vercel | "Necesito el front desplegado en Vercel" | Modo mock (`js/mock-api.js`) que responde como la API real |
-| Subir a GitHub y publicar en Vercel (tareas 1.15 y 1.16) | "Lee CLAUDE.md, README.md y docs/tareas.md. Completa 1.15 y 1.16: sube el proyecto a GitHub y publica el front en Vercel. Muéstrame el plan antes de ejecutar y hazlo paso a paso: verifica git y gh, crea `.env` sin escribir la contraseña, confirma que `.env` está en `.gitignore`, haz el commit, crea el repo público y dime qué hacer en Vercel" | Repositorio público en GitHub con el commit inicial; el front quedó importado en Vercel (`vercel.json` publica `frontend/`) en https://purple1.vercel.app. La URL aún responde 402 hasta que Vercel reactive el despliegue |
+| Subir a GitHub y publicar en Vercel (tareas 1.15 y 1.16) | "Lee CLAUDE.md, README.md y docs/tareas.md. Completa 1.15 y 1.16: sube el proyecto a GitHub y publica el front en Vercel. Muéstrame el plan antes de ejecutar y hazlo paso a paso: verifica git y gh, crea `.env` sin escribir la contraseña, confirma que `.env` está en `.gitignore`, haz el commit, crea el repo público y dime qué hacer en Vercel" | Repositorio público en GitHub con el commit inicial; el front quedó importado en Vercel (`vercel.json` publica `frontend/`) en https://purple1-seven.vercel.app, probado con respuesta 200 en las páginas, los scripts y las imágenes |
 
 ## Errores del agente y del proceso, y cómo se corrigieron
 
@@ -29,7 +29,7 @@
 | Instalar una librería de íconos por npm falló | Restricción de red del entorno del agente | Se dibujaron los íconos a mano en SVG; no se insistió con otros comandos |
 | El commit iba a salir con el nombre y el correo de otra persona | `git config` global del equipo tenía otra identidad | Se configuró la identidad solo en este repo (`git config user.name` y `user.email` sin `--global`) antes del commit |
 | El repositorio se creó en la cuenta de GitHub equivocada | `gh` tenía iniciada otra cuenta y no se confirmó antes de crear el repo | Se inició sesión con la cuenta correcta (`gh auth login`), se quitó el remoto `origin` y se creó el repo de nuevo. Antes de crear un repo se revisa `gh auth status` |
-| La URL de Vercel responde 402 `DEPLOYMENT_DISABLED` ("This deployment is temporarily paused") | Vercel pausó el despliegue o la cuenta; no es un error del código | Pendiente: revisar el aviso en el dashboard de Vercel (Settings → Advanced, Usage y Billing) o contactar a soporte. La tarea 1.16 no se marca hasta que la URL abra |
+| La URL anotada (`purple1.vercel.app`) respondía 402 `DEPLOYMENT_DISABLED` ("This deployment is temporarily paused") | Se escribió un dominio sin confirmarlo en Vercel; ese dominio no era del proyecto. El agente lo atribuyó a una pausa de la cuenta sin comprobarlo | Se copió el dominio real desde el dashboard del proyecto (`purple1-seven.vercel.app`) y se probó con respuesta 200 antes de ponerlo en el README. Antes de publicar una URL se verifica que abra |
 
 ## Qué aprendimos
 
