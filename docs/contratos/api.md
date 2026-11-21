@@ -36,7 +36,7 @@
 
 ### POST /api/auth/register
 - **Quién:** cualquiera (sin sesión).
-- **Entrada:** `{ "first_name", "last_name", "email", "phone"?, "password", "confirm_password" }`
+- **Entrada:** `{ "first_name", "last_name", "email", "phone"?, "password", "password_confirm" }`
 - **Éxito 201:** `{ "success": true, "user": { "id", "first_name", "email", "coins": 1000 } }` (saldo inicial = `pitcoins.opening_balance`). No inicia sesión: después se llama a login.
 
 | Situación | Código | Mensaje |
@@ -65,7 +65,7 @@
 - **Quién:** con sesión. **200** `{ "user": { id, first_name, email, coins, xp_total, level, is_staff } }`. Sin sesión: **401**.
 
 ### POST /api/auth/change-password
-- **Entrada:** `{ "current_password", "new_password", "confirm_password" }`
+- **Entrada:** `{ "current_password", "new_password", "password_confirm" }`
 
 | Situación | Código | Mensaje |
 |---|---|---|
@@ -74,7 +74,7 @@
 
 ### POST /api/auth/forgot-password · POST /api/auth/reset-password
 - **forgot:** `{ "email" }` → **200** siempre con el mismo mensaje (no revela si el correo existe). Sin SMTP: **503** "La recuperación por correo aún no está configurada."
-- **reset:** `{ "token", "password", "confirm_password" }` → **200**. Enlace vencido (30 min) o usado: **400** "El enlace venció o ya fue utilizado."
+- **reset:** `{ "token", "password", "password_confirm" }` → **200**. Enlace vencido (30 min) o usado: **400** "El enlace venció o ya fue utilizado."
 
 ### GET / PUT / DELETE /api/users/{id}
 - **Quién:** el propio usuario. GET también staff; PUT de roles solo superadmin.
@@ -143,7 +143,7 @@ Los precios se guardan en EUR; el front muestra la conversión, pero **el cobro 
 
 ### GET /api/races · GET /api/races/{id} · GET /api/races/leaderboard (públicas)
 - `races`: calendario con estado y hora de cierre. `{id}`: participantes y bolsa por piloto.
-- `leaderboard`: `{ leaders: [{ username, coins }] }` — nunca correos.
+- `leaderboard`: `{ leaderboard: [{ first_name, last_name, coins }] }` — solo clientes, nunca correos.
 
 ### POST /api/races/{id}/bet
 - **Quién:** con sesión.

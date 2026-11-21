@@ -1,0 +1,26 @@
+name: Pruebas de integración
+
+# Prueban la página publicada de punta a punta (Vercel -> Render -> MySQL).
+# Se lanzan a mano desde Actions -> "Pruebas de integración" -> Run workflow,
+# o solas cada día a las 7 a. m. (hora de Colombia).
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Dirección a probar"
+        default: "https://purple1-seven.vercel.app"
+  schedule:
+    - cron: "0 12 * * *"
+
+jobs:
+  integracion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Correr las pruebas
+        env:
+          PURPLE1_BASE_URL: ${{ inputs.base_url || 'https://purple1-seven.vercel.app' }}
+        run: python -m unittest discover -s tests/integracion -v
