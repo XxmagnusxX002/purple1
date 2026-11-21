@@ -31,6 +31,7 @@
 - [ ] T-B11 Poner las variables de entorno en Railway y generar el dominio
 - [ ] T-B12 Cambiar `TU-BACKEND` en `vercel.json` y volver a publicar en Vercel
 - [ ] T-B13 Pruebas de fuego en la URL pública (ver `DESPLIEGUE.md`, paso 4)
+- [x] T-B16 CI con GitHub Actions (`.github/workflows/ci.yml`)
 - [x] T-B14 Auditoría del back (`docs/auditoria-u4.md`)
 - [ ] T-B15 Corregir los hallazgos de severidad media de la auditoría (A-01, A-02; A-03 va con N-1)
 

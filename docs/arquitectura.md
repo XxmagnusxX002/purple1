@@ -64,3 +64,15 @@ Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un 
 | Autorización por fila | RLS | Filtro por `user_id` de la sesión en cada consulta | Equivalente en función (ver `decisiones.md`) |
 | Migraciones | `supabase/migrations/` | `database/schema.sql` + `upgrade_NN_*.sql` | Equivalente |
 | Datos semilla | `seed.sql` | `database/seed.sql` + `demo_data.sql` | Igual |
+
+## Comparación con el esquema de clase (MVP)
+
+| Esquema de clase | Purple One | Nota |
+|---|---|---|
+| Frontend → Backend → Base de datos | Front (Vercel) → API REST en Python (Railway) → MySQL | Mismas tres capas, conectadas por REST |
+| Spring Boot + Auth + Spring Security | Python `http.server` + sesión con cookie + roles en `server.py` | El back decide quién entra y qué puede hacer |
+| JDBC → Supabase (Postgres) | `mysql-connector-python` → MySQL | Misma idea: solo el back habla con la base |
+| RLS ✗ | Sin RLS | Como el acceso a los datos pasa siempre por el back, la autorización vive en el servidor |
+| GitHub: PR a `main` + GitHub Actions (CI/CD) | `.github/workflows/ci.yml` revisa cada push y PR | Vercel y Railway publican solos al hacer push a `main` |
+| Front en Vercel / AWS / Azure / GCP | Vercel | Igual |
+| Back en Render / AWS / Azure / GCP | Railway | Railway trae MySQL en el mismo proyecto; Render solo ofrece Postgres administrado |

@@ -24,3 +24,4 @@
 | Módulo de IA (U4) | `PURPLE1_ALLOWED_ORIGINS` explícito | El control de origen compara con el Host; detrás del rewrite el Host es el de Railway y el Origin el de Vercel |
 | Módulo de IA (U4) | `purple1_completo.sql` fuera de Git | Trae datos de usuarios de prueba y hashes; se importa a Railway desde el computador |
 | Módulo de IA (U4) | Eliminar el modo mock | Con back en la nube ya no hace falta y evita dos fuentes de verdad |
+| Módulo de IA (U4) | GitHub Actions revisa cada push y cada PR a `main` | Es la parte de CI/CD del esquema de clase: si el back no compila o se cuela la copia de la base, el cambio se marca en rojo antes de llegar a Vercel y Railway |
