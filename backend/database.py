@@ -12,10 +12,12 @@ si no existe, main.py la pide por consola al arrancar (ask_password_if_missing).
 import getpass
 import os
 import sys
+import threading
 from contextlib import contextmanager
 
 import mysql.connector
-from mysql.connector import Error
+from mysql.connector import Error, pooling
+from mysql.connector.errors import PoolError
 
 
 def _clean_host(host):
@@ -56,12 +58,40 @@ def is_duplicate_key(exc):
     return isinstance(exc, Error) and getattr(exc, "errno", None) == ER_DUP_ENTRY
 
 
+# Pool de conexiones: abrir una conexion nueva por consulta cuesta varias idas y
+# vueltas de red (TCP, TLS y autenticacion). Con la base en la nube eso hacia que
+# cada pagina tardara segundos. El pool reutiliza conexiones ya abiertas; al
+# devolverlas se reinicia la sesion, asi ninguna transaccion queda colgada.
+POOL_SIZE = max(1, min(32, int(os.getenv("PURPLE1_DB_POOL_SIZE", "8"))))
+_pool = None
+_pool_lock = threading.Lock()
+
+
+def _connection_config():
+    return {**DB_CONFIG, "host": _clean_host(DB_CONFIG.get("host")), "connection_timeout": 5}
+
+
+def _get_pool():
+    global _pool
+    if _pool is None:
+        with _pool_lock:
+            if _pool is None:
+                _pool = pooling.MySQLConnectionPool(
+                    pool_name="purple1", pool_size=POOL_SIZE, pool_reset_session=True, **_connection_config()
+                )
+    return _pool
+
+
 def get_connection():
     if DB_CONFIG["password"] is None:
         raise RuntimeError("Falta la contrasena de MySQL: ejecuta python main.py o define PURPLE1_DB_PASSWORD.")
-    config = {**DB_CONFIG, "host": _clean_host(DB_CONFIG.get("host"))}
+    config = _connection_config()
     try:
-        return mysql.connector.connect(**config, connection_timeout=5)
+        try:
+            return _get_pool().get_connection()
+        except PoolError:
+            # Todas las conexiones del pool estan ocupadas: se abre una aparte.
+            return mysql.connector.connect(**config)
     except Error as exc:
         safe_config = dict(config)
         safe_config["password"] = "***"
@@ -70,9 +100,16 @@ def get_connection():
 
 def close_connection(connection=None, cursor=None):
     if cursor is not None:
-        cursor.close()
-    if connection is not None and connection.is_connected():
-        connection.close()
+        try:
+            cursor.close()
+        except Error:
+            pass
+    if connection is not None:
+        # En una conexion del pool, close() la devuelve al pool (no la cierra).
+        try:
+            connection.close()
+        except Error:
+            pass
 
 
 @contextmanager

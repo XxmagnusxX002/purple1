@@ -26,3 +26,4 @@
 | Módulo de IA (U4) | Eliminar el modo mock | Con back en la nube ya no hace falta y evita dos fuentes de verdad |
 | Módulo de IA (U4) | GitHub Actions revisa cada push y cada PR a `main` | Es la parte de CI/CD del esquema de clase: si el back no compila o se cuela la copia de la base, el cambio se marca en rojo antes de llegar a Vercel y Railway |
 | Módulo de IA (U4) | Volver a la versión del 19 nov 11:07 p. m. (`upgrade_08`), sin la clasificación completa de carreras | Decisión del equipo: es la versión que se presenta. El administrador elige solo al ganador |
+| Módulo de IA (U4) | Pool de conexiones a MySQL y aviso cada 10 min al back | En la nube cada consulta abría una conexión nueva hacia Railway y la página tardaba segundos; Render gratis además se duerme tras 15 min |

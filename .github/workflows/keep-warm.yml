@@ -1,0 +1,16 @@
+name: Mantener despierto el back
+
+# El plan gratis de Render duerme el servicio tras 15 minutos sin visitas y la
+# primera visita despues tarda cerca de un minuto. Este aviso cada 10 minutos lo
+# mantiene despierto. Para apagarlo: Actions -> este workflow -> Disable.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar a la API
+        run: curl -fsS -o /dev/null -w "%{http_code} en %{time_total}s\n" --max-time 90 https://purple1-api.onrender.com/api/currencies || true
