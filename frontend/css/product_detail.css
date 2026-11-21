@@ -116,11 +116,6 @@
     font-weight: 700;
 }
 
-.price-code {
-    font-size: 1.1rem;
-    color: #4f4868;
-}
-
 .price-old {
     font-size: 1.1rem;
     color: var(--color-text-muted);
@@ -144,12 +139,6 @@
 .size-header h3 {
     font-size: 1.35rem;
     font-weight: 600;
-}
-
-.size-guide {
-    font-size: 1rem;
-    color: #61577a;
-    text-decoration: underline;
 }
 
 .sizes-grid {
@@ -265,3 +254,79 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+
+/* ---------- Contenido real del producto (Fase 3) ---------- */
+.detail-page [hidden] {
+    display: none !important;
+}
+
+.badge-offer {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-brand);
+    color: #fff;
+    font-weight: 700;
+}
+
+.badge-offer small {
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.detail-features {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.detail-features li {
+    display: flex;
+    gap: 10px;
+}
+
+.detail-features li i {
+    margin-top: 4px;
+    color: var(--color-brand);
+}
+
+.detail-specs {
+    display: grid;
+    grid-template-columns: minmax(110px, 40%) 1fr;
+    margin: 0;
+}
+
+.detail-specs dt,
+.detail-specs dd {
+    margin: 0;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.detail-specs dt {
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+.detail-specs dd {
+    color: var(--color-text-soft);
+}
+
+.detail-message {
+    min-height: 1.4em;
+    margin: 10px 0 0;
+    font-weight: 600;
+    color: var(--color-danger);
+}
+
+.add-cart-btn[aria-disabled="true"] {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+/* Producto sin imagen real: icono neutro centrado */
+.main-visual .detail-fallback { width: min(360px, 80%); height: auto; aspect-ratio: 1 / 1; border-radius: var(--radius-xl); }
+.main-visual .detail-fallback i { font-size: 5rem; }

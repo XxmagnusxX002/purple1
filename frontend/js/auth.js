@@ -69,8 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 email: document.getElementById("login-email").value.trim(),
                 password: document.getElementById("login-pass").value
             });
-            localStorage.setItem("purple1_user", JSON.stringify(data.user));
-            window.location.href = "products.html";
+            localStorage.removeItem("purple1_user");
+            // Cuenta de ejemplo con la contrasena publica de seed.sql: debe cambiarla.
+            window.location.href = data.user && data.user.password_change_required
+                ? "change_password.html?required=1"
+                : "products.html";
         } catch (error) {
             showAlert(loginForm, error.message);
         }

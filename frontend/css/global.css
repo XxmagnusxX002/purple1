@@ -26,6 +26,13 @@
     --color-success: #2f8b3f;
     --color-success-soft: #edf7ef;
     --color-danger: #ef3b5d;
+    /* Mismos valores que los estados de races.css; compartidos con el panel. */
+    --color-danger-soft: #fde3e8;
+    --color-danger-strong: #a91c3b;
+    --color-warning: #936000;
+    --color-warning-soft: #fff3d6;
+    --color-info: #626a7b;
+    --color-info-soft: #eef0f5;
 
     /* Dark auth */
     --color-dark-bg: #0b0718;
@@ -139,6 +146,15 @@ input,
 select,
 textarea {
     font: inherit;
+}
+
+select:not([multiple]):not([size]) {
+    appearance: none;
+    padding-inline-end: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%236d6885' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px 12px;
 }
 
 button {
@@ -896,201 +912,6 @@ button {
     color: #9c2341;
 }
 
-/* =========================================================
-   PROFILE PAGE PRO
-========================================================= */
-
-.profile-page {
-    padding-top: 50px;
-}
-
-/* CARD */
-.profile-card {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 28px;
-}
-
-/* HERO */
-.profile-hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.profile-identity {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-.profile-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #7b2cff, #a56eff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    color: white;
-    font-size: 1.5rem;
-    border: 3px solid #fff;
-    box-shadow: 0 10px 25px rgba(123, 44, 255, 0.35);
-}
-
-.profile-identity h1 {
-    font-size: 2.2rem;
-    margin-bottom: 6px;
-}
-
-.profile-identity p {
-    color: var(--color-text-soft);
-}
-
-/* CARRO */
-.profile-car {
-    width: 260px;
-    opacity: 0.95;
-    transform: scale(1.05);
-}
-
-/* INFO BANNER */
-.profile-info-banner {
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--color-brand-soft);
-    border: 1px solid var(--color-brand-border);
-    padding: 14px 18px;
-    border-radius: 12px;
-    font-weight: 500;
-}
-
-/* FORM */
-.profile-form {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-/* GRID */
-.profile-grid-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-/* SECTIONS */
-.profile-section {
-    background: linear-gradient(180deg, #ffffff 0%, #f8f3ff 100%);
-    border-radius: 16px;
-    padding: 20px;
-    border: 1px solid var(--color-border);
-}
-
-.profile-section-header {
-    margin-bottom: 15px;
-}
-
-.profile-section-header h2 {
-    font-size: 1.2rem;
-}
-
-/* FIELDS */
-.profile-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-}
-
-.profile-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.profile-field label {
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
-.profile-field input,
-.profile-field span {
-    height: 48px;
-    border-radius: 10px;
-    border: 1px solid var(--color-border);
-    padding: 0 14px;
-    display: flex;
-    align-items: center;
-}
-
-/* readonly */
-.profile-field.readonly span {
-    background: #f3eefb;
-}
-
-/* full width */
-.profile-field--full {
-    grid-column: 1 / -1;
-}
-
-/* ACTIONS */
-.profile-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* LINK BTN */
-.profile-link-btn {
-    padding: 10px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--color-border);
-    color: var(--color-brand);
-    font-weight: 600;
-    background: #fff;
-    transition: 0.2s;
-}
-
-.profile-link-btn:hover {
-    transform: translateY(-2px);
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .profile-grid-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-hero {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .profile-car {
-        width: 100%;
-        max-width: 300px;
-        align-self: center;
-    }
-}
-
-@media (max-width: 600px) {
-    .profile-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .profile-actions {
-        flex-direction: column;
-        gap: 10px;
-        align-items: stretch;
-    }
-}
-
 .field-group {
     display: grid;
     gap: 8px;
@@ -1250,3 +1071,116 @@ button {
         grid-template-columns: 1fr;
     }
 }
+/* Fotografía o iniciales del piloto; compartido por tienda y administrador. */
+.driver-avatar {
+    position: relative; display: inline-grid; place-items: center; flex: 0 0 auto;
+    width: 44px; height: 44px; overflow: hidden; border: 1px solid #DCC8FF; border-radius: 10px;
+    background: #F1E7FF; color: #7025E8;
+    font-size: .85rem; font-weight: 800; line-height: 1; letter-spacing: .02em;
+}
+.driver-avatar--medium { width: 52px; height: 52px; font-size: 1rem; }
+.driver-avatar--large { width: 160px; height: 160px; font-size: 2.3rem; }
+.driver-avatar img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.driver-avatar img[hidden] { display: none; }
+
+/* =========================================================
+   Imágenes de respaldo (js/media.js): nunca un "P1"
+========================================================= */
+.media-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 64px;
+    aspect-ratio: 1 / 1;
+    border-radius: inherit;
+    background: linear-gradient(145deg, var(--color-brand-tint), var(--color-brand-soft));
+    color: var(--color-brand);
+}
+
+.media-fallback i {
+    font-size: clamp(1.4rem, 28%, 3.2rem);
+    opacity: 0.75;
+}
+
+.race-flag {
+    display: inline-flex;
+    flex: 0 0 auto;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-alt);
+    box-shadow: 0 2px 6px rgba(27, 23, 51, 0.08);
+}
+
+.race-flag svg { display: block; width: 100%; height: 100%; }
+.race-flag--sm { width: 42px; height: 28px; border-radius: 6px; }
+.race-flag--md { width: 72px; height: 48px; }
+.race-flag--lg { width: 96px; height: 64px; }
+
+.race-flag--icon {
+    align-items: center;
+    justify-content: center;
+    background: var(--color-brand-tint);
+    color: var(--color-brand);
+}
+
+.race-flag--sm.race-flag--icon i { font-size: 0.95rem; }
+.race-flag--md.race-flag--icon i, .race-flag--lg.race-flag--icon i { font-size: 1.4rem; }
+.product-image > .media-fallback { aspect-ratio: auto; min-height: 100%; }
+.product-image > .media-fallback i { font-size: 3rem; }
+
+/* Escuderías 2026: foto del monoplaza, escudo o inicial con el color del equipo */
+.team-img--photo { position: relative; padding: 0; border-bottom: 4px solid var(--team, var(--color-brand)); }
+.team-img--photo > img:first-child { object-fit: cover; }
+.team-img__empty { display: grid; place-items: center; width: 100%; height: 100%; background: color-mix(in srgb, var(--team) 14%, #fff); color: var(--team); font-size: 2rem; }
+.team-badge { position: absolute; left: 12px; bottom: 12px; width: 44px; height: 44px; border-radius: 12px; border: 2px solid #fff; background: #fff; object-fit: contain; box-shadow: 0 4px 12px rgba(20, 10, 40, 0.18); }
+.team-badge--initial { display: grid; place-items: center; color: #fff; font-weight: 900; font-size: 1.2rem; }
+.team-card__official { flex: 0 0 auto !important; font-size: 0.86rem; margin-bottom: 12px !important; }
+.team-card__drivers { display: grid; gap: 6px; margin: 0 0 18px; padding: 0; list-style: none; text-align: left; }
+.team-card__drivers li { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 12px; background: var(--color-surface-alt); font-size: 0.92rem; }
+.team-card__drivers strong { min-width: 28px; color: var(--team, var(--color-brand)); font-weight: 900; }
+
+/* =========================================================
+   ESTADOS DE CARGA (skeleton) — compartidos por toda la tienda.
+   Ocupan el mismo espacio que el contenido final: la página no salta.
+========================================================= */
+.skel {
+    display: block;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #efe9fb 25%, #f8f5ff 40%, #efe9fb 60%);
+    background-size: 300% 100%;
+    animation: skel-shine 1.4s ease-in-out infinite;
+}
+.skel--line { height: 12px; margin: 8px 0; }
+.skel--title { height: 18px; width: 70%; margin: 6px 0 10px; }
+.skel--price { height: 16px; width: 40%; margin: 4px 0 14px; }
+.skel--button { height: 42px; width: 100%; border-radius: 12px; margin-top: auto; }
+.skel--short { width: 45%; }
+.skel--mid { width: 70%; }
+@keyframes skel-shine { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+
+.product-card.is-skeleton { pointer-events: none; }
+.product-card.is-skeleton .product-image { background: none; }
+.product-card.is-skeleton .product-image .skel { width: 100%; height: 100%; border-radius: 18px; }
+.product-card.is-skeleton .product-info { display: flex; flex-direction: column; flex: 1; }
+
+/* Encabezado estable: el selector de moneda y el saldo reservan su espacio. */
+.currency-switcher { min-width: 168px; }
+.currency-switcher[aria-busy="true"] { color: transparent; background: linear-gradient(90deg, #efe9fb 25%, #f8f5ff 40%, #efe9fb 60%); background-size: 300% 100%; animation: skel-shine 1.4s ease-in-out infinite; }
+.nav-coin-badge { min-width: 92px; justify-content: center; }
+.nav-coin-badge.is-loading { color: transparent; background: linear-gradient(90deg, #efe9fb 25%, #f8f5ff 40%, #efe9fb 60%); background-size: 300% 100%; animation: skel-shine 1.4s ease-in-out infinite; }
+.nav-coin-badge.is-loading i { visibility: hidden; }
+
+.cart-line.is-skeleton { display: flex; align-items: center; gap: 18px; padding: 16px; margin-bottom: 12px; }
+.team-card.is-skeleton .team-img { padding: 0; }
+.race-message.is-skeleton { display: grid; gap: 8px; padding: 18px; }
+.order-card.is-skeleton { display: grid; gap: 6px; padding: 20px 22px; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* El contenido principal ocupa al menos la pantalla: el footer no sube ni baja mientras se carga. */
+main.page-shell, main.pf-page, main.detail-page, main.cart-page, main.orders-page, main.races-page, main.teams-page, main.products-page { min-height: calc(100vh - 80px); }
+/* Detalle de producto: precio, opciones y stock reservan su alto antes de llegar los datos. */
+.detail-page .price-row { min-height: 44px; }
+.detail-page .sizes-grid:empty { min-height: 52px; }
+.detail-page .stock-text { min-height: 1.5em; }

@@ -1,4 +1,4 @@
-# Bitácora de IA · Purple 1
+# Bitácora de IA · Purple One
 
 > Prompts clave, errores del agente y cómo los corregimos.
 > Agente usado: Claude. Regla: si no podemos explicar el código generado, no lo aceptamos.
@@ -13,8 +13,12 @@
 | Cierre de carreras | "¿Cómo sé si gané un pronóstico?" | Se explicó que el staff cierra la carrera desde el panel; se documentaron los comandos SQL de apoyo |
 | Diseño en Figma | "Haz la interfaz para Figma y que sea funcional" | 6 pantallas en SVG con las conexiones entre ellas |
 | Documentación SDD | "Organiza la documentación de problema y solución para el diplomado" | `docs/` con producto, arquitectura, identidad, specs, decisiones y tareas |
-| Publicar en Vercel | "Necesito el front desplegado en Vercel" | Modo mock (`js/mock-api.js`) que responde como la API real |
-| Subir a GitHub y publicar en Vercel (tareas 1.15 y 1.16) | "Lee CLAUDE.md, README.md y docs/tareas.md. Completa 1.15 y 1.16: sube el proyecto a GitHub y publica el front en Vercel. Muéstrame el plan antes de ejecutar y hazlo paso a paso: verifica git y gh, crea `.env` sin escribir la contraseña, confirma que `.env` está en `.gitignore`, haz el commit, crea el repo público y dime qué hacer en Vercel" | Repositorio público en GitHub con el commit inicial; el front quedó importado en Vercel (`vercel.json` publica `frontend/`) en https://purple1-seven.vercel.app, probado con respuesta 200 en las páginas, los scripts y las imágenes |
+| Publicar en Vercel (U3) | "Necesito el front desplegado en Vercel" | Modo mock que respondía como la API real (eliminado en U4) |
+| Reemplazar la versión (U4) | "La página ahora es distinta, ¿cómo elimino la que tenía y pongo esta funcionando?" | Repositorio reemplazado, back en Railway y rewrites en Vercel (`DESPLIEGUE.md`) |
+| Modelo de datos (U4) | "Lee schema.sql y las specs y escribe docs/datos/modelo.md con ER, reglas por capa y dueño de cada fila" | `docs/datos/modelo.md` |
+| Contrato (U4) | "Escribe el contrato de cada operación con entradas, salidas, errores y códigos, igual a lo que hace server.py" | `docs/contratos/api.md` |
+| Seguridad (U4) | "Crea la skill backend-seguro adaptada a Python + MySQL sin RLS" | `.claude/skills/backend-seguro/SKILL.md` |
+| Auditoría (U4) | "Audita el back con la skill y dame hallazgo, archivo:línea, severidad, cómo comprobar y corrección" | `docs/auditoria-u4.md` |
 
 ## Errores del agente y del proceso, y cómo se corrigieron
 
@@ -26,13 +30,17 @@
 | Un `UPDATE` en Workbench cambió el registro equivocado | Se usó un `id` incorrecto | Consultar primero con `SELECT` y luego actualizar por `id` |
 | El resultado del pronóstico "no aparecía" | La carrera no se había cerrado | El staff debe cerrar la carrera eligiendo al ganador |
 | Vercel no puede correr el servidor Python ni MySQL | Vercel publica el front; la base de datos es local | Datos mock en el navegador con la misma forma que la API real |
+| El contrato decía que registrarse dejaba la sesión iniciada | El agente lo supuso sin leer `server.py` | Se revisó la ruta: el registro devuelve 201 sin cookie; se corrigió el contrato |
+| El contrato tenía mensajes de error inventados ("Debes iniciar sesión.") | Se escribieron de memoria | Se sacaron los mensajes reales con `grep` del código |
+| Detrás de Vercel, todos los POST respondían 403 "Origen no permitido." | El control de origen comparaba con el Host, que ahora es el de Railway | Lista explícita `PURPLE1_ALLOWED_ORIGINS` (sin comodines) |
+| El panel `/admin` quedaba publicado como archivos estáticos en Vercel | Vercel publica toda la carpeta `frontend/` | `.vercelignore` excluye `frontend/admin/` y el rewrite lo manda a Railway |
+| La guía pide RLS de Supabase y Purple One usa MySQL | MySQL no tiene RLS | La autorización por fila vive en el servidor; documentado en `decisiones.md` y en la skill |
 | Instalar una librería de íconos por npm falló | Restricción de red del entorno del agente | Se dibujaron los íconos a mano en SVG; no se insistió con otros comandos |
-| El commit iba a salir con el nombre y el correo de otra persona | `git config` global del equipo tenía otra identidad | Se configuró la identidad solo en este repo (`git config user.name` y `user.email` sin `--global`) antes del commit |
-| El repositorio se creó en la cuenta de GitHub equivocada | `gh` tenía iniciada otra cuenta y no se confirmó antes de crear el repo | Se inició sesión con la cuenta correcta (`gh auth login`), se quitó el remoto `origin` y se creó el repo de nuevo. Antes de crear un repo se revisa `gh auth status` |
-| La URL anotada (`purple1.vercel.app`) respondía 402 `DEPLOYMENT_DISABLED` ("This deployment is temporarily paused") | Se escribió un dominio sin confirmarlo en Vercel; ese dominio no era del proyecto. El agente lo atribuyó a una pausa de la cuenta sin comprobarlo | Se copió el dominio real desde el dashboard del proyecto (`purple1-seven.vercel.app`) y se probó con respuesta 200 antes de ponerlo en el README. Antes de publicar una URL se verifica que abra |
 
 ## Qué aprendimos
 
 - Con documentos claros (producto, specs, identidad) el agente inventa menos.
 - Pedir una tarea pequeña a la vez y revisar el cambio antes de aceptarlo.
 - Las llaves nunca van en el código, aunque el proyecto sea académico.
+- El contrato se escribe leyendo el código, no de memoria: el agente inventa mensajes y comportamientos que suenan bien.
+- "Funciona en local" no es "funciona en la nube": proxies, dominios y discos cambian las reglas.

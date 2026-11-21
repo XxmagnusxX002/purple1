@@ -5,13 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                identifier: document.getElementById("identifier").value,
-                new_password: document.getElementById("new-password").value,
-                password_confirm: document.getElementById("password-confirm").value
+                identifier: document.getElementById("identifier").value.trim()
             })
         });
         const data = await response.json();
-        alert(data.success ? "Contrasena actualizada." : data.error);
-        if (data.success) window.location.href = "auth.html";
+        alert(data.success ? data.message : data.error);
     });
 });

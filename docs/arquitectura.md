@@ -1,78 +1,66 @@
-# Arquitectura · Purple 1
+# Arquitectura · Purple One
 
 > Los planos: con qué se construye y cómo se conectan las piezas.
 
 ## Visión general
 
+```mermaid
+flowchart LR
+  N[Navegador] -->|páginas de la tienda| V[Vercel<br/>frontend/]
+  N -->|/api · /admin · /img/uploads| V
+  V -->|rewrite| R[Railway<br/>Python main.py]
+  R -->|SQL parametrizado| M[(MySQL 8<br/>Railway)]
 ```
-Navegador (HTML + CSS + JS)  ⇄  Servidor Python (http.server)  ⇄  MySQL 8.4
-        frontend/                   backend/  · puerto 8000         base purple1 · puerto 3306
-```
 
-Cliente-servidor en tres capas: cada capa habla solo con la de al lado. El navegador pide datos en JSON a `/api/...`; el servidor aplica las reglas de negocio y consulta MySQL con SQL parametrizado.
+Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un solo dominio** (el de Vercel). Vercel entrega la tienda y reenvía a Railway todo lo que necesita servidor: la API, el panel y las imágenes subidas. Así la cookie de sesión funciona sin configurar CORS.
 
-## Dos formas de correr el proyecto
+## Dónde corre cada cosa
 
-| Modo | Dónde | Datos | Para qué |
-|---|---|---|---|
-| **Completo** | Local: `python main.py` → http://127.0.0.1:8000 | MySQL real | Desarrollo y demostración completa |
-| **Demo (mock)** | Vercel (URL pública) | `frontend/js/mock-data.js` + `localStorage` | Que cualquiera pruebe el front sin instalar nada |
-
-En Vercel no hay servidor Python ni MySQL. Por eso `frontend/js/mock-api.js` intercepta las llamadas a `/api/...` y las responde en el navegador **con la misma forma** que la API real (mismas rutas, mismos campos, mismos mensajes de error). Los datos de prueba se generan desde `database/seed.sql` con `python tools/generar_mock.py`, así que la demo muestra los mismos productos que la base real.
-
-- Se usa la API real solo en `127.0.0.1:8000`. En cualquier otro lugar se usa el mock.
-- Se puede forzar con `?mock=1` (siempre mock) o `?mock=0` (siempre API real).
-- La demo muestra una etiqueta "Demo · datos de prueba" con un botón **Reiniciar**.
+| Pieza | Local | Nube |
+|---|---|---|
+| Tienda (12 páginas HTML) | `python main.py` → http://127.0.0.1:8000 | Vercel (`outputDirectory: frontend`) |
+| API `/api/*` | mismo proceso | Railway (`railway.json` → `python main.py`) |
+| Panel `/admin/*` (23 páginas) | mismo proceso | Railway (Vercel lo excluye con `.vercelignore` y lo reenvía) |
+| Base de datos | MySQL local | MySQL de Railway |
+| Imágenes subidas desde el panel | `frontend/img/uploads/` | disco de Railway (ver hallazgo A-03) |
 
 ## Front
 
-- HTML5, CSS3 y JavaScript sin frameworks. 10 páginas en `frontend/`.
-- Un archivo CSS y uno JS por página; tokens de diseño en `frontend/css/global.css`.
-- WebGL directo para el carro 3D de la intro (`js/intro.js`) y SVG para el avatar (`js/avatar.js`).
-- `fetch` para hablar con la API; sesión del usuario en `localStorage` (`purple1_user`).
-- Íconos: Font Awesome 6.5 (CDN). Tipografías: Google Fonts.
+- HTML5, CSS3 y JavaScript sin frameworks. Un HTML, un CSS y un JS por página; tokens en `frontend/css/global.css`.
+- WebGL directo para la intro (`js/intro.js`), SVG para el avatar y las banderas.
+- `fetch` a `/api/...` con `credentials: "same-origin"`. **No hay datos simulados en el navegador**: todo viene de la API real (se eliminaron `mock-api.js` y `mock-data.js`).
 
 ## Back
 
-- Python 3 con `http.server` (librería estándar). Rutas en `backend/server.py`.
-- Un módulo por dominio: `auth`, `users`, `products`, `categories`, `cart`, `orders`, `payments_sim`, `bets`, `avatar`.
-- Contraseñas con PBKDF2-SHA256 (600.000 iteraciones y sal).
+- Python 3 con `http.server` (librería estándar), 35 módulos en `backend/`. Rutas en `server.py`.
+- Por dominio: `auth`, `security`, `users`, `products`, `cart`, `orders`, `payments_sim`, `currencies`, `rewards`, `bets`, `coins`, `progression`, `avatar`, `admin_*`.
+- Sesión con cookie `HttpOnly` y token con hash en `auth_sessions`. Contraseñas con PBKDF2-SHA256.
 - Única dependencia externa: `mysql-connector-python`.
+
+### Variables de entorno (Railway)
+
+| Variable | Valor | Para qué |
+|---|---|---|
+| `PORT` | la pone Railway | puerto donde escucha |
+| `PURPLE1_HOST` | `0.0.0.0` | aceptar conexiones de fuera del contenedor |
+| `PURPLE1_DB_HOST`, `_PORT`, `_USER`, `_PASSWORD`, `_NAME` | los de MySQL de Railway | conexión a la base |
+| `PURPLE1_ALLOWED_ORIGINS` | `purple1-seven.vercel.app` | aceptar POST que vienen del dominio de Vercel |
+| `PURPLE1_TRUST_PROXY` | `1` | leer la IP real del cliente (límite de intentos de login) |
+| `PURPLE1_COOKIE_SECURE` | `1` | cookie solo por HTTPS |
 
 ## Datos
 
-Entidades principales:
-
-- **Usuario** 1 — N **Pedido** · 1 — 1 **Carrito** · 1 — N **Pronóstico** · 1 — 1 **Avatar**
-- **Producto** N — N **Categoría** · N — N **Escudería** · 1 — N **Inventario** (talla, color, stock)
-- **Carrito** 1 — N **ItemCarrito** · **Pedido** 1 — N **ItemPedido** · **Pedido** 1 — 0..1 **Pago**
-- **Carrera** 1 — N **OpciónCarrera** (piloto) · **Pronóstico** N — 1 **OpciónCarrera**
-
-Reglas que protegen los PitCoins:
-
-- Al pronosticar, el saldo del usuario se bloquea (`SELECT … FOR UPDATE`) y todo va en una transacción.
-- Pronóstico mínimo: 10 PitCoins. Cada usuario empieza con 1.000.
-- Cuotas parimutuel: el bote se reparte entre quienes acertaron, en proporción a lo que pusieron. Si nadie acierta, se devuelve todo.
-- Estados de la carrera: `SCHEDULED → OPEN → LOCKED → FINISHED` (o `CANCELLED`). Solo el staff la cierra.
-
-Esquema completo en `database/schema.sql`; datos iniciales en `database/seed.sql`.
-
-## Despliegue
-
-- **Código:** GitHub.
-- **Front:** Vercel publica la carpeta `frontend/` (ver `vercel.json`). Cada `git push` a `main` publica una versión nueva.
-- **Back y base de datos:** por ahora locales. Publicarlos es un paso siguiente (ver `tareas.md`).
+- 33 tablas. Modelo, reglas y dueño de cada fila: [datos/modelo.md](datos/modelo.md).
+- Contrato de cada operación: [contratos/api.md](contratos/api.md).
+- Las reglas que protegen dinero y datos ajenos están **en la base** (`UNIQUE`, `CHECK`, claves foráneas) **y en el servidor** (sesión, transacciones con `FOR UPDATE`).
 
 ## Comparación con la arquitectura de referencia del diplomado
 
-| Capa | Referencia del diplomado | Purple 1 | Equivalencia |
+| Capa | Referencia (U4) | Purple One | Equivalencia |
 |---|---|---|---|
-| Front | Next.js + TypeScript + Tailwind | HTML, CSS y JS sin frameworks | Misma responsabilidad, sin framework |
-| Back | Spring Boot (Java), API REST | Python `http.server`, API REST en JSON | Misma responsabilidad, otro lenguaje |
-| Datos | MySQL | MySQL 8.4 | **Igual** |
-| Acceso a datos | JPA / Hibernate | SQL parametrizado con `mysql-connector-python` | Equivalente, escrito a mano |
-| Seguridad | Spring Security | Hash PBKDF2 + validación de staff en el servidor | Equivalente en función |
-| Despliegue front | Vercel | Vercel | **Igual** |
-| Nube back | AWS (U6) | Pendiente | — |
-
-**Por qué no Next.js:** el proyecto empezó en la materia de Requerimientos de Software antes del módulo de IA, construido desde cero para entender cada capa. Migrarlo ahora pondría en riesgo lo que ya funciona; se documenta como mejora futura en `decisiones.md`.
+| Front | Next.js en Vercel | HTML/CSS/JS en Vercel | Misma responsabilidad, sin framework |
+| Back | Supabase / Spring Boot | Python `http.server` en Railway | API REST propia |
+| Datos | Postgres (Supabase) o MySQL | MySQL 8 | La guía admite Spring Boot + MySQL |
+| Autorización por fila | RLS | Filtro por `user_id` de la sesión en cada consulta | Equivalente en función (ver `decisiones.md`) |
+| Migraciones | `supabase/migrations/` | `database/schema.sql` + `upgrade_NN_*.sql` | Equivalente |
+| Datos semilla | `seed.sql` | `database/seed.sql` + `demo_data.sql` | Igual |

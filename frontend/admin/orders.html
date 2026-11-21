@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Pedidos | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="orders" data-admin-title="Pedidos">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Pedidos</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <nav class="admin-tabs" aria-label="Pedidos">
+                    <a href="orders.html" aria-current="page">Pedidos</a>
+                    <a href="sales.html">Estadísticas</a>
+                </nav>
+
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar pedidos">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar pedidos</span>
+                            <input type="search" id="order-search" placeholder="Buscar por nº de pedido, nombre, correo o usuario" autocomplete="off" maxlength="100">
+                        </label>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado del pedido" id="order-status">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-status="PAID" aria-pressed="false">Pagados</button>
+                        <button type="button" class="admin-chip" data-status="PENDING" aria-pressed="false">Pendientes</button>
+                        <button type="button" class="admin-chip" data-status="SHIPPED" aria-pressed="false">Enviados</button>
+                        <button type="button" class="admin-chip" data-status="DELIVERED" aria-pressed="false">Entregados</button>
+                        <button type="button" class="admin-chip" data-status="CANCELLED" aria-pressed="false">Cancelados</button>
+                    </div>
+                    <div class="admin-toolbar__filters">
+                        <label class="admin-select">Pago<select id="order-payment"><option value="all">Todos</option><option value="approved">Con pago aprobado</option><option value="none">Sin pago aprobado</option></select></label>
+                        <label class="admin-select">Desde<input type="date" id="order-from"></label>
+                        <label class="admin-select">Hasta<input type="date" id="order-to"></label>
+                        <label class="admin-select">Ordenar<select id="order-sort"><option value="recent">Más recientes</option><option value="oldest">Más antiguos</option><option value="total_desc">Mayor importe</option><option value="total_asc">Menor importe</option></select></label>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="orders-alert" role="alert" hidden>
+                    <span id="orders-alert-text"></span>
+                    <button type="button" class="admin-button" id="orders-retry">Reintentar</button>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="orders-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="orders-heading">Compras</h2><p id="orders-count" aria-live="polite">Cargando pedidos…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--listing admin-table--orders">
+                            <thead><tr><th scope="col">Pedido</th><th scope="col">Cliente</th><th scope="col">Fecha</th><th scope="col">Productos</th><th scope="col">Total (EUR)</th><th scope="col">Pago</th><th scope="col">Estado</th><th scope="col">ACCIONES</th></tr></thead>
+                            <tbody id="orders-body"><tr><td colspan="8"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                    <nav class="admin-pagination" aria-label="Paginación" id="orders-pagination" hidden>
+                        <button type="button" class="admin-button" data-page="prev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior</button>
+                        <span id="orders-page"></span>
+                        <button type="button" class="admin-button" data-page="next">Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </nav>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/order-common.js"></script>
+    <script src="js/orders.js"></script>
+</body>
+</html>

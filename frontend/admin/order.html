@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Pedido | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="orders" data-admin-title="Pedido">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Pedido</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <a class="admin-back" href="orders.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a pedidos</a>
+
+                <div class="admin-alert" id="order-alert" role="alert" hidden>
+                    <span id="order-alert-text"></span>
+                    <button type="button" class="admin-button" id="order-retry" hidden>Reintentar</button>
+                </div>
+
+                <div id="order-loading" class="admin-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></div>
+
+                <div id="order-view" class="order-view" hidden>
+                    <section class="admin-card race-head" aria-labelledby="order-number">
+                        <div>
+                            <p class="admin-section-label">Pedido</p>
+                            <h2 id="order-number"></h2>
+                            <p id="order-meta" class="admin-muted"></p>
+                        </div>
+                        <span id="order-pills"></span>
+                    </section>
+
+                    <p class="order-readonly"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Solo consulta: los cambios de estado, cancelaciones y reembolsos se habilitarán cuando se definan sus reglas.</p>
+
+                    <div class="order-columns">
+                        <section class="admin-card admin-card--flush" aria-labelledby="items-heading">
+                            <div class="admin-card__head admin-card__head--padded"><div><h2 id="items-heading">Productos</h2><p id="items-help"></p></div></div>
+                            <div class="order-items" id="items-body"></div>
+                            <dl class="order-amounts" id="order-amounts"></dl>
+                        </section>
+
+                        <div class="order-side">
+                            <section class="admin-card" aria-labelledby="customer-heading">
+                                <div class="admin-card__head"><div><h2 id="customer-heading">Comprador</h2><p>Datos para atender el pedido</p></div></div>
+                                <dl class="order-facts" id="customer-facts"></dl>
+                            </section>
+                            <section class="admin-card" aria-labelledby="payments-heading">
+                                <div class="admin-card__head"><div><h2 id="payments-heading">Pagos</h2><p>Pago simulado: no se guardan datos de tarjeta</p></div></div>
+                                <ul class="admin-list" id="payments-list"></ul>
+                                <p class="money-note">Los intentos rechazados no se registran: solo queda el pago aprobado que creó el pedido.</p>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/order-common.js"></script>
+    <script src="js/order-detail.js"></script>
+</body>
+</html>

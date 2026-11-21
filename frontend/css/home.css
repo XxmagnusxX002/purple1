@@ -155,3 +155,65 @@
         min-height: 92px;
     }
 }
+.home-banners[hidden] { display: none !important; }
+/* Carrusel (css/banners.css) con aire antes de «Destacados». */
+.home-banners { display: block; padding-top: 28px; padding-bottom: 56px; }
+
+/* =========================================================
+   Portada dinámica (Fase 4)
+========================================================= */
+main [hidden] { display: none !important; }
+
+.home-alert { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 32px auto; padding: 16px 20px; border-radius: var(--radius-md); background: var(--color-danger-soft); color: var(--color-danger-strong); font-weight: 600; }
+.home-alert i { margin-right: 6px; }
+
+a.category-card { color: var(--color-text); text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+a.category-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.home-category-text { display: grid; gap: 2px; }
+.home-category-count { display: block; color: var(--color-text-soft); font-size: 0.85rem; font-weight: 500; }
+.promo-badge { background: var(--color-brand); color: #fff; }
+.product-info .price .old-price { margin-left: 6px; font-size: 0.85em; }
+.home-sold { margin: -8px 0 12px; color: var(--color-text-soft); font-size: 0.85rem; }
+
+.home-races__grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr); gap: 20px; align-items: start; }
+.home-races__main { display: grid; gap: 16px; }
+.home-next-race, .home-open-races, .home-ranking, .home-empty { padding: 22px; }
+.home-eyebrow { display: inline-block; padding: 3px 10px; border-radius: 6px; background: var(--color-brand-tint); color: var(--color-brand); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+.home-next-race h3 { margin: 10px 0 6px; font-size: 1.5rem; font-weight: 800; }
+.home-muted { margin: 4px 0; color: var(--color-text-soft); }
+.home-muted i { width: 18px; color: var(--color-brand); }
+.home-race-facts { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 14px; color: var(--color-text-soft); font-size: 0.9rem; }
+.home-race-facts strong { color: var(--color-text); }
+.home-chip { padding: 4px 12px; border-radius: 999px; background: var(--color-success-soft); color: var(--color-success); font-size: 0.8rem; font-weight: 700; }
+.home-open-races h3, .home-ranking h3 { margin: 0 0 12px; font-size: 1.1rem; font-weight: 800; }
+.home-open-races ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.home-open-races li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--color-border); }
+.home-open-races li:first-child { border-top: 0; padding-top: 0; }
+.home-open-races small { display: block; color: var(--color-text-soft); font-size: 0.82rem; }
+.home-open-races li > span { flex: 1 1 auto; min-width: 0; }
+.home-open-races .btn-card { flex: 0 0 auto; width: auto; min-height: 40px; margin: 0; padding: 0 18px; }
+.home-ranking h3 i { color: #c8961c; }
+.home-ranking__list { display: grid; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+.home-ranking__list li { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius-sm); background: var(--color-surface-alt); }
+.home-rank { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-brand-soft); color: var(--color-brand-strong); font-weight: 800; font-size: 0.85rem; }
+.home-ranking__list li:first-child .home-rank { background: var(--color-brand); color: #fff; }
+.home-rank-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.home-rank-coins { font-weight: 800; white-space: nowrap; }
+.home-rank-coins i { color: #c8961c; }
+.home-link { display: inline-flex; align-items: center; gap: 8px; color: var(--color-brand); font-weight: 700; text-decoration: none; }
+.home-empty { margin: 0; color: var(--color-text-soft); }
+.home-ranking .home-empty { padding: 8px 0; background: none; }
+
+@media (max-width: 900px) {
+    .home-races__grid { grid-template-columns: 1fr; }
+}
+.home-next-race__head { display: flex; align-items: center; gap: 16px; }
+.home-next-race__head h3 { margin: 6px 0 0; }
+.home-open-races li > .race-flag { flex: 0 0 auto; }
+
+/* Estados de carga de la portada (mismo tamaño que el contenido final) */
+.banner-carousel.is-skeleton .banner-slide__media { background: none; }
+.banner-carousel.is-skeleton .banner-slide__copy { display: grid; }
+.category-card.is-skeleton { display: flex; align-items: center; gap: 12px; pointer-events: none; }
+.home-next-race.is-skeleton .skel { margin-bottom: 8px; }
+.home-ranking__list li[aria-hidden="true"] { list-style: none; padding: 4px 0; }

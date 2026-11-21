@@ -1,109 +1,197 @@
+/* Detalle de producto: todo lo que se muestra sale de GET /api/products/<id>.
+ * - Precio tachado y etiqueta de oferta solo si el producto tiene una promoción vigente.
+ * - Descripción, características y especificaciones se ocultan si no existen.
+ * - El título del selector depende del tipo de producto (talla, color o ambos). */
 document.addEventListener("DOMContentLoaded", async () => {
+    const $ = (selector) => document.querySelector(selector);
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
-    const title = document.querySelector(".product-title");
-    const priceMain = document.querySelector(".price-main");
-    const stockText = document.querySelector(".stock-text");
-    const mainImage = document.querySelector(".main-product-image");
-    const thumbsRow = document.querySelector(".thumbs-row");
-    const sizesGrid = document.querySelector(".sizes-grid");
-    const addButton = document.querySelector(".add-cart-btn");
-    const description = document.querySelector(".accordion-item.open .accordion-content");
+    const title = $(".product-title");
+    const priceMain = $(".price-main");
+    const priceOld = $(".price-old");
+    const promoBadge = $("#promo-badge");
+    const stockText = $(".stock-text");
+    const mainImage = $(".main-product-image");
+    const thumbsRow = $(".thumbs-row");
+    const sizesGrid = $(".sizes-grid");
+    const addButton = $(".add-cart-btn");
+    const message = $("#detail-message");
     let selectedInventory = null;
     let currentProduct = null;
+    let images = [];
+    let imageIndex = 0;
 
-    function user() {
-        try { return JSON.parse(localStorage.getItem("purple1_user")); } catch { return null; }
+    const escapeHTML = (value) => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    const money = (value) => window.Purple1Currency.formatMoney(value);
+    const units = (n) => `${n} ${Number(n) === 1 ? "unidad disponible" : "unidades disponibles"}`;
+
+    function setUnavailable(text) {
+        addButton.setAttribute("aria-disabled", "true");
+        addButton.textContent = text;
     }
 
-    function money(value) {
-        return window.Purple1Currency.formatMoney(value);
+    function renderPrice() {
+        if (!currentProduct) return;
+        const sale = selectedInventory ? selectedInventory.effective_price : currentProduct.final_price;
+        const list = selectedInventory ? selectedInventory.list_price : currentProduct.list_price;
+        priceMain.textContent = money(sale);
+        const onSale = Number(currentProduct.promo_percent) > 0 && Number(list) > Number(sale);
+        priceOld.hidden = !onSale;
+        priceOld.textContent = onSale ? money(list) : "";
     }
 
-    function bindThumbs() {
-        document.querySelectorAll(".thumb").forEach((thumb) => {
-            thumb.addEventListener("click", () => {
-                document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
-                thumb.classList.add("active");
-                const img = thumb.querySelector("img");
-                mainImage.src = img.src;
-                mainImage.alt = img.alt;
-            });
-        });
+    function renderPromo(product) {
+        const percent = Number(product.promo_percent) || 0;
+        if (!percent) return;
+        const until = product.promo_ends_at
+            ? ` <small>hasta el ${new Date(`${String(product.promo_ends_at).replace(" ", "T")}Z`).toLocaleDateString("es-CO")}</small>`
+            : "";
+        promoBadge.innerHTML = `<i class="fa-solid fa-tag" aria-hidden="true"></i> Promoción −${percent} %${until}`;
+        promoBadge.hidden = false;
+    }
+
+    function showImage(index) {
+        if (!images.length) return;
+        imageIndex = (index + images.length) % images.length;
+        mainImage.src = images[imageIndex].image_path;
+        mainImage.alt = images[imageIndex].alt_text || currentProduct.name;
+        thumbsRow.querySelectorAll(".thumb").forEach((thumb, i) => thumb.classList.toggle("active", i === imageIndex));
+    }
+
+    function renderGallery(product) {
+        images = product.images.filter((image) => image.image_path);
+        if (!images.length) {
+            // Sin imagen real: icono neutro en lugar de una imagen provisional.
+            mainImage.insertAdjacentHTML("afterend", window.PurpleMedia.productFallback(product.product_type, "detail-fallback"));
+            mainImage.remove();
+            thumbsRow.innerHTML = "";
+            document.querySelectorAll(".nav-arrow").forEach((arrow) => { arrow.hidden = true; });
+            return;
+        }
+        thumbsRow.innerHTML = images.length > 1
+            ? images.map((image, index) => `<button class="thumb" type="button" data-index="${index}" aria-label="Ver imagen ${index + 1}"><img src="${escapeHTML(image.image_path)}" alt=""></button>`).join("")
+            : "";
+        document.querySelectorAll(".nav-arrow").forEach((arrow) => { arrow.hidden = images.length < 2; });
+        showImage(0);
+    }
+
+    function renderContent(product) {
+        if (product.description) {
+            $("#product-description").textContent = product.description;
+            $("#section-description").hidden = false;
+        }
+        if (product.features?.length) {
+            $("#product-features").innerHTML = product.features.map((text) => `<li><i class="fa-solid fa-check" aria-hidden="true"></i><span>${escapeHTML(text)}</span></li>`).join("");
+            $("#section-features").hidden = false;
+        }
+        if (product.specs?.length) {
+            $("#product-specs").innerHTML = product.specs.map((spec) => `<dt>${escapeHTML(spec.label)}</dt><dd>${escapeHTML(spec.value)}</dd>`).join("");
+            $("#section-specs").hidden = false;
+        }
+    }
+
+    function renderVariants(product) {
+        const label = product.uses_size && product.uses_color ? "Talla y color" : product.uses_size ? "Talla" : product.uses_color ? "Color" : "Presentación";
+        $("#variant-label").textContent = label;
+        // Sin talla ni color y con una sola variante no hay nada que elegir.
+        const choose = product.inventory.length > 1 || product.uses_size || product.uses_color;
+        $("#variant-header").hidden = !choose || !product.inventory.length;
+        sizesGrid.hidden = !choose;
+        sizesGrid.innerHTML = product.inventory.map((item) => {
+            const text = [item.size_name, item.color_name].filter(Boolean).join(" / ") || item.sku;
+            const active = selectedInventory && item.id === selectedInventory.id ? "active" : "";
+            return `<button class="size-btn ${active}" type="button" data-inventory="${item.id}" ${item.stock < 1 ? "disabled" : ""}>${escapeHTML(text)}</button>`;
+        }).join("");
+    }
+
+    function renderStock() {
+        const stock = selectedInventory ? Number(selectedInventory.stock) : 0;
+        stockText.textContent = stock > 0 ? units(stock) : "Sin stock";
+        if (stock > 0) {
+            addButton.removeAttribute("aria-disabled");
+            addButton.textContent = "Añadir al carrito";
+        } else {
+            setUnavailable(currentProduct.inventory.length ? "Agotado" : "Sin inventario");
+        }
     }
 
     document.querySelectorAll(".accordion-header").forEach((trigger) => {
         trigger.addEventListener("click", () => trigger.closest(".accordion-item").classList.toggle("open"));
     });
+    $(".nav-arrow.left").addEventListener("click", () => showImage(imageIndex - 1));
+    $(".nav-arrow.right").addEventListener("click", () => showImage(imageIndex + 1));
+    thumbsRow.addEventListener("click", (event) => {
+        const thumb = event.target.closest("[data-index]");
+        if (thumb) showImage(Number(thumb.dataset.index));
+    });
 
     if (!id) {
         title.textContent = "Producto no encontrado";
+        setUnavailable("No disponible");
         return;
     }
 
     try {
-        const response = await fetch(`/api/products/${id}`);
+        // Producto y tasas de cambio en paralelo: el precio se dibuja una sola vez.
+        const [response] = await Promise.all([fetch(`/api/products/${encodeURIComponent(id)}`), window.Purple1Currency.ready]);
         const data = await response.json();
         if (!response.ok || !data.success) throw new Error(data.error || "No se pudo cargar el producto.");
         const product = data.product;
         currentProduct = product;
-        selectedInventory = product.inventory.find(i => i.stock > 0) || product.inventory[0];
-        if (!selectedInventory && addButton) {
-            addButton.disabled = true;
-            addButton.textContent = "Sin inventario";
-        }
+        document.title = `Purple One | ${product.name}`;
+        selectedInventory = product.inventory.find((i) => i.stock > 0) || product.inventory[0] || null;
 
         title.textContent = product.name;
-        priceMain.textContent = money(product.final_price);
-        stockText.textContent = Number(product.total_stock || 0) > 0 ? `${product.total_stock} unidades disponibles` : "Sin stock";
-        if (description) description.textContent = product.description || "Producto Purple One.";
+        renderGallery(product);
+        renderPromo(product);
+        renderPrice();
+        renderVariants(product);
+        renderStock();
+        renderContent(product);
+        $("#detail-layout").setAttribute("aria-busy", "false");
 
-        const images = product.images.length ? product.images : [{ image_path: product.main_image, alt_text: product.name }];
-        mainImage.src = images[0].image_path;
-        mainImage.alt = images[0].alt_text || product.name;
-        thumbsRow.innerHTML = images.map((image, index) => `<button class="thumb ${index === 0 ? "active" : ""}" type="button"><img src="${image.image_path}" alt="${image.alt_text || product.name}"></button>`).join("");
-        bindThumbs();
-
-        sizesGrid.innerHTML = product.inventory.map((item) => {
-            const label = [item.size_name, item.color_name].filter(Boolean).join(" / ") || item.sku;
-            const active = selectedInventory && item.id === selectedInventory.id ? "active" : "";
-            return `<button class="size-btn ${active}" type="button" data-inventory="${item.id}" ${item.stock < 1 ? "disabled" : ""}>${label}</button>`;
-        }).join("");
-        document.querySelectorAll(".size-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                selectedInventory = product.inventory.find(i => String(i.id) === btn.dataset.inventory);
-                priceMain.textContent = money(selectedInventory.effective_price);
-                stockText.textContent = selectedInventory.stock > 0 ? `${selectedInventory.stock} unidades disponibles` : "Sin stock";
-            });
+        sizesGrid.addEventListener("click", (event) => {
+            const button = event.target.closest(".size-btn");
+            if (!button || button.disabled) return;
+            sizesGrid.querySelectorAll(".size-btn").forEach((b) => b.classList.remove("active"));
+            button.classList.add("active");
+            selectedInventory = product.inventory.find((i) => String(i.id) === button.dataset.inventory);
+            renderPrice();
+            renderStock();
         });
 
         addButton.addEventListener("click", async (event) => {
             event.preventDefault();
+            message.textContent = "";
             if (!selectedInventory || selectedInventory.stock < 1) {
-                throw new Error("No hay inventario disponible para este producto.");
-            }
-            const currentUser = user();
-            if (!currentUser) {
-                window.location.href = "auth.html";
+                message.textContent = "No hay inventario disponible para esta opción.";
                 return;
             }
-            const res = await fetch("/api/cart/add", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user_id: currentUser.id, inventory_id: selectedInventory.id, quantity: 1 })
-            });
-            const cartData = await res.json();
-            if (!res.ok || !cartData.success) throw new Error(cartData.error || "No se pudo agregar al carrito.");
-            window.location.href = "cart.html";
+            try {
+                const sessionResponse = await fetch("/api/auth/me");
+                if (!sessionResponse.ok) {
+                    window.location.href = "auth.html";
+                    return;
+                }
+                const res = await fetch("/api/cart/add", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ inventory_id: selectedInventory.id, quantity: 1 }),
+                });
+                const cartData = await res.json();
+                if (!res.ok || !cartData.success) throw new Error(cartData.error || "No se pudo agregar al carrito.");
+                window.location.href = "cart.html";
+            } catch (error) {
+                message.textContent = error.message;
+            }
         });
     } catch (error) {
-        title.textContent = error.message;
+        title.textContent = "Producto no disponible";
+        message.textContent = error.message;
+        setUnavailable("No disponible");
+        thumbsRow.innerHTML = "";
     }
 
-    window.addEventListener(window.Purple1Currency.EVENT_NAME, () => {
-        if (!currentProduct) return;
-        priceMain.textContent = money(selectedInventory ? selectedInventory.effective_price : currentProduct.final_price);
-    });
+    window.addEventListener(window.Purple1Currency.EVENT_NAME, renderPrice);
 });

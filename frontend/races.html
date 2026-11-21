@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/mock-data.js"></script>
-    <script src="js/mock-api.js"></script>
     <title>Pronosticos | Purple One</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,19 +13,19 @@
     <header class="navbar">
         <div class="container-wide nav-content">
             <a href="index.html" class="logo">PURPLE1</a>
-            <nav class="nav-links" aria-label="Navegacion principal">
+            <nav class="nav-links" aria-label="Navegación principal">
                 <a href="index.html">Inicio</a>
                 <a href="teams.html">Equipos</a>
                 <a href="products.html">Tienda</a>
-                <a href="races.html" class="active">Pronosticos</a>
+                <a href="races.html" class="active">Pronósticos</a>
             </nav>
-            <div class="nav-icons" aria-label="Accesos rapidos">
+            <div class="nav-icons" aria-label="Accesos rápidos">
                 <a href="products.html" aria-label="Explorar productos"><i class="fa-solid fa-magnifying-glass"></i></a>
                 <div class="nav-user-menu">
                     <button type="button" class="nav-user-toggle" aria-label="Mi cuenta" aria-expanded="false"><i class="fa-regular fa-user"></i></button>
                     <div class="nav-user-dropdown">
                         <div class="nav-user-greeting">Mi cuenta</div>
-                        <a href="auth.html">Iniciar sesion</a>
+                        <a href="auth.html">Iniciar sesión</a>
                     </div>
                 </div>
                 <a href="cart.html" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></a>
@@ -39,37 +37,66 @@
         <div class="container">
             <section class="races-hero">
                 <div class="races-hero__text">
-                    <span class="pill-badge is-soft"><i class="fa-solid fa-flag-checkered"></i>&nbsp; Pronosticos Purple1</span>
-                    <h1>Pronostica quien gana <span>cada Gran Premio</span></h1>
-                    <p>Elige a tu piloto, compite por el primer lugar del ranking y desbloquea ropa para tu avatar con cada acierto. Se juega con <strong>PitCoins</strong>, la moneda virtual de Purple1: sin dinero real, sin riesgo, solo la emocion de acertar.</p>
+                    <span class="races-eyebrow"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i> Purple One · Fórmula 1</span>
+                    <h1>Pronósticos <span>de carrera</span></h1>
+                    <p>Elige al piloto ganador de un Gran Premio. Participa con PitCoins y consulta tus resultados aquí.</p>
                 </div>
-                <div class="wallet-card surface-card" id="wallet-card">
-                    <div class="wallet-card__label">Tu saldo</div>
-                    <div class="wallet-card__amount"><i class="fa-solid fa-coins"></i> <span id="wallet-amount">--</span></div>
-                    <p class="wallet-card__hint" id="wallet-hint">Inicia sesion para recibir tus primeros 1000 PitCoins.</p>
+                <div class="wallet-card" id="wallet-card" aria-live="polite">
+                    <div class="wallet-card__label">PitCoins disponibles</div>
+                    <div class="wallet-card__amount"><i class="fa-solid fa-coins" aria-hidden="true"></i> <span id="wallet-amount">—</span></div>
+                    <p class="wallet-card__hint" id="wallet-hint">Consulta tu saldo al iniciar sesión.</p>
                 </div>
             </section>
 
-            <section class="how-it-works surface-card">
-                <div><i class="fa-solid fa-circle-info"></i></div>
-                <p><strong>Como funciona:</strong> las cuotas se calculan en vivo repartiendo el bote entre los PitCoins puestos en cada piloto (estilo mercado de prediccion): entre menos gente elija a tu piloto, mayor la ganancia si acierta. Un pronostico por carrera; puedes cambiarlo mientras sigan abiertos. Cada acierto cuenta para desbloquear prendas en <a href="profile.html">tu avatar</a>.</p>
-            </section>
+            <div class="races-toolbar" aria-label="Filtrar carreras">
+                <div class="races-filters" id="race-filters">
+                    <button type="button" class="race-filter is-active" data-filter="ALL" aria-pressed="true">Todas</button>
+                    <button type="button" class="race-filter" data-filter="OPEN" aria-pressed="false">Abiertas</button>
+                    <button type="button" class="race-filter" data-filter="SCHEDULED" aria-pressed="false">Próximas</button>
+                    <button type="button" class="race-filter" data-filter="CLOSED" aria-pressed="false">Cerradas</button>
+                    <button type="button" class="race-filter" data-filter="RESULTS" aria-pressed="false">Resultados</button>
+                </div>
+            </div>
 
-            <section class="section-heading">
-                <h2 class="section-title">Proximas <span>carreras</span></h2>
-            </section>
-            <section class="races-list" id="races-list">
-                <div class="surface-card empty-products"><h3>Cargando carreras</h3><p>Consultando el calendario desde el servidor.</p></div>
-            </section>
+            <div class="races-layout">
+                <div class="races-primary">
+                    <section class="featured-race-section" aria-labelledby="featured-heading">
+                        <div class="races-section-head"><h2 id="featured-heading">Carrera destacada</h2><span id="races-count" class="races-count"></span></div>
+                        <div id="featured-race" aria-live="polite">
+                            <div class="race-message surface-card is-skeleton" aria-hidden="true"><span class="skel" style="height:220px;width:100%;border-radius:16px"></span><span class="skel skel--title"></span><span class="skel skel--line"></span><span class="skel skel--line"></span></div><span class="visually-hidden" role="status">Cargando carreras</span>
+                        </div>
+                    </section>
 
-            <section class="section-heading">
-                <h2 class="section-title">Tabla de <span>posiciones</span></h2>
-            </section>
-            <section class="surface-card leaderboard-card">
-                <ol class="leaderboard-list" id="leaderboard-list">
-                    <li class="leaderboard-empty">Cargando ranking...</li>
-                </ol>
-            </section>
+                    <section class="other-races-section" aria-labelledby="other-races-heading">
+                        <div class="races-section-head"><h2 id="other-races-heading">Otras carreras</h2></div>
+                        <div id="other-races" class="other-races-list"><div aria-hidden="true"><span class="skel" style="height:64px;margin-bottom:10px;border-radius:14px"></span></div><div aria-hidden="true"><span class="skel" style="height:64px;margin-bottom:10px;border-radius:14px"></span></div><div aria-hidden="true"><span class="skel" style="height:64px;margin-bottom:10px;border-radius:14px"></span></div><div aria-hidden="true"><span class="skel" style="height:64px;margin-bottom:10px;border-radius:14px"></span></div></div>
+                    </section>
+
+                    <section class="history-section" aria-labelledby="history-heading">
+                        <div class="races-section-head"><h2 id="history-heading">Mis pronósticos</h2></div>
+                        <div class="history-shell surface-card">
+                            <p>Consulta tus pilotos elegidos, importes y resultados cuando los necesites.</p>
+                            <button type="button" id="history-toggle" class="race-secondary-button" aria-expanded="false" aria-controls="history-list">Ver historial</button>
+                            <div id="history-list" hidden></div>
+                        </div>
+                    </section>
+
+                    <details class="how-it-works">
+                        <summary>Cómo funcionan los pronósticos y las cuotas</summary>
+                        <p>Elige un piloto y un importe mínimo de <span id="bet-min-rule">10 PitCoins</span>. Puedes cambiar tu pronóstico mientras la carrera siga abierta. La cuota es orientativa y cambia con los PitCoins que otros usuarios ponen en cada piloto. El premio definitivo se calcula al liquidar la carrera; si se cancela, se devuelve la apuesta. Los aciertos pueden desbloquear prendas de <a href="profile.html">tu avatar</a>.</p>
+                    </details>
+                </div>
+
+                <aside class="leaderboard-card surface-card" aria-labelledby="leaderboard-heading">
+                    <div class="leaderboard-head">
+                        <i class="fa-solid fa-trophy" aria-hidden="true"></i>
+                        <div><h2 id="leaderboard-heading">Top 10 PitCoins</h2><p>Ordenado por saldo actual.</p></div>
+                    </div>
+                    <ol class="leaderboard-list" id="leaderboard-list" aria-live="polite">
+                        <li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li><li aria-hidden="true" style="list-style:none"><span class="skel" style="height:30px;margin:6px 0"></span></li>
+                    </ol>
+                </aside>
+            </div>
         </div>
     </main>
 
@@ -80,18 +107,19 @@
             <div class="site-footer__top">
                 <div class="site-footer__brand-block">
                     <a href="index.html" class="site-footer__logo" aria-label="Purple One">PURPLE1</a>
-                    <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Formula 1.</p>
+                    <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Fórmula 1.</p>
                     <div class="site-footer__socials"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
                 </div>
-                <div class="site-footer__nav-group"><h3>Navegacion</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="races.html">Pronosticos</a></div>
-                <div class="site-footer__nav-group"><h3>Pronosticos</h3><a href="races.html">Proximos GP</a><a href="races.html">Como funciona</a><a href="profile.html">Mi avatar</a></div>
-                <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envios</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
+                <div class="site-footer__nav-group"><h3>Navegación</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="races.html">Pronósticos</a></div>
+                <div class="site-footer__nav-group"><h3>Pronósticos</h3><a href="races.html">Proximos GP</a><a href="races.html">Como funciona</a><a href="profile.html">Mi avatar</a></div>
+                <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envíos</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
             </div>
-            <div class="site-footer__bottom"><p>&copy; 2026 Purple One. Todos los derechos reservados. Los PitCoins no tienen valor monetario real.</p><div class="site-footer__bottom-links"><a href="#">Terminos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
+            <div class="site-footer__bottom"><p>&copy; 2026 Purple One. Todos los derechos reservados. Los PitCoins no tienen valor monetario real.</p><div class="site-footer__bottom-links"><a href="#">Términos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
         </div>
     </footer>
 
     <script src="js/navbar.js"></script>
+    <script src="js/media.js"></script>
     <script src="js/races.js"></script>
     <script src="js/fx.js"></script>
 </body>

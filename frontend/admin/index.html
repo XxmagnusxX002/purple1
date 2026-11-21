@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Dashboard | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="dashboard" data-admin-title="Dashboard">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Dashboard</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <div class="admin-alert" id="dash-alert" role="alert" hidden>
+                    <span id="dash-alert-text">No se pudo cargar el dashboard.</span>
+                    <button type="button" class="admin-button" id="dash-retry">Reintentar</button>
+                </div>
+
+                <p class="admin-section-label">Tienda · importes en euros (EUR)</p>
+                <section class="kpi-grid" aria-label="Indicadores de la tienda">
+                    <article class="admin-card kpi"><span class="kpi__icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span><span class="kpi__label">Usuarios activos</span><strong class="kpi__value" id="kpi-users"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot" id="kpi-users-foot">&nbsp;</span></article>
+                    <article class="admin-card kpi"><span class="kpi__icon"><i class="fa-solid fa-receipt" aria-hidden="true"></i></span><span class="kpi__label">Compras realizadas</span><strong class="kpi__value" id="kpi-orders"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot" id="kpi-orders-foot">&nbsp;</span></article>
+                    <article class="admin-card kpi kpi--money"><span class="kpi__icon"><i class="fa-solid fa-euro-sign" aria-hidden="true"></i></span><span class="kpi__label">Ingresos aprobados</span><strong class="kpi__value" id="kpi-revenue"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot" id="kpi-revenue-foot">&nbsp;</span></article>
+                    <article class="admin-card kpi"><span class="kpi__icon"><i class="fa-solid fa-box" aria-hidden="true"></i></span><span class="kpi__label">Productos vendidos</span><strong class="kpi__value" id="kpi-units"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot">Unidades en compras aprobadas</span></article>
+                </section>
+
+                <div class="dash-row dash-row--chart">
+                    <section class="admin-card" aria-labelledby="sales-heading">
+                        <div class="admin-card__head">
+                            <div><h2 id="sales-heading">Ventas</h2><p id="sales-subtitle">Ingresos aprobados en EUR</p></div>
+                            <div class="admin-chips" role="group" aria-label="Agrupar ventas">
+                                <button type="button" class="admin-chip" data-sales-group="day" aria-pressed="true">Día</button>
+                                <button type="button" class="admin-chip" data-sales-group="month" aria-pressed="false">Mes</button>
+                            </div>
+                        </div>
+                        <div class="sales-chart" id="sales-chart" aria-live="polite"><span class="skeleton skeleton--block"></span></div>
+                        <div class="sales-summary" id="sales-summary"></div>
+                    </section>
+                    <section class="admin-card" aria-labelledby="status-heading">
+                        <div class="admin-card__head"><div><h2 id="status-heading">Pedidos por estado</h2><p>Todos los pedidos registrados</p></div></div>
+                        <div id="order-status"><span class="skeleton"></span></div>
+                    </section>
+                </div>
+
+                <div class="dash-row dash-row--lists">
+                    <section class="admin-card" aria-labelledby="top-heading">
+                        <div class="admin-card__head"><div><h2 id="top-heading">Más vendidos</h2><p>Unidades en compras aprobadas</p></div><a class="admin-link" href="sales.html">Estadísticas</a></div>
+                        <div id="top-products"><span class="skeleton"></span></div>
+                    </section>
+                    <section class="admin-card" aria-labelledby="stock-heading">
+                        <div class="admin-card__head"><div><h2 id="stock-heading">Poco inventario</h2><p id="stock-subtitle">Variantes activas con stock bajo</p></div></div>
+                        <div id="low-stock"><span class="skeleton"></span></div>
+                    </section>
+                    <section class="admin-card" aria-labelledby="recent-heading">
+                        <div class="admin-card__head"><div><h2 id="recent-heading">Compras recientes</h2><p>Últimos pedidos</p></div><a class="admin-link" href="orders.html">Ver pedidos</a></div>
+                        <div id="recent-orders"><span class="skeleton"></span></div>
+                    </section>
+                </div>
+
+                <p class="admin-section-label">Pronósticos · PitCoins (moneda virtual, sin valor monetario)</p>
+                <section class="admin-card" aria-labelledby="predictions-heading">
+                    <div class="admin-card__head"><div><h2 id="predictions-heading">Actividad de pronósticos</h2><p>Los PitCoins no se suman a los ingresos de la tienda</p></div></div>
+                    <div id="predictions"><span class="skeleton"></span></div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/sales-chart.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

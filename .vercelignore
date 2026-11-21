@@ -1,7 +1,8 @@
-# Vercel solo publica el front (carpeta frontend/) con datos mock.
+# Vercel publica solo la tienda (carpeta frontend/). La API, el panel /admin/
+# y las imagenes subidas se piden al backend en Railway (ver vercel.json).
 backend/
 database/
-tools/
 main.py
 requirements.txt
-.env
+railway.json
+frontend/admin/

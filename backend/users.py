@@ -8,19 +8,38 @@ def get_user(user_id):
     )
 
 
+# Longitudes de las columnas en database/schema.sql.
+MAX_LENGTHS = {"first_name": 100, "last_name": 100, "phone": 10, "address": 200}
+LABELS = {"first_name": "nombre", "last_name": "apellido", "phone": "telefono", "address": "direccion"}
+
+
+def _text(value):
+    return value.strip() if isinstance(value, str) else ""
+
+
 def update_user(user_id, data):
-    user = fetch_one("SELECT * FROM users WHERE id = %s", (user_id,))
+    """Actualiza solo los campos enviados; los ausentes conservan su valor."""
+    user = fetch_one("SELECT first_name, last_name, phone, address FROM users WHERE id = %s", (user_id,))
     if not user:
-        return None
-    first_name = (data.get("first_name") or user["first_name"] or "").strip()
-    last_name = (data.get("last_name") or user["last_name"] or "").strip()
-    phone = (data.get("phone") or "").strip()
-    address = (data.get("address") or "").strip()
+        return None, "Usuario no encontrado.", 404
+    values = {field: user[field] or "" for field in MAX_LENGTHS}
+    for field in MAX_LENGTHS:
+        if field in data:
+            values[field] = _text(data[field])
+    # Nombre y apellido son obligatorios en el registro: no se pueden vaciar.
+    for field in ("first_name", "last_name"):
+        if not values[field]:
+            values[field] = user[field] or ""
+    for field, limit in MAX_LENGTHS.items():
+        if len(values[field]) > limit:
+            return None, f"El campo {LABELS[field]} admite maximo {limit} caracteres.", 400
+    if values["phone"] and not values["phone"].isdigit():
+        return None, "El teléfono solo puede contener números.", 400
     execute_query(
         "UPDATE users SET first_name = %s, last_name = %s, phone = %s, address = %s WHERE id = %s",
-        (first_name, last_name, phone, address, user_id),
+        (values["first_name"], values["last_name"], values["phone"], values["address"], user_id),
     )
-    return get_user(user_id)
+    return {"success": True, "user": get_user(user_id)}, None, 200
 
 
 def list_users():

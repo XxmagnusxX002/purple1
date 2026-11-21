@@ -1,41 +1,45 @@
 # Tareas
 
-> El cronograma: pasos pequeños, cada uno verificable en el navegador.
+> El cronograma: pasos pequeños, cada uno verificable.
 > Ciclo: pedir tareas → revisar → implementar UNA → probar → commit → marcar [x].
 
 ## Front (U3)
 
 - [x] 1.1 Layout base con la identidad visual (tokens en `global.css`, navbar, pie de página)
-- [x] 1.2 Intro con carro 3D al hacer scroll y halo morado del cursor
-- [x] 1.3 F1 · Registro e inicio de sesión con validaciones
-- [x] 1.4 F1 · Recuperar y cambiar contraseña
-- [x] 1.5 F2 · Catálogo con búsqueda y filtros
-- [x] 1.6 F2 · Selector de moneda (9 monedas) sin recargar
-- [x] 1.7 F2 · Detalle de producto con tallas y colores
-- [x] 1.8 F3 · Carrito: agregar, cambiar cantidad, quitar
-- [x] 1.9 F3 · Pago simulado con validación de tarjeta
-- [x] 1.10 F4 · Lista de carreras, pronóstico y cuotas en vivo
-- [x] 1.11 F4 · Panel de staff para cerrar carreras y ranking
-- [x] 1.12 F5 · Avatar en el perfil: vestir, desbloquear y comprar prendas
-- [x] 1.13 Datos mock que imitan la API (`js/mock-data.js` + `js/mock-api.js`)
-- [x] 1.14 Quitar la contraseña de MySQL del código (`.env`)
-- [x] 1.15 Subir el repositorio a GitHub
-- [x] 1.16 Publicar el front en Vercel y probar la URL pública
-- [ ] 1.17 Verificar F1 a F5 en la URL pública a 390 px y a 1280 px
+- [x] 1.2 Intro 3D al hacer scroll y halo morado del cursor
+- [x] 1.3 F1 · Registro, inicio de sesión, recuperar y cambiar contraseña
+- [x] 1.4 F2 · Catálogo con búsqueda, filtros y 11 monedas sin recargar
+- [x] 1.5 F3 · Carrito, descuentos con PitCoins y pago simulado
+- [x] 1.6 F4 · Carreras, pronóstico, bolsa en vivo y ranking
+- [x] 1.7 F5 · Avatar: vestir, desbloquear y comprar prendas
+- [x] 1.8 F6 · Barra de XP, niveles y rangos
+- [x] 1.9 F7 · Panel administrativo (23 pantallas)
+- [x] 1.10 Repositorio en GitHub y front en Vercel
 
 ## Back (U4)
 
-El proyecto ya tiene API en Python y base MySQL funcionando en local.
-
-- [x] 2.1 API REST con rutas por módulo (`backend/server.py`)
-- [x] 2.2 Esquema y datos iniciales (`database/schema.sql`, `database/seed.sql`)
-- [ ] 2.3 Documentar los contratos de la API en `docs/contratos/api.md`
+- [x] T-B1 Escribir `docs/datos/modelo.md` (ER, reglas por capa, dueño de cada fila)
+- [x] T-B2 Escribir `docs/contratos/api.md` (cada operación con entradas, salidas, errores y códigos)
+- [x] T-B3 Agregar "Criterios de aceptación del back" a cada spec (F1 a F7)
+- [x] T-B4 Crear la skill `backend-seguro` y la sección Backend de `CLAUDE.md`
+- [x] T-B5 Migraciones y semilla: `schema.sql`, `upgrade_02` a `upgrade_09`, `seed.sql`, `demo_data.sql`
+- [x] T-B6 Preparar el servidor para la nube: `PORT`, `PURPLE1_HOST`, `PURPLE1_ALLOWED_ORIGINS`, `PURPLE1_TRUST_PROXY`
+- [x] T-B7 `railway.json`, `vercel.json` con rewrites y `.vercelignore` que deja el panel en Railway
+- [x] T-B8 Quitar el modo mock: el front usa solo la API real
+- [ ] T-B9 Reemplazar el repositorio de GitHub por esta versión (ver `DESPLIEGUE.md`, paso 1)
+- [ ] T-B10 Crear el proyecto en Railway con MySQL e importar `purple1_completo.sql`
+- [ ] T-B11 Poner las variables de entorno en Railway y generar el dominio
+- [ ] T-B12 Cambiar `TU-BACKEND` en `vercel.json` y volver a publicar en Vercel
+- [ ] T-B13 Pruebas de fuego en la URL pública (ver `DESPLIEGUE.md`, paso 4)
+- [x] T-B14 Auditoría del back (`docs/auditoria-u4.md`)
+- [ ] T-B15 Corregir los hallazgos de severidad media de la auditoría (A-01, A-02; A-03 va con N-1)
 
 ## Pruebas (U5)
 
-- [ ] 3.1 Revisar cada criterio de aceptación de F1 a F5 (cumple / no cumple)
-- [ ] 3.2 Subir el contraste de los textos de estado (verde y rojo) a AA
+- [ ] P-1 Revisar cada criterio de aceptación de F1 a F7 (cumple / no cumple)
+- [ ] P-2 Subir el contraste de los textos de estado (verde y rojo) a AA
 
 ## Nube (U6)
 
-- [ ] 4.1 Publicar la API y la base de datos para que la URL pública use datos reales
+- [ ] N-1 Guardar las imágenes subidas en un almacenamiento persistente (volumen de Railway o bucket)
+- [ ] N-2 Respaldo automático de la base de datos

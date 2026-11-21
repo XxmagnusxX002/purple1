@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/mock-data.js"></script>
-    <script src="js/mock-api.js"></script>
     <title>Detalle producto | Purple One</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,28 +13,68 @@
     <header class="navbar">
     <div class="container-wide nav-content">
         <a href="index.html" class="logo">PURPLE1</a>
-        <nav class="nav-links" aria-label="Navegacion principal">
+        <nav class="nav-links" aria-label="Navegación principal">
             <a href="index.html">Inicio</a>
             <a href="teams.html">Equipos</a>
             <a href="products.html" class="active">Tienda</a>
-            <a href="races.html">Pronosticos</a>
+            <a href="races.html">Pronósticos</a>
         </nav>
-        <div class="nav-icons" aria-label="Accesos rapidos">
+        <div class="nav-icons" aria-label="Accesos rápidos">
             <a href="products.html" class="active" aria-label="Explorar productos"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div class="nav-user-menu">
                 <button type="button" class="nav-user-toggle" aria-label="Mi cuenta" aria-expanded="false"><i class="fa-regular fa-user"></i></button>
                 <div class="nav-user-dropdown">
                     <div class="nav-user-greeting">Mi cuenta</div>
                     <a href="profile.html">Mi perfil</a>
-                    <a href="change_password.html">Cambiar contrasena</a>
-                    <a href="auth.html">Iniciar sesion</a>
+                    <a href="change_password.html">Cambiar contraseña</a>
+                    <a href="auth.html">Iniciar sesión</a>
                 </div>
             </div>
             <a href="cart.html" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
     </div>
 </header>
-    <main class="detail-page page-shell"><div class="container"><section class="detail-layout"><div class="gallery-panel"><div class="main-visual"><button class="nav-arrow left" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button><img src="img/shirt-mercedes1.jpeg" alt="Alpine F1 Team Jack Doohan 2025 Driver T-Shirt" class="main-product-image"><button class="nav-arrow right" aria-label="Imagen siguiente"><i class="fa-solid fa-chevron-right"></i></button><button class="bottom-arrow" aria-label="Ver miniaturas"><i class="fa-solid fa-chevron-left"></i></button></div><div class="thumbs-row"><button class="thumb active" type="button"><img src="img/shirt-mercedes1.jpeg" alt="Vista frontal"></button><button class="thumb" type="button"><img src="img/shirt-mercedes2.jpeg" alt="Vista lateral"></button><button class="thumb" type="button"><img src="img/shirt-mercedes1.jpeg" alt="Vista posterior"></button></div></div><div class="info-panel"><h1 class="product-title">Alpine F1 Team Jack Doohan 2025 Driver T-Shirt</h1><div class="price-row"><span class="price-main">EUR 24,90</span><span class="price-code">con codigo: F120</span><span class="price-old">EUR 60,00</span></div><div class="badge-offer">OFERTA</div><div class="size-header"><h3>Size</h3><a href="#" class="size-guide">Guia de tallas</a></div><div class="sizes-grid"><button class="size-btn" type="button">S</button><button class="size-btn active" type="button">M</button><button class="size-btn" type="button">L</button><button class="size-btn" type="button">XL</button></div><p class="stock-text">En stock</p><a href="cart.html" class="add-cart-btn">Anadir al carrito</a><div class="accordion-list"><article class="accordion-item open"><button class="accordion-header" type="button"><span>Descripcion</span><i class="fa-solid fa-chevron-down"></i></button><div class="accordion-content">Camiseta oficial con diseno deportivo, tejido ligero y acabado premium.</div></article><article class="accordion-item"><button class="accordion-header" type="button"><span>Detalles</span><i class="fa-solid fa-chevron-down"></i></button><div class="accordion-content">Material comodo, silueta regular y lenguaje visual inspirado en Formula 1.</div></article><article class="accordion-item"><button class="accordion-header" type="button"><span>Envio</span><i class="fa-solid fa-chevron-down"></i></button><div class="accordion-content">Envios nacionales e internacionales disponibles con seguimiento.</div></article></div></div></section></div></main>
+    <main class="detail-page page-shell">
+        <div class="container">
+            <section class="detail-layout" id="detail-layout" aria-busy="true">
+                <div class="gallery-panel">
+                    <div class="main-visual">
+                        <button class="nav-arrow left" type="button" aria-label="Imagen anterior" hidden><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+                        <img alt="" class="main-product-image">
+                        <button class="nav-arrow right" type="button" aria-label="Imagen siguiente" hidden><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="thumbs-row"></div>
+                </div>
+                <div class="info-panel">
+                    <h1 class="product-title"><span class="skel" style="height:34px;width:75%" aria-hidden="true"></span><span class="visually-hidden">Cargando producto</span></h1>
+                    <div class="price-row">
+                        <span class="price-main"></span>
+                        <span class="price-old" hidden></span>
+                    </div>
+                    <div class="badge-offer" id="promo-badge" hidden></div>
+                    <div class="size-header" id="variant-header" hidden><h3 id="variant-label">Opciones</h3></div>
+                    <div class="sizes-grid"></div>
+                    <p class="stock-text"></p>
+                    <a href="cart.html" class="add-cart-btn">Añadir al carrito</a>
+                    <p class="detail-message" id="detail-message" role="status" aria-live="polite"></p>
+                    <div class="accordion-list">
+                        <article class="accordion-item open" id="section-description" hidden>
+                            <button class="accordion-header" type="button"><span>Descripción</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+                            <div class="accordion-content" id="product-description"></div>
+                        </article>
+                        <article class="accordion-item open" id="section-features" hidden>
+                            <button class="accordion-header" type="button"><span>Características</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+                            <div class="accordion-content"><ul class="detail-features" id="product-features"></ul></div>
+                        </article>
+                        <article class="accordion-item" id="section-specs" hidden>
+                            <button class="accordion-header" type="button"><span>Especificaciones</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button>
+                            <div class="accordion-content"><dl class="detail-specs" id="product-specs"></dl></div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
     <footer class="site-footer">
     <div class="site-footer__glow site-footer__glow--left"></div>
     <div class="site-footer__glow site-footer__glow--right"></div>
@@ -44,18 +82,19 @@
         <div class="site-footer__top">
             <div class="site-footer__brand-block">
                 <a href="index.html" class="site-footer__logo" aria-label="Purple One">PURPLE1</a>
-                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Formula 1.</p>
+                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Fórmula 1.</p>
                 <div class="site-footer__socials"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
             </div>
-            <div class="site-footer__nav-group"><h3>Navegacion</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
-            <div class="site-footer__nav-group"><h3>Categorias</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderias</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
-            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envios</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
+            <div class="site-footer__nav-group"><h3>Navegación</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
+            <div class="site-footer__nav-group"><h3>Categorías</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderías</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
+            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envíos</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
         </div>
-        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Terminos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
+        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Términos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
     </div>
 </footer>
     <script src="js/currency.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/media.js"></script>
     <script src="js/product_detail.js"></script>
     <script src="js/fx.js"></script>
 </body>

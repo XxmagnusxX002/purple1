@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Banners | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="../css/banners.css">
+</head>
+<body class="admin-body" data-admin-page="banners" data-admin-title="Banners">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Banners</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+            <main class="admin-content" id="admin-content">
+
+                <!-- Listado -->
+                <div id="banner-list-view" hidden>
+                    <div class="admin-alert" id="banners-alert" role="alert" hidden><span id="banners-alert-text"></span><button type="button" class="admin-button" id="banners-retry">Reintentar</button></div>
+                    <section class="admin-card admin-card--flush" aria-labelledby="banners-heading">
+                        <div class="admin-card__head admin-card__head--padded">
+                            <div><h2 id="banners-heading">Banners de la portada</h2><p id="banners-count" aria-live="polite">Cargando…</p></div>
+                            <a class="btn-primary admin-toolbar__new" href="banners.html?new=1"><i class="fa-solid fa-plus" aria-hidden="true"></i> Nuevo banner</a>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table admin-table--banners">
+                                <thead><tr><th scope="col">Banner</th><th scope="col">Orden</th><th scope="col">Vigencia</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
+                                <tbody id="banners-body"><tr><td colspan="5"><span class="skeleton"></span></td></tr></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Crear / editar -->
+                <form id="banner-form" class="banner-form" novalidate hidden>
+                    <a class="admin-link banner-form__back" href="banners.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a banners</a>
+                    <p class="admin-field__error banner-form__general" data-error-for="_general" role="alert"></p>
+                    <div class="banner-form__grid">
+                        <section class="admin-card" aria-labelledby="sec-banner-data">
+                            <div class="admin-card__head"><div><h2 id="sec-banner-data">Datos del banner</h2></div></div>
+                            <div class="admin-form-grid banner-form__fields">
+                                <label class="admin-field admin-field--wide">Título *
+                                    <input id="b-title" maxlength="150" required placeholder="La liga donde la velocidad es morada">
+                                    <span class="admin-field__error" data-error-for="title"></span>
+                                </label>
+                                <label class="admin-field admin-field--wide">Descripción
+                                    <textarea id="b-description" maxlength="500" rows="2" placeholder="Sigue todas las carreras, pilotos y equipos…"></textarea>
+                                    <span class="admin-field__error" data-error-for="description"></span>
+                                </label>
+                                <label class="admin-field admin-field--wide">Enlace de destino
+                                    <input id="b-link" maxlength="500" placeholder="/races.html o https://…">
+                                    <span class="admin-field__hint">Ruta interna o enlace HTTPS. Sin enlace, el banner no muestra el botón «Ver más».</span>
+                                    <span class="admin-field__error" data-error-for="link_url"></span>
+                                </label>
+                                <label class="admin-field">Orden
+                                    <input id="b-order" type="number" min="0" max="100000" step="1" value="0" required>
+                                    <span class="admin-field__error" data-error-for="display_order"></span>
+                                </label>
+                                <div class="admin-field banner-form__state">Estado
+                                    <label class="admin-toggle"><input type="checkbox" id="b-active" role="switch" checked>
+                                        <span class="admin-toggle__track" aria-hidden="true"></span><span><strong id="b-active-label">Activo</strong></span></label>
+                                </div>
+                                <label class="admin-field">Inicio de vigencia
+                                    <input id="b-start" type="datetime-local">
+                                    <span class="admin-field__error" data-error-for="starts_at"></span>
+                                </label>
+                                <label class="admin-field">Fin de vigencia
+                                    <input id="b-end" type="datetime-local">
+                                    <span class="admin-field__error" data-error-for="ends_at"></span>
+                                </label>
+                            </div>
+                        </section>
+
+                        <section class="admin-card" aria-labelledby="sec-banner-image">
+                            <div class="admin-card__head"><div><h2 id="sec-banner-image">Imagen del banner</h2><p>Imagen que se mostrará en el Home.</p></div></div>
+                            <div class="driver-photo banner-photo">
+                                <button type="button" class="driver-photo__picker banner-photo__picker" id="b-photo-pick" aria-describedby="b-photo-hint">
+                                    <span id="b-photo-visual" class="banner-photo__empty"><i class="fa-regular fa-image" aria-hidden="true"></i><span>Sin imagen</span></span>
+                                </button>
+                                <input type="file" id="b-photo-upload" accept="image/png,image/jpeg,image/webp" hidden>
+                                <div class="banner-photo__actions">
+                                    <button type="button" class="admin-link-button" id="b-photo-upload-btn"><i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i> <span id="b-photo-upload-label">Subir imagen</span></button>
+                                    <button type="button" class="admin-link-button" id="b-photo-gallery"><i class="fa-regular fa-images" aria-hidden="true"></i> Elegir existente</button>
+                                    <button type="button" class="admin-link-button admin-link-button--danger" id="b-photo-remove" hidden><i class="fa-regular fa-trash-can" aria-hidden="true"></i> Quitar</button>
+                                </div>
+                                <p class="admin-field__hint" id="b-photo-hint">PNG, JPEG o WebP. Máx. 2 MB. Formato horizontal (16:9).</p>
+                                <p class="driver-photo__status" id="b-photo-status" role="status" aria-live="polite"></p>
+                                <span class="admin-field__error" data-error-for="image_path"></span>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="admin-card" aria-labelledby="sec-banner-preview">
+                        <div class="admin-card__head"><div><h2 id="sec-banner-preview">Vista previa del banner</h2><p>Así se verá en la portada.</p></div></div>
+                        <div id="b-preview"></div>
+                    </section>
+
+                    <div class="banner-form__actions">
+                        <span class="admin-form-actions__state" id="b-dirty" aria-live="polite"></span>
+                        <a class="admin-button" href="banners.html" id="b-cancel">Cancelar</a>
+                        <button type="submit" class="btn-primary banner-form__save" id="b-save"><i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> <span>Crear banner</span></button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/media.js"></script>
+    <script src="../js/banners.js"></script>
+    <script src="js/banner-form.js"></script>
+</body>
+</html>

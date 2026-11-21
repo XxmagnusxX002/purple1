@@ -1,0 +1,176 @@
+/* =========================================================
+   Carrusel de banners de Purple One.
+   Lo usan la portada (index.html) y la vista previa del panel
+   (admin/banners.html): el banner publicado y su vista previa
+   comparten exactamente estos estilos.
+========================================================= */
+
+.banner-carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-brand-border);
+    background: linear-gradient(120deg, #f6f0ff 0%, var(--color-brand-tint) 55%, #efe5fd 100%);
+    box-shadow: 0 10px 28px rgba(72, 46, 121, 0.08);
+    touch-action: pan-y;
+}
+
+.banner-track {
+    display: grid;
+}
+
+/* Todas las diapositivas ocupan la misma celda: el cambio es un fundido. */
+.banner-slide {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 32px;
+    padding: 36px 72px 48px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.banner-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.banner-slide__copy {
+    min-width: 0;
+}
+
+.banner-slide__copy h2 {
+    margin: 0 0 12px;
+    color: var(--color-brand-strong);
+    font-size: clamp(1.5rem, 2.8vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.12;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.banner-slide__copy p {
+    margin: 0 0 20px;
+    max-width: 46ch;
+    color: var(--color-text-soft);
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.banner-slide__cta.btn-primary {
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 24px;
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.banner-slide__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-brand-border);
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(72, 46, 121, 0.1);
+}
+
+.banner-slide__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Banner sin imagen (solo en la vista previa del panel). */
+.banner-slide__media--empty {
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border-style: dashed;
+    box-shadow: none;
+    color: #b79cf0;
+    font-size: 2rem;
+}
+
+/* ---------- Flechas: pequeñas y discretas en los laterales ---------- */
+.banner-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid var(--color-brand-border);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-brand);
+    box-shadow: 0 4px 12px rgba(72, 46, 121, 0.12);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.banner-arrow:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.06);
+}
+
+.banner-arrow--prev { left: 16px; }
+.banner-arrow--next { right: 16px; }
+
+/* ---------- Indicadores: puntos y uno alargado para el activo ---------- */
+.banner-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transform: translateX(-50%);
+}
+
+.banner-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #d7c6f8;
+    cursor: pointer;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.banner-dot.is-active {
+    width: 28px;
+    background: var(--color-brand);
+}
+
+.banner-arrow:focus-visible,
+.banner-dot:focus-visible {
+    outline: 3px solid var(--color-brand-soft);
+    outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+    .banner-slide {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 20px 20px 40px;
+    }
+
+    .banner-slide__media { order: -1; }
+
+    /* En pantallas táctiles se navega deslizando o con los indicadores. */
+    .banner-arrow { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .banner-slide,
+    .banner-dot { transition: none; }
+}

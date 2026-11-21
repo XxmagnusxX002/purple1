@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Usuarios | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="users" data-admin-title="Usuarios">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Usuarios</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+            <main class="admin-content" id="admin-content">
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar usuarios">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar usuarios</span>
+                            <input type="search" id="user-search" placeholder="Buscar por nombre o correo electrónico" autocomplete="off" maxlength="100">
+                        </label>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado de la cuenta" id="user-views">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-status="active" aria-pressed="false">Activos</button>
+                        <button type="button" class="admin-chip" data-status="inactive" aria-pressed="false">Inactivos</button>
+                    </div>
+                    <div class="admin-toolbar__filters">
+                        <label class="admin-select">Rol<select id="filter-role">
+                            <option value="all">Todos</option>
+                            <option value="customer">Clientes</option>
+                            <option value="staff">Administradores</option>
+                            <option value="superadmin">Superadministradores</option>
+                        </select></label>
+                        <label class="admin-select">Ordenar<select id="filter-sort">
+                            <option value="recent">Registro más reciente</option>
+                            <option value="oldest">Registro más antiguo</option>
+                            <option value="name">Nombre (A–Z)</option>
+                            <option value="coins_desc">Más PitCoins</option>
+                            <option value="coins_asc">Menos PitCoins</option>
+                        </select></label>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="users-alert" role="alert" hidden>
+                    <span id="users-alert-text"></span>
+                    <button type="button" class="admin-button" id="users-retry">Reintentar</button>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="users-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="users-heading">Cuentas</h2><p id="users-count" aria-live="polite">Cargando usuarios…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--users">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Rol</th>
+                                    <th scope="col">Registro</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">PitCoins</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-body">
+                                <tr><td colspan="6"><span class="skeleton"></span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="admin-pagination" aria-label="Paginación" id="users-pagination" hidden>
+                        <button type="button" class="admin-button" data-page="prev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior</button>
+                        <span id="users-page"></span>
+                        <button type="button" class="admin-button" data-page="next">Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </nav>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/users.js"></script>
+</body>
+</html>

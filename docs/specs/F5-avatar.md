@@ -16,6 +16,13 @@ Como aficionado, quiero personalizar un piloto propio en mi perfil para mostrar 
 - [ ] Si no alcanzan los PitCoins, aparece cuántos faltan y no se compra.
 - [ ] Al recargar la página, el avatar sigue con las prendas elegidas.
 
+## Criterios de aceptación del back
+Cada criterio se comprueba por fuera del formulario (curl o pestaña de red) con un **sí** o un **no**.
+- Dada una prenda que el usuario no tiene, cuando la pone con `PUT /api/avatar`, entonces responde 403 y el avatar no cambia.
+- Dada una prenda que se desbloquea por aciertos, cuando se intenta comprar con `POST /api/avatar/buy`, entonces responde 400.
+- Dada una prenda ya comprada, cuando se compra otra vez, entonces responde 400 "Ya tienes esta prenda." y no se descuenta nada.
+- Dado un saldo insuficiente, cuando se compra, entonces responde 400 con cuántos faltan y `users.coins` no cambia.
+
 ## Fuera de alcance
 Subir fotos propias, animaciones del avatar, intercambiar prendas entre usuarios.
 

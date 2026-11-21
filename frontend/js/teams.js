@@ -10,13 +10,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             .replaceAll("'", "&#039;");
     }
 
+    // Monoplaza 2026 si hay foto; si no, el escudo; si tampoco, la inicial con el color del equipo.
     function teamCard(team) {
-        const image = team.logo_path || "img/escuderia.png";
-        return `<article class="team-card surface-card">
-            <div class="team-img"><img src="${escapeHTML(image)}" alt="${escapeHTML(team.name)}"></div>
+        const color = team.primary_color || "#7B2CFF";
+        const badge = team.logo_path
+            ? `<img class="team-badge" src="${escapeHTML(team.logo_path)}" alt="" loading="lazy">`
+            : `<span class="team-badge team-badge--initial" style="background:${escapeHTML(color)}" aria-hidden="true">${escapeHTML(team.name.charAt(0))}</span>`;
+        const media = team.image_path
+            ? `<img src="${escapeHTML(team.image_path)}" alt="Monoplaza de ${escapeHTML(team.name)}" loading="lazy">`
+            : `<span class="team-img__empty" style="--team:${escapeHTML(color)}"><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i></span>`;
+        const drivers = (team.drivers || []).map((d) => `<li><strong>${d.number ?? "–"}</strong> ${escapeHTML(d.name)}</li>`).join("");
+        const official = String(team.description || "").split(". ")[0];
+        return `<article class="team-card surface-card" style="--team:${escapeHTML(color)}">
+            <div class="team-img team-img--photo">${media}${badge}</div>
             <h3>${escapeHTML(team.name)}</h3>
-            <p>${escapeHTML(team.description || "Coleccion oficial Purple One.")}</p>
-            <a href="products.html?team=${encodeURIComponent(team.slug)}" class="btn-team">Ver coleccion</a>
+            <p class="team-card__official">${escapeHTML(official)}${team.country ? ` · ${escapeHTML(team.country)}` : ""}</p>
+            ${drivers ? `<ul class="team-card__drivers">${drivers}</ul>` : ""}
+            <a href="products.html?team=${encodeURIComponent(team.slug)}" class="btn-team">Ver colección</a>
         </article>`;
     }
 

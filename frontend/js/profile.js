@@ -1,44 +1,78 @@
+/* Mi perfil: sesión, datos personales y avatar.
+ * La progresión (nivel, XP, recompensa) y la actividad reciente están en progress.js. */
 document.addEventListener("DOMContentLoaded", async () => {
-    const user = JSON.parse(localStorage.getItem("purple1_user") || "null");
-    const card = document.querySelector(".profile-card");
+    const guest = document.querySelector("#pf-guest");
+    const content = document.querySelector("#pf-content");
+
+    let user = null;
+    try {
+        const response = await fetch("/api/auth/me");
+        const data = await response.json();
+        user = response.ok && data.success ? data.user : null;
+    } catch (error) {
+        user = null;
+    }
     if (!user) {
-        card.innerHTML = '<div class="profile-info-banner"><p>Inicia sesion para ver tu perfil.</p><a href="auth.html" class="btn-primary">Iniciar sesion</a></div>';
+        content.hidden = true;
+        guest.hidden = false;
         return;
     }
 
-    initAvatarStudio(user);
+    initAvatarStudio();
+    initProfileForm(user);
+});
 
-    const response = await fetch(`/api/users/${user.id}`);
-    const data = await response.json();
-    if (!data.success) return;
-    const current = data.user;
-    document.querySelectorAll(".profile-field.readonly span")[0].textContent = current.first_name || "";
-    document.querySelectorAll(".profile-field.readonly span")[1].textContent = current.last_name || "";
-    document.querySelector(".profile-field--full.readonly span").textContent = current.email || "";
-    document.querySelector('[name="phone"]').value = current.phone || "";
-    document.querySelector('[name="address"]').value = current.address || "";
-    document.querySelector(".profile-form").addEventListener("submit", async (event) => {
+/* =========================================================
+   DATOS PERSONALES
+   Nombre, apellido y correo son de solo lectura; el cliente
+   solo edita teléfono y dirección (PUT /api/users/<id>).
+========================================================= */
+function initProfileForm(user) {
+    const form = document.querySelector(".profile-form");
+    const status = document.querySelector("#pf-form-status");
+    const phone = document.querySelector("#pf-phone");
+    const address = document.querySelector("#pf-address");
+
+    document.querySelector("#pf-first-name").textContent = user.first_name || "";
+    document.querySelector("#pf-last-name").textContent = user.last_name || "";
+    document.querySelector("#pf-email").textContent = user.email || "";
+    phone.value = user.phone || "";
+    address.value = user.address || "";
+
+    const say = (message, tone) => {
+        status.textContent = message;
+        status.className = `pf-form-status${tone ? ` is-${tone}` : ""}`;
+    };
+
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const res = await fetch(`/api/users/${user.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ phone: document.querySelector('[name="phone"]').value, address: document.querySelector('[name="address"]').value })
-        });
-        const updated = await res.json();
-        if (updated.success) {
-            localStorage.setItem("purple1_user", JSON.stringify(updated.user));
-            alert("Perfil actualizado correctamente.");
+        const button = form.querySelector("[type=submit]");
+        button.disabled = true;
+        say("");
+        try {
+            const res = await fetch(`/api/users/${user.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone: phone.value.trim(), address: address.value.trim() }),
+            });
+            const updated = await res.json();
+            if (res.ok && updated.success) say("Perfil actualizado correctamente.", "ok");
+            else say(updated.error || "No fue posible actualizar el perfil.", "error");
+        } catch (error) {
+            say("No hay conexión con el servidor. Inténtalo de nuevo.", "error");
+        } finally {
+            button.disabled = false;
         }
     });
-});
+}
 
 /* =========================================================
    AVATAR DEL PERFIL
    Muestra el avatar, deja cambiarle las prendas y comprar
    las que tienen precio. El dibujo lo hace js/avatar.js y
-   las reglas (que tiene cada usuario) las decide el backend.
+   las reglas (qué tiene cada usuario) las decide el backend.
 ========================================================= */
-function initAvatarStudio(user) {
+function initAvatarStudio() {
     const figure = document.querySelector("#avatar-figure");
     const mini = document.querySelector("#profile-avatar-mini");
     const tabs = document.querySelector("#avatar-tabs");
@@ -50,11 +84,13 @@ function initAvatarStudio(user) {
     if (!figure || !window.PurpleAvatar) return;
 
     let avatar = null;        // respuesta de /api/avatar
-    let activeSlot = "head";  // pestana abierta
-    let previewId = null;     // prenda que se esta probando sin tenerla
+    let activeSlot = "head";  // pestaña abierta
+    let previewId = null;     // prenda que se está probando sin tenerla
     let busy = false;
 
+    const number = (value) => Number(value || 0).toLocaleString("es-CO");
     const itemById = (id) => avatar.items.find((item) => item.id === id);
+    const aciertos = (n) => `${n} ${n === 1 ? "acierto" : "aciertos"}`;
 
     // Convierte { slot: item_id } en { slot: style } para el dibujante.
     function partsFor(equipped) {
@@ -72,11 +108,9 @@ function initAvatarStudio(user) {
     }
 
     function syncCoins() {
-        coinsEl.textContent = avatar.coins;
+        coinsEl.textContent = number(avatar.coins);
         const badge = document.querySelector(".nav-coin-badge span");
         if (badge) badge.textContent = avatar.coins;
-        const stored = JSON.parse(localStorage.getItem("purple1_user") || "null");
-        if (stored) localStorage.setItem("purple1_user", JSON.stringify({ ...stored, coins: avatar.coins }));
     }
 
     function renderStage() {
@@ -86,7 +120,7 @@ function initAvatarStudio(user) {
         previewFlag.hidden = !preview;
         mini.innerHTML = PurpleAvatar.render(partsFor(avatar.equipped), { crop: "head" });
         mini.classList.add("has-avatar");
-        winsEl.textContent = avatar.wins;
+        winsEl.textContent = number(avatar.wins);
         syncCoins();
     }
 
@@ -97,11 +131,11 @@ function initAvatarStudio(user) {
     }
 
     function tagFor(item) {
-        if (avatar.equipped[item.slot] === item.id) return '<i class="fa-solid fa-check"></i> En uso';
+        if (avatar.equipped[item.slot] === item.id) return '<i class="fa-solid fa-check" aria-hidden="true"></i> En uso';
         if (item.owned) return "Usar";
-        if (item.unlock === "wins") return `<i class="fa-solid fa-lock"></i> ${Math.min(avatar.wins, item.wins)} de ${item.wins} ${item.wins === 1 ? "acierto" : "aciertos"}`;
-        if (previewId === item.id) return `Comprar por ${item.price}`;
-        return `<i class="fa-solid fa-coins"></i> ${item.price}`;
+        if (item.unlock === "wins") return `<i class="fa-solid fa-lock" aria-hidden="true"></i> ${Math.min(avatar.wins, item.wins)} de ${aciertos(item.wins)}`;
+        if (previewId === item.id) return `Comprar por ${number(item.price)}`;
+        return `<i class="fa-solid fa-coins" aria-hidden="true"></i> ${number(item.price)}`;
     }
 
     function renderItems() {
@@ -142,16 +176,18 @@ function initAvatarStudio(user) {
     }
 
     async function equip(item, message) {
-        avatar = await request("/api/avatar", "PUT", { user_id: user.id, equipped: { ...avatar.equipped, [item.slot]: item.id } });
+        avatar = await request("/api/avatar", "PUT", { equipped: { ...avatar.equipped, [item.slot]: item.id } });
         previewId = null;
         renderAll();
-        say(message || `Tu avatar ahora lleva "${item.name}".`, "ok");
+        say(message || `Tu avatar ahora lleva «${item.name}».`, "ok");
     }
 
     async function buy(item) {
-        avatar = await request("/api/avatar/buy", "POST", { user_id: user.id, item_id: item.id });
+        avatar = await request("/api/avatar/buy", "POST", { item_id: item.id });
         renderAll();
-        await equip(itemById(item.id), `Compraste "${item.name}" por ${item.price} PitCoins y ya esta en tu avatar.`);
+        // El saldo cambió: la pestaña de PitCoins de la actividad se actualiza.
+        document.dispatchEvent(new CustomEvent("purple1:pitcoins-changed"));
+        await equip(itemById(item.id), `Compraste «${item.name}» por ${number(item.price)} PitCoins y ya está en tu avatar.`);
     }
 
     tabs.addEventListener("click", (event) => {
@@ -174,11 +210,11 @@ function initAvatarStudio(user) {
             if (item.owned) {
                 if (avatar.equipped[item.slot] !== item.id) await equip(item);
             } else if (item.unlock === "wins") {
-                // Se puede probar, pero solo se desbloquea acertando pronosticos.
+                // Se puede probar, pero solo se desbloquea acertando pronósticos.
                 previewId = item.id;
                 renderAll();
                 const faltan = item.wins - avatar.wins;
-                say(`"${item.name}" se desbloquea con ${item.wins} ${item.wins === 1 ? "pronostico acertado" : "pronosticos acertados"}. Te ${faltan === 1 ? "falta 1" : `faltan ${faltan}`}.`, "info");
+                say(`«${item.name}» se desbloquea con ${item.wins} ${item.wins === 1 ? "pronóstico acertado" : "pronósticos acertados"}. Te ${faltan === 1 ? "falta 1" : `faltan ${faltan}`}.`, "info");
             } else if (previewId === item.id) {
                 await buy(item);
             } else {
@@ -186,8 +222,8 @@ function initAvatarStudio(user) {
                 previewId = item.id;
                 renderAll();
                 say(avatar.coins >= item.price
-                    ? `"${item.name}" cuesta ${item.price} PitCoins. Toca de nuevo para comprarla.`
-                    : `"${item.name}" cuesta ${item.price} PitCoins y tienes ${avatar.coins}. Acierta pronosticos para ganar mas.`, "info");
+                    ? `«${item.name}» cuesta ${number(item.price)} PitCoins. Tócala de nuevo para comprarla.`
+                    : `«${item.name}» cuesta ${number(item.price)} PitCoins y tienes ${number(avatar.coins)}. Acierta pronósticos para ganar más.`, "info");
             }
         } catch (error) {
             say(error.message, "error");
@@ -198,7 +234,7 @@ function initAvatarStudio(user) {
 
     (async () => {
         try {
-            const res = await fetch(`/api/avatar?user_id=${user.id}`);
+            const res = await fetch("/api/avatar");
             const data = await res.json();
             if (!res.ok || !data.success) throw new Error(data.error || "No fue posible cargar tu avatar.");
             avatar = data.avatar;

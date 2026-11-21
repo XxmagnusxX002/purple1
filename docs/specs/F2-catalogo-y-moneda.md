@@ -18,6 +18,13 @@ Como comprador latinoamericano, quiero ver los productos con su precio en mi mon
 - [ ] En el detalle solo se pueden elegir combinaciones de talla y color que existen.
 - [ ] Una búsqueda sin resultados muestra un mensaje, no una página en blanco.
 
+## Criterios de aceptación del back
+Cada criterio se comprueba por fuera del formulario (curl o pestaña de red) con un **sí** o un **no**.
+- Dado un visitante sin sesión, cuando llama `GET /api/products` y `GET /api/currencies`, entonces recibe 200 (son públicas a propósito).
+- Dado un producto desactivado, cuando se pide `GET /api/products/{id}`, entonces responde 404.
+- Dada una moneda desactivada por el superadmin, cuando se listan las monedas, entonces no aparece.
+- Dado un filtro con texto raro (`?q=' OR 1=1 --`), cuando se busca, entonces responde 200 con 0 resultados (SQL parametrizado).
+
 ## Fuera de alcance
 Tasas de cambio en vivo (son fijas), reseñas de productos, lista de deseos.
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Equipo | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body admin-body--team-form" data-admin-page="teams" data-admin-title="Equipo">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Equipo</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content admin-content--form" id="admin-content">
+                <a class="admin-back" href="teams.html" id="back-link"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a equipos</a>
+
+                <div class="admin-alert" id="form-alert" role="alert" hidden>
+                    <span id="form-alert-text"></span>
+                    <button type="button" class="admin-button" id="form-reload" hidden>Recargar</button>
+                </div>
+
+                <div id="form-loading" class="admin-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></div>
+
+                <form id="team-form" class="admin-form" novalidate hidden>
+                    <div class="team-form-scroll">
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-team">
+                        <div class="admin-card__head"><div><h2 id="sec-team">Datos del equipo</h2><p>Se muestran en la tienda y en los pronósticos.</p></div></div>
+                        <div class="admin-form-grid team-fields">
+                            <label class="admin-field">Nombre *
+                                <input type="text" id="t-name" maxlength="100" required aria-describedby="err-t-name">
+                                <span class="admin-field__error" id="err-t-name" data-error-for="name"></span>
+                            </label>
+                            <label class="admin-field">País
+                                <input type="text" id="t-country" maxlength="100" placeholder="Italia" aria-describedby="err-t-country">
+                                <span class="admin-field__error" id="err-t-country" data-error-for="country"></span>
+                            </label>
+                            <label class="admin-field">URL del equipo
+                                <input type="text" id="t-slug" maxlength="120" placeholder="se genera desde el nombre" aria-describedby="hint-t-slug err-t-slug">
+                                <span class="admin-field__hint" id="hint-t-slug">Minúsculas, números y guiones. La usan los filtros de la tienda.</span>
+                                <span class="admin-field__error" id="err-t-slug" data-error-for="slug"></span>
+                            </label>
+                            <div class="admin-switches team-active">
+                                <label class="admin-check"><input type="checkbox" id="t-active" checked> <span><strong>Activo</strong><small>Visible en la tienda y disponible para nuevos pilotos</small></span></label>
+                            </div>
+                            <label class="admin-field admin-field--wide">Descripción
+                                <textarea id="t-description" rows="2" maxlength="200" aria-describedby="count-t-description err-t-description"></textarea>
+                                <span class="admin-field__hint" id="count-t-description">0 / 200</span>
+                                <span class="admin-field__error" id="err-t-description" data-error-for="description"></span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-identity">
+                        <div class="admin-card__head"><div><h2 id="sec-identity">Identidad visual</h2><p>Colores, escudo e imagen del equipo.</p></div></div>
+                        <div class="team-identity-grid">
+                            <div class="team-identity-colors">
+                                <h3 class="admin-subhead">Colores</h3>
+                                <p class="admin-field__hint">Formato #RRGGBB. Déjalos vacíos si no aplica.</p>
+                                <div class="color-fields">
+                                <label class="admin-field">Color principal
+                                    <span class="color-input"><input type="color" id="t-primary-picker" aria-label="Elegir color principal" data-no-dirty><input type="text" id="t-primary" maxlength="7" placeholder="#DC0000" aria-describedby="err-t-primary"></span>
+                                    <span class="admin-field__error" id="err-t-primary" data-error-for="primary_color"></span>
+                                </label>
+                                <label class="admin-field">Color secundario
+                                    <span class="color-input"><input type="color" id="t-secondary-picker" aria-label="Elegir color secundario" data-no-dirty><input type="text" id="t-secondary" maxlength="7" placeholder="#FFF200" aria-describedby="err-t-secondary"></span>
+                                    <span class="admin-field__error" id="err-t-secondary" data-error-for="secondary_color"></span>
+                                </label>
+                                </div>
+                            </div>
+                            <div class="team-identity-images">
+                                <div class="team-identity-image">
+                                    <h3 class="admin-subhead">Escudo</h3>
+                                    <div id="t-logo"></div>
+                                    <span class="admin-field__error" data-error-for="logo_path"></span>
+                                </div>
+                                <div class="team-identity-image">
+                                    <h3 class="admin-subhead">Imagen del equipo</h3>
+                                    <div id="t-image"></div>
+                                    <span class="admin-field__error" data-error-for="image_path"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="admin-form-columns team-relations" id="team-relations" hidden>
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-drivers">
+                            <div class="admin-card__head">
+                                <div><h2 id="sec-drivers">Pilotos</h2><p>Asignados actualmente a este equipo.</p></div>
+                                <a class="admin-button" id="add-driver" href="driver.html"><i class="fa-solid fa-plus" aria-hidden="true"></i> Añadir piloto</a>
+                            </div>
+                            <ul class="admin-list" id="team-drivers"></ul>
+                        </section>
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-products">
+                            <div class="admin-card__head"><div><h2 id="sec-products">Productos</h2><p id="team-products-help">Productos de la tienda asociados.</p></div></div>
+                            <ul class="admin-list" id="team-products"></ul>
+                        </section>
+                    </div>
+
+                    </div>
+                    <div class="admin-form-actions">
+                        <span class="admin-form-actions__state" id="dirty-state" aria-live="polite"></span>
+                        <a class="admin-button" href="teams.html" id="cancel-link">Cancelar</a>
+                        <button type="submit" class="btn-primary" id="save-team">Guardar equipo</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/team-form.js"></script>
+</body>
+</html>

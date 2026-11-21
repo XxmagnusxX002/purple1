@@ -21,19 +21,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function productCard(product) {
         const stock = Number(product.total_stock || 0);
-        const categories = product.categories || "Sin categoria";
+        const categories = product.categories || "Sin categoría";
         const teams = product.teams || "Sin equipo";
         return `<article class="product-card">
-            ${product.is_featured ? '<span class="badge top-badge">Destacado</span>' : ""}
-            <div class="product-image"><img src="${escapeHTML(product.main_image || "img/placeholder-product.png")}" alt="${escapeHTML(product.name)}"></div>
+            ${Number(product.promo_percent) > 0 ? `<span class="badge top-badge promo-badge">−${Number(product.promo_percent)} %</span>` : product.is_featured ? '<span class="badge top-badge">Destacado</span>' : ""}
+            <div class="product-image">${window.PurpleMedia.productImage(product.main_image, product.product_type, product.name)}</div>
             <div class="product-info">
                 <h3>${escapeHTML(product.name)}</h3>
                 <div class="product-meta">
                     <span>${escapeHTML(categories)}</span>
                     <span>${escapeHTML(teams)}</span>
                 </div>
-                <p class="stock-line ${stock > 0 ? "in-stock" : "out-stock"}">${stock > 0 ? `${stock} unidades disponibles` : "Sin stock"}</p>
-                <p class="price">${price(product.final_price)}</p>
+                <p class="stock-line ${stock > 0 ? "in-stock" : "out-stock"}">${stock > 0 ? `${stock} ${stock === 1 ? "unidad disponible" : "unidades disponibles"}` : "Sin stock"}</p>
+                <p class="price">${price(product.final_price)}${Number(product.promo_percent) > 0 && Number(product.list_price) > Number(product.final_price) ? ` <span class="old-price">${price(product.list_price)}</span>` : ""}</p>
                 <a href="product_detail.html?id=${product.id}" class="btn-card">Ver producto</a>
             </div>
         </article>`;
@@ -57,17 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
         sidebar.innerHTML = `
             <div class="filter-group"><h3>Categorias</h3>
                 <label class="radio-item active"><input type="radio" name="category" value="" checked><span class="custom-radio"></span><span>Todos</span></label>
-                ${categories.categories.map(c => `<label class="radio-item"><input type="radio" name="category" value="${c.slug}"><span class="custom-radio"></span><span>${c.name}</span></label>`).join("")}
+                ${categories.categories.map(c => `<label class="radio-item"><input type="radio" name="category" value="${escapeHTML(c.slug)}"><span class="custom-radio"></span><span>${escapeHTML(c.name)}</span></label>`).join("")}
             </div><hr>
             <div class="filter-group"><h3>Escuderias</h3>
                 <label class="radio-item active"><input type="radio" name="team" value="" checked><span class="custom-radio"></span><span>Todos</span></label>
-                ${teams.teams.map(t => `<label class="radio-item"><input type="radio" name="team" value="${t.slug}"><span class="custom-radio"></span><span>${t.name}</span></label>`).join("")}
+                ${teams.teams.map(t => `<label class="radio-item"><input type="radio" name="team" value="${escapeHTML(t.slug)}"><span class="custom-radio"></span><span>${escapeHTML(t.name)}</span></label>`).join("")}
             </div><hr>
             <div class="filter-group"><h3>Tallas</h3>
-                <select id="size-filter" class="toolbar-select"><option value="">Todas</option>${sizes.sizes.map(s => `<option value="${s.name}">${s.name}</option>`).join("")}</select>
+                <select id="size-filter" class="toolbar-select"><option value="">Todas</option>${sizes.sizes.map(s => `<option value="${escapeHTML(s.name)}">${escapeHTML(s.name)}</option>`).join("")}</select>
             </div><hr>
             <div class="filter-group"><h3>Colores</h3>
-                <select id="color-filter" class="toolbar-select"><option value="">Todos</option>${colors.colors.map(c => `<option value="${c.name}">${c.name}</option>`).join("")}</select>
+                <select id="color-filter" class="toolbar-select"><option value="">Todos</option>${colors.colors.map(c => `<option value="${escapeHTML(c.name)}">${escapeHTML(c.name)}</option>`).join("")}</select>
             </div><hr>
             <div class="filter-group"><h3>Precio</h3>
                 <div class="price-filter-row">
@@ -97,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return document.querySelector(`[name="${name}"]:checked`)?.value || "";
     }
 
+    let lastProducts = null;
+
     async function loadProducts() {
         try {
             const params = new URLSearchParams();
@@ -117,11 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const hasFilters = [...params.keys()].some(k => k !== "sort");
             const url = hasFilters ? `/api/products/filter?${params}` : `/api/products?${params}`;
             const data = await getJSON(url);
+            lastProducts = data.products;
             grid.innerHTML = data.products.length ? data.products.map(productCard).join("") : '<div class="empty-products surface-card"><h3>No encontramos productos</h3><p>Prueba cambiando los filtros.</p></div>';
             if (totalButton) totalButton.textContent = `${data.products.length} items`;
             if (totalText) totalText.textContent = `${data.products.length} productos encontrados`;
         } catch (error) {
-            grid.innerHTML = `<div class="empty-products surface-card"><h3>Error</h3><p>${error.message}</p></div>`;
+            grid.innerHTML = `<div class="empty-products surface-card"><h3>Error</h3><p>${escapeHTML(error.message)}</p></div>`;
         }
     }
 
@@ -132,9 +135,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     sortSelect?.addEventListener("change", loadProducts);
 
-    loadFilters().then(loadProducts).catch((error) => {
-        grid.innerHTML = `<div class="empty-products surface-card"><h3>Error</h3><p>${error.message}</p></div>`;
+    // Filtros y tasas de cambio en paralelo; los productos se dibujan una sola vez
+    // con la moneda ya resuelta (sin pasar de EUR a la moneda elegida).
+    Promise.all([loadFilters(), window.Purple1Currency.ready]).then(loadProducts).catch((error) => {
+        grid.innerHTML = `<div class="empty-products surface-card"><h3>Error</h3><p>${escapeHTML(error.message)}</p></div>`;
     });
 
-    window.addEventListener(window.Purple1Currency.EVENT_NAME, loadProducts);
+    // Cambio de moneda: se vuelve a dibujar lo que ya hay, sin consultar de nuevo.
+    window.addEventListener(window.Purple1Currency.EVENT_NAME, () => {
+        if (lastProducts) grid.innerHTML = lastProducts.length ? lastProducts.map(productCard).join("") : grid.innerHTML;
+    });
 });

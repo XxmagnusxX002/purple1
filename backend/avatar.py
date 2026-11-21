@@ -15,6 +15,7 @@ usuario: que tiene puesto (users.avatar_config) y que compro (user_avatar_items)
 import json
 
 from database import db_cursor, execute_query, fetch_all, fetch_one
+from coins import apply_movement
 
 SLOTS = [
     {"id": "skin", "label": "Piel"},
@@ -45,10 +46,10 @@ CATALOG = [
     _item("head-cap-purple", "head", "Gorra morada", {"kind": "cap", "color": "#7b2cff", "accent": "#ffffff"}),
     _item("head-cap-red", "head", "Gorra roja", {"kind": "cap", "color": "#e02440", "accent": "#ffd166"}, price=150),
     _item("head-cap-papaya", "head", "Gorra papaya", {"kind": "cap", "color": "#ff8a1f", "accent": "#1b1733"}, price=150),
-    _item("head-headset", "head", "Audifonos de pit wall", {"kind": "headset", "color": "#1b1733", "accent": "#7b2cff"}, price=300),
+    _item("head-headset", "head", "Audífonos de pit wall", {"kind": "headset", "color": "#1b1733", "accent": "#7b2cff"}, price=300),
     _item("head-helmet", "head", "Casco de piloto", {"kind": "helmet", "color": "#7b2cff", "accent": "#ffffff"}, wins=1),
     _item("head-helmet-chrome", "head", "Casco cromado", {"kind": "helmet", "color": "#c9cfdb", "accent": "#7b2cff"}, wins=3),
-    _item("head-helmet-gold", "head", "Casco de campeon", {"kind": "helmet", "color": "#f5b942", "accent": "#1b1733"}, wins=5),
+    _item("head-helmet-gold", "head", "Casco de campeón", {"kind": "helmet", "color": "#f5b942", "accent": "#1b1733"}, wins=5),
 
     # Cara
     _item("face-none", "face", "Sin accesorio", {"kind": "none"}),
@@ -58,17 +59,17 @@ CATALOG = [
     # Torso
     _item("torso-tee-purple", "torso", "Camiseta Purple1", {"kind": "tee", "color": "#7b2cff", "accent": "#ffffff", "print": "P1"}),
     _item("torso-tee-white", "torso", "Camiseta blanca", {"kind": "tee", "color": "#f4f1fa", "accent": "#7b2cff", "print": "P1"}),
-    _item("torso-polo-red", "torso", "Polo de escuderia", {"kind": "polo", "color": "#e02440", "accent": "#ffffff"}, price=200),
+    _item("torso-polo-red", "torso", "Polo de escudería", {"kind": "polo", "color": "#e02440", "accent": "#ffffff"}, price=200),
     _item("torso-hoodie-black", "torso", "Hoodie negro", {"kind": "hoodie", "color": "#221c33", "accent": "#b48cff"}, price=250),
     _item("torso-suit-purple", "torso", "Traje de piloto", {"kind": "suit", "color": "#7b2cff", "accent": "#ffffff"}, wins=1),
-    _item("torso-suit-gold", "torso", "Traje de campeon", {"kind": "suit", "color": "#1b1733", "accent": "#f5b942"}, wins=4),
+    _item("torso-suit-gold", "torso", "Traje de campeón", {"kind": "suit", "color": "#1b1733", "accent": "#f5b942"}, wins=4),
 
     # Piernas
     _item("legs-jeans", "legs", "Jeans", {"kind": "pants", "color": "#3c4f8c"}),
-    _item("legs-black", "legs", "Pantalon negro", {"kind": "pants", "color": "#221c33"}),
+    _item("legs-black", "legs", "Pantalón negro", {"kind": "pants", "color": "#221c33"}),
     _item("legs-shorts", "legs", "Shorts", {"kind": "shorts", "color": "#4a4560"}, price=100),
-    _item("legs-suit-purple", "legs", "Pantalon de piloto", {"kind": "suit", "color": "#7b2cff", "accent": "#ffffff"}, wins=2),
-    _item("legs-suit-gold", "legs", "Pantalon de campeon", {"kind": "suit", "color": "#1b1733", "accent": "#f5b942"}, wins=4),
+    _item("legs-suit-purple", "legs", "Pantalón de piloto", {"kind": "suit", "color": "#7b2cff", "accent": "#ffffff"}, wins=2),
+    _item("legs-suit-gold", "legs", "Pantalón de campeón", {"kind": "suit", "color": "#1b1733", "accent": "#f5b942"}, wins=4),
 
     # Accesorio
     _item("extra-none", "extra", "Sin accesorio", {"kind": "none"}),
@@ -207,11 +208,11 @@ def buy_avatar_item(data):
                 faltan = item["price"] - user["coins"]
                 error = f"Te faltan {faltan} PitCoins para comprar \"{item['name']}\"."
             else:
-                cursor.execute("UPDATE users SET coins = coins - %s WHERE id = %s", (item["price"], user_id))
                 cursor.execute(
                     "INSERT INTO user_avatar_items (user_id, item_id) VALUES (%s, %s)",
                     (user_id, item["id"]),
                 )
+                apply_movement(cursor, user_id, -item["price"], "AVATAR_PURCHASE", f"avatar:{user_id}:{item['id']}")
         connection.rollback() if error else connection.commit()
 
     if error:

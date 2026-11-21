@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Atributos | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="attributes" data-admin-title="Atributos del catálogo">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Atributos del catálogo</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+            <main class="admin-content" id="admin-content">
+                <nav class="admin-tabs" aria-label="Atributos">
+                    <a href="attributes.html?tab=product-types" data-tab="product-types">Tipos de producto</a>
+                    <a href="attributes.html?tab=sizes" data-tab="sizes">Tallas</a>
+                    <a href="attributes.html?tab=colors" data-tab="colors">Colores</a>
+                </nav>
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar</span>
+                            <input type="search" id="catalog-search" placeholder="Buscar por nombre" autocomplete="off" maxlength="100">
+                        </label>
+                        <button type="button" class="btn-primary admin-toolbar__new" data-new><i class="fa-solid fa-plus" aria-hidden="true"></i> <span id="new-label">Nuevo</span></button>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado" id="catalog-views">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-status="active" aria-pressed="false">Activos</button>
+                        <button type="button" class="admin-chip" data-status="inactive" aria-pressed="false">Inactivos</button>
+                    </div>
+                </section>
+                <section class="admin-card catalog-editor" id="catalog-editor" hidden aria-live="polite"></section>
+                <div class="admin-alert" id="catalog-alert" role="alert" hidden><span id="catalog-alert-text"></span><button type="button" class="admin-button" id="catalog-retry">Reintentar</button></div>
+                <section class="admin-card admin-card--flush" aria-labelledby="catalog-heading">
+                    <div class="admin-card__head admin-card__head--padded"><div><h2 id="catalog-heading"></h2><p id="catalog-count" aria-live="polite">Cargando…</p></div></div>
+                    <div class="admin-table-wrap"><table class="admin-table admin-table--catalog" id="catalog-table"><thead></thead><tbody id="catalog-body"><tr><td><span class="skeleton"></span></td></tr></tbody></table></div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/catalog.js"></script>
+</body>
+</html>

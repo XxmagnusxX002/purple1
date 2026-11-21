@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Resultado | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="races" data-admin-title="Resultado">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Resultado</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <a class="admin-back" href="races.html" id="back-link"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a la carrera</a>
+
+                <div class="admin-alert" id="result-alert" role="alert" hidden>
+                    <span id="result-alert-text"></span>
+                    <button type="button" class="admin-button" id="result-retry" hidden>Reintentar</button>
+                </div>
+
+                <div id="result-loading" class="admin-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></div>
+
+                <section class="admin-card race-head" id="race-head" hidden aria-labelledby="race-name">
+                    <div>
+                        <p class="admin-section-label">Gran Premio</p>
+                        <h2 id="race-name"></h2>
+                        <p id="race-meta" class="admin-muted"></p>
+                    </div>
+                    <span id="race-pill"></span>
+                </section>
+
+                <section class="admin-card" id="result-blocked" hidden aria-live="polite">
+                    <p class="admin-empty" id="blocked-text"></p>
+                </section>
+
+                <section class="admin-card result-step" id="result-pick" hidden aria-labelledby="pick-title">
+                    <div class="admin-card__head">
+                        <div><h2 id="pick-title"><span class="result-step__number">1</span> Elige al piloto ganador</h2>
+                            <p>Lo decides tú: el sistema no consulta resultados externos.</p></div>
+                    </div>
+                    <div class="winner-grid" id="winner-grid" role="radiogroup" aria-labelledby="pick-title"></div>
+                    <p class="admin-field__error" id="pick-error" role="alert"></p>
+                    <div class="result-step__actions">
+                        <button type="button" class="btn-primary" id="preview-button" disabled>Calcular reparto</button>
+                    </div>
+                </section>
+
+                <section class="admin-card result-step" id="result-preview" hidden aria-labelledby="preview-title" aria-live="polite">
+                    <div class="admin-card__head">
+                        <div><h2 id="preview-title"><span class="result-step__number">2</span> Revisa el reparto</h2>
+                            <p>Calculado por el servidor con los pronósticos actuales. Todavía no se ha modificado nada.</p></div>
+                    </div>
+                    <div class="result-outcome" id="preview-outcome"></div>
+                    <div class="mini-stats" id="preview-stats"></div>
+                    <div class="admin-table-wrap result-table">
+                        <table class="admin-table">
+                            <thead><tr><th scope="col">Usuario</th><th scope="col">Eligió</th><th scope="col">Pronosticó</th><th scope="col">Resultado</th><th scope="col">Recibe</th><th scope="col">Balance</th><th scope="col">XP</th></tr></thead>
+                            <tbody id="preview-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="result-confirm">
+                        <p><i class="fa-solid fa-lock" aria-hidden="true"></i> <span id="confirm-effects">Al confirmar se pagan los premios y la carrera queda liquidada.</span> <strong>No se puede deshacer ni cambiar el ganador.</strong></p>
+                        <button type="button" class="btn-primary result-confirm__button" id="confirm-button">Confirmar ganador…</button>
+                    </div>
+                </section>
+
+                <section class="admin-card" id="result-final" hidden aria-labelledby="final-title">
+                    <div class="final-winner">
+                        <span class="final-winner__icon" aria-hidden="true"><i class="fa-solid fa-trophy"></i></span>
+                        <div>
+                            <p class="admin-section-label">Ganador</p>
+                            <h2 id="final-title"></h2>
+                            <p id="final-meta" class="admin-muted"></p>
+                        </div>
+                    </div>
+                    <div class="mini-stats" id="final-stats"></div>
+                    <div class="admin-table-wrap result-table">
+                        <table class="admin-table">
+                            <thead><tr><th scope="col">Usuario</th><th scope="col">Eligió</th><th scope="col">Pronosticó</th><th scope="col">Resultado</th><th scope="col">Recibió</th></tr></thead>
+                            <tbody id="final-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/race-common.js"></script>
+    <script src="js/race-result.js"></script>
+</body>
+</html>

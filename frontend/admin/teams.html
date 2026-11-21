@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Equipos | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="teams" data-admin-title="Equipos">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Equipos</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar equipos">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar equipos</span>
+                            <input type="search" id="team-search" placeholder="Buscar por nombre o país" autocomplete="off" maxlength="100">
+                        </label>
+                        <a class="btn-primary admin-toolbar__new" href="team.html"><i class="fa-solid fa-plus" aria-hidden="true"></i> Nuevo equipo</a>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado" id="team-status">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-status="active" aria-pressed="false">Activos</button>
+                        <button type="button" class="admin-chip" data-status="inactive" aria-pressed="false">Inactivos</button>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="teams-alert" role="alert" hidden>
+                    <span id="teams-alert-text"></span>
+                    <button type="button" class="admin-button" id="teams-retry">Reintentar</button>
+                </div>
+
+                <p class="admin-section-label" id="teams-count" aria-live="polite">Cargando equipos…</p>
+                <section id="teams-grid" aria-label="Equipos">
+                    <article class="admin-card entity-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></article>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/teams.js"></script>
+</body>
+</html>

@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/mock-data.js"></script>
-    <script src="js/mock-api.js"></script>
     <title>Productos | Purple One</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,21 +13,21 @@
     <header class="navbar">
         <div class="container-wide nav-content">
             <a href="index.html" class="logo">PURPLE1</a>
-            <nav class="nav-links" aria-label="Navegacion principal">
+            <nav class="nav-links" aria-label="Navegación principal">
                 <a href="index.html">Inicio</a>
                 <a href="teams.html">Equipos</a>
                 <a href="products.html" class="active">Tienda</a>
-                <a href="races.html">Pronosticos</a>
+                <a href="races.html">Pronósticos</a>
             </nav>
-            <div class="nav-icons" aria-label="Accesos rapidos">
+            <div class="nav-icons" aria-label="Accesos rápidos">
                 <a href="products.html" class="active" aria-label="Explorar productos"><i class="fa-solid fa-magnifying-glass"></i></a>
                 <div class="nav-user-menu">
                     <button type="button" class="nav-user-toggle" aria-label="Mi cuenta" aria-expanded="false"><i class="fa-regular fa-user"></i></button>
                     <div class="nav-user-dropdown">
                         <div class="nav-user-greeting">Mi cuenta</div>
                         <a href="profile.html">Mi perfil</a>
-                        <a href="change_password.html">Cambiar contrasena</a>
-                        <a href="auth.html">Iniciar sesion</a>
+                        <a href="change_password.html">Cambiar contraseña</a>
+                        <a href="auth.html">Iniciar sesión</a>
                     </div>
                 </div>
                 <a href="cart.html" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></a>
@@ -53,7 +51,7 @@
                 <aside class="filters-sidebar surface-card">
                     <div class="filter-group">
                         <h3>Filtros</h3>
-                        <p class="empty-products">Cargando filtros...</p>
+                        <div aria-hidden="true"><span class="skel skel--line"></span><span class="skel skel--line"></span><span class="skel" style="height:40px;margin:14px 0"></span><span class="skel skel--line"></span><span class="skel skel--line"></span><span class="skel" style="height:40px;margin:14px 0"></span><span class="skel skel--line"></span><span class="skel skel--line"></span><span class="skel" style="height:40px;margin:14px 0"></span><span class="skel skel--line"></span><span class="skel skel--line"></span><span class="skel" style="height:40px;margin:14px 0"></span></div>
                     </div>
                 </aside>
 
@@ -71,14 +69,11 @@
 
                     <div class="products-toolbar">
                         <div class="toolbar-left"><button class="toolbar-btn" type="button">0 items</button></div>
-                        <div class="toolbar-right">Cargando productos...</div>
+                        <div class="toolbar-right"><span class="skel skel--line" style="width:160px" aria-hidden="true"></span></div>
                     </div>
 
                     <div class="products-grid" id="catalogo">
-                        <div class="empty-products surface-card">
-                            <h3>Cargando productos</h3>
-                            <p>Consultando catalogo desde MySQL.</p>
-                        </div>
+                        <article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article>
                     </div>
                 </section>
             </section>
@@ -92,7 +87,7 @@
             <div class="site-footer__top">
                 <div class="site-footer__brand-block">
                     <a href="index.html" class="site-footer__logo" aria-label="Purple One">PURPLE1</a>
-                    <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Formula 1.</p>
+                    <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Fórmula 1.</p>
                     <div class="site-footer__socials">
                         <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                         <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -100,36 +95,37 @@
                     </div>
                 </div>
                 <div class="site-footer__nav-group">
-                    <h3>Navegacion</h3>
+                    <h3>Navegación</h3>
                     <a href="index.html">Inicio</a>
                     <a href="teams.html">Equipos</a>
                     <a href="products.html">Tienda</a>
                     <a href="cart.html">Carrito</a>
                 </div>
                 <div class="site-footer__nav-group">
-                    <h3>Categorias</h3>
+                    <h3>Categorías</h3>
                     <a href="products.html">Ropa</a>
-                    <a href="teams.html">Escuderias</a>
+                    <a href="teams.html">Escuderías</a>
                     <a href="products.html">Coleccionables</a>
                     <a href="products.html">Accesorios</a>
                 </div>
                 <div class="site-footer__nav-group">
                     <h3>Experiencia</h3>
                     <a href="#">Preguntas frecuentes</a>
-                    <a href="#">Envios</a>
+                    <a href="#">Envíos</a>
                     <a href="#">Cambios y devoluciones</a>
                     <a href="auth.html">Mi cuenta</a>
                 </div>
             </div>
             <div class="site-footer__bottom">
                 <p>2026 Purple One. Todos los derechos reservados.</p>
-                <div class="site-footer__bottom-links"><a href="#">Terminos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div>
+                <div class="site-footer__bottom-links"><a href="#">Términos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div>
             </div>
         </div>
     </footer>
 
     <script src="js/currency.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/media.js"></script>
     <script src="js/products.js"></script>
     <script src="js/fx.js"></script>
 </body>

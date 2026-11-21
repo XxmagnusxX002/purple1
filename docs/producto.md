@@ -22,8 +22,10 @@ Aficionados a la Fórmula 1 en Latinoamérica que compran por internet y siguen 
 
 | Experiencia | Qué resuelve |
 |---|---|
-| **Tienda** | Catálogo con filtros y precios en la moneda del comprador (9 monedas, sin recargar la página). |
+| **Tienda** | Catálogo con filtros y precios en la moneda del comprador (11 monedas, sin recargar la página). Descuentos de 5 % a 20 % canjeables con PitCoins. |
 | **Pronósticos** | Elegir quién gana cada Gran Premio con **PitCoins**, una moneda virtual **sin valor real**. Da una razón para volver cada carrera. |
+| **Progresión** | XP y niveles (Novato, Amateur, Profesional, Leyenda) por participar y acertar; cada nivel da PitCoins. |
+| **Panel administrativo** | Admin y superadmin gestionan catálogo, inventario, carreras, liquidaciones, monedas, descuentos y usuarios, con registro de auditoría. |
 | **Avatar** | Un piloto propio en el perfil que se viste con prendas ganadas al acertar o compradas con PitCoins. |
 
 ## 4. Objetivo del MVP
@@ -45,7 +47,7 @@ Que un aficionado pueda, en una sola visita: ver los precios en su moneda, compr
 - Pagos reales (el pago es simulado y no guarda datos de la tarjeta).
 - Tasas de cambio en vivo (se usan tasas fijas).
 - Dinero real en los pronósticos: los PitCoins no se compran ni se cambian por dinero.
-- Resultados automáticos de las carreras (el staff registra al ganador).
+- Resultados automáticos de las carreras (el administrador registra la clasificación desde el panel).
 - App móvil nativa (es web, adaptada al celular).
 - Envíos e inventario reales (sin transportadoras ni bodega).
 - Minijuego 2D (se reemplazó por el avatar; ver `decisiones.md`).
@@ -53,7 +55,7 @@ Que un aficionado pueda, en una sola visita: ver los precios en su moneda, compr
 ## 7. Cómo sabremos que funciona
 
 - Un usuario nuevo completa el recorrido del MVP (registro → compra → pronóstico → avatar) sin ayuda.
-- Los profesores y compañeros pueden probarlo desde la URL pública de Vercel.
+- Los profesores y compañeros pueden probarlo desde la URL pública de Vercel **con datos reales** (API y MySQL en Railway).
 - Siguiente paso: validar con aficionados reales si volverían por los pronósticos.
 
 ## 8. Contexto legal

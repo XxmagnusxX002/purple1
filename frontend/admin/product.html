@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Producto | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body admin-body--product-form" data-admin-page="products" data-admin-title="Producto">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Producto</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content admin-content--form" id="admin-content">
+                <a class="admin-back" href="products.html" id="back-link"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a productos</a>
+
+                <div class="admin-alert" id="form-alert" role="alert" hidden>
+                    <span id="form-alert-text"></span>
+                    <button type="button" class="admin-button" id="form-reload" hidden>Recargar</button>
+                </div>
+
+                <div id="form-loading" class="admin-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></div>
+
+                <form id="product-form" novalidate hidden>
+                    <div class="product-form-scroll">
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-basic">
+                        <div class="admin-card__head"><div><h2 id="sec-basic">Datos del producto</h2><p>Lo que ve el cliente en la tienda.</p></div></div>
+                        <div class="admin-form-grid product-basic-grid">
+                            <label class="admin-field admin-field--wide">Nombre *
+                                <input type="text" id="f-name" maxlength="150" required aria-describedby="err-name">
+                                <span class="admin-field__error" id="err-name" data-error-for="name"></span>
+                            </label>
+                            <label class="admin-field">URL del producto
+                                <input type="text" id="f-slug" maxlength="180" placeholder="se genera desde el nombre" aria-describedby="hint-slug err-slug">
+                                <span class="admin-field__hint" id="hint-slug">Minúsculas, números y guiones.</span>
+                                <span class="admin-field__error" id="err-slug" data-error-for="slug"></span>
+                            </label>
+                            <label class="admin-field">Tipo de producto *
+                                <select id="f-type" required aria-describedby="hint-type err-type"></select>
+                                <span class="admin-field__hint" id="hint-type">Define si las variantes llevan talla y color.</span>
+                                <span class="admin-field__error" id="err-type" data-error-for="product_type_id"></span>
+                            </label>
+                            <label class="admin-field admin-field--wide">Descripción
+                                <textarea id="f-description" rows="2" maxlength="5000" aria-describedby="count-description err-description"></textarea>
+                                <span class="admin-field__hint" id="count-description">0 / 5000</span>
+                                <span class="admin-field__error" id="err-description" data-error-for="description"></span>
+                            </label>
+                        </div>
+                    </section>
+
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-price">
+                        <div class="admin-card__head"><div><h2 id="sec-price">Precio y visibilidad</h2><p>El precio base está en euros (EUR); la tienda lo convierte a la moneda del cliente.</p></div></div>
+                        <div class="admin-form-grid product-price-grid">
+                            <label class="admin-field">Precio base (EUR) *
+                                <input type="text" id="f-price" inputmode="decimal" placeholder="89.90" required aria-describedby="err-price">
+                                <span class="admin-field__error" id="err-price" data-error-for="base_price"></span>
+                            </label>
+                            <div class="admin-switches product-visibility">
+                                <label class="admin-check"><input type="checkbox" id="f-active" checked> <span><strong>Activo</strong><small>Visible y a la venta en la tienda</small></span></label>
+                                <label class="admin-check"><input type="checkbox" id="f-featured"> <span><strong>Destacado</strong><small>Aparece en «Destacados» y con la etiqueta «Destacado»</small></span></label>
+                            </div>
+                        </div>
+                        <fieldset class="product-promo">
+                            <legend>Promoción <span class="promo-state" id="promo-state"></span></legend>
+                            <p class="admin-field__hint">Déjala vacía si el producto no está en promoción: la tienda solo muestra precio tachado y etiqueta de oferta cuando hay una promoción vigente.</p>
+                            <div class="admin-form-grid product-promo-grid">
+                                <label class="admin-field">Descuento (%)
+                                    <input type="number" id="f-promo" min="1" max="90" step="1" inputmode="numeric" placeholder="Sin promoción" aria-describedby="err-promo">
+                                    <span class="admin-field__error" id="err-promo" data-error-for="promo_percent"></span>
+                                </label>
+                                <label class="admin-field">Inicio (opcional)
+                                    <input type="datetime-local" id="f-promo-start" aria-describedby="err-promo-start">
+                                    <span class="admin-field__error" id="err-promo-start" data-error-for="promo_starts_at"></span>
+                                </label>
+                                <label class="admin-field">Fin (opcional)
+                                    <input type="datetime-local" id="f-promo-end" aria-describedby="err-promo-end">
+                                    <span class="admin-field__error" id="err-promo-end" data-error-for="promo_ends_at"></span>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </section>
+
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-specs">
+                        <div class="admin-card__head"><div><h2 id="sec-specs">Características y especificaciones</h2><p>Opcionales y propias de este producto. Las secciones vacías no se muestran en la tienda.</p></div></div>
+                        <div class="admin-form-columns spec-columns">
+                            <div>
+                                <h3 class="spec-title">Características destacadas</h3>
+                                <ul class="spec-list" id="f-features"></ul>
+                                <button type="button" class="admin-button" data-add-feature><i class="fa-solid fa-plus" aria-hidden="true"></i> Añadir característica</button>
+                            </div>
+                            <div>
+                                <h3 class="spec-title">Especificaciones</h3>
+                                <p class="admin-field__hint spec-suggestions" id="spec-suggestions"></p>
+                                <ul class="spec-list" id="f-specs"></ul>
+                                <button type="button" class="admin-button" data-add-spec><i class="fa-solid fa-plus" aria-hidden="true"></i> Añadir especificación</button>
+                            </div>
+                        </div>
+                        <span class="admin-field__error" data-error-for="specs"></span>
+                    </section>
+
+                    <div class="admin-form-columns product-associations">
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-categories">
+                            <div class="admin-card__head"><div><h2 id="sec-categories">Categorías</h2><p>Al elegir una subcategoría se añade también su categoría principal.</p></div></div>
+                            <div class="admin-checklist" id="f-categories" role="group" aria-labelledby="sec-categories"></div>
+                            <span class="admin-field__error" data-error-for="category_ids"></span>
+                        </section>
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-teams">
+                            <div class="admin-card__head"><div><h2 id="sec-teams">Equipos</h2><p>Escuderías a las que pertenece el producto.</p></div></div>
+                            <div class="admin-chips admin-chips--wrap" id="f-teams" role="group" aria-labelledby="sec-teams"></div>
+                            <span class="admin-field__error" data-error-for="team_ids"></span>
+                        </section>
+                    </div>
+
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-images">
+                        <div class="admin-card__head">
+                            <div><h2 id="sec-images">Imágenes</h2><p>Hasta 10. La principal se muestra en el catálogo.</p></div>
+                        </div>
+                        <p class="admin-field__hint" id="upload-status" role="status" aria-live="polite">PNG, JPEG o WebP de hasta 2 MB.</p>
+                        <ul class="image-list" id="f-images"></ul>
+                        <div class="product-image-add-actions" id="image-add-actions" hidden>
+                            <button type="button" class="admin-button" id="open-gallery">Elegir existente</button>
+                            <label class="admin-button admin-upload">Subir imagen
+                                <input type="file" id="upload-input" accept="image/png,image/jpeg,image/webp" class="visually-hidden"></label>
+                        </div>
+                        <div class="product-image-tools" id="image-tools" hidden></div>
+                        <span class="admin-field__error" data-error-for="images"></span>
+                    </section>
+
+                    <section class="admin-card admin-form-section" aria-labelledby="sec-variants">
+                        <div class="admin-card__head"><div><h2 id="sec-variants">Variantes e inventario</h2><p id="variants-help">Cada variante tiene su SKU y su stock. El SKU se genera si lo dejas vacío.</p></div></div>
+                        <div class="admin-table-wrap"><table class="admin-table admin-table--variants">
+                            <thead><tr><th scope="col" data-col="size">Talla</th><th scope="col" data-col="color">Color</th><th scope="col">SKU</th><th scope="col">Precio especial (EUR)</th><th scope="col">Stock</th><th scope="col">Activa</th><th scope="col" aria-label="Acciones"></th></tr></thead>
+                            <tbody id="variants-body"></tbody>
+                            <tfoot id="variant-new"></tfoot>
+                        </table></div>
+                        <span class="admin-field__error" data-error-for="variants"></span>
+                    </section>
+
+                    </div>
+                    <div class="admin-form-actions">
+                        <span class="admin-form-actions__state" id="dirty-state" aria-live="polite"></span>
+                        <a class="admin-button" href="products.html" id="cancel-link">Cancelar</a>
+                        <button type="submit" class="btn-primary" id="save-product">Guardar producto</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+
+    <script src="js/admin.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/product-form.js"></script>
+</body>
+</html>

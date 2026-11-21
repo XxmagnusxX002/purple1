@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/mock-data.js"></script>
-    <script src="js/mock-api.js"></script>
     <title>Carrito | Purple One</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,28 +13,28 @@
     <header class="navbar">
     <div class="container-wide nav-content">
         <a href="index.html" class="logo">PURPLE1</a>
-        <nav class="nav-links" aria-label="Navegacion principal">
+        <nav class="nav-links" aria-label="Navegación principal">
             <a href="index.html">Inicio</a>
             <a href="teams.html">Equipos</a>
             <a href="products.html">Tienda</a>
-            <a href="races.html">Pronosticos</a>
+            <a href="races.html">Pronósticos</a>
         </nav>
-        <div class="nav-icons" aria-label="Accesos rapidos">
+        <div class="nav-icons" aria-label="Accesos rápidos">
             <a href="products.html" aria-label="Explorar productos"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div class="nav-user-menu">
                 <button type="button" class="nav-user-toggle" aria-label="Mi cuenta" aria-expanded="false"><i class="fa-regular fa-user"></i></button>
                 <div class="nav-user-dropdown">
                     <div class="nav-user-greeting">Mi cuenta</div>
                     <a href="profile.html">Mi perfil</a>
-                    <a href="change_password.html">Cambiar contrasena</a>
-                    <a href="auth.html">Iniciar sesion</a>
+                    <a href="change_password.html">Cambiar contraseña</a>
+                    <a href="auth.html">Iniciar sesión</a>
                 </div>
             </div>
             <a href="cart.html" class="active" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
     </div>
 </header>
-    <main class="cart-page page-shell"><div class="container"><div class="cart-header"><h1>Tu carrito</h1><p>Revisa tus productos antes de finalizar la compra.</p></div><div class="cart-layout"><section class="cart-items-panel"><div class="shipping-banner"><span>Envio gratis</span><p><strong>Tienes envio gratis.</strong> Completa tu pedido y recibelo en 1-2 dias.</p></div><article class="cart-item surface-card"><div class="cart-item-image"><img src="img/shirt-mercedes1.jpeg" alt="Alpine F1 Team Jack Doohan 2025 Driver T-Shirt"></div><div class="cart-item-content"><div class="cart-item-top"><div><h3>Alpine F1 Team Jack Doohan 2025 Driver T-Shirt</h3><span class="badge-offer">Oferta</span></div><div class="cart-item-price-box"><p class="old-price">EUR 68,00</p><p class="current-price">EUR 24,90</p></div><button class="remove-btn" type="button" aria-label="Eliminar producto"><i class="fa-regular fa-trash-can"></i></button></div><div class="cart-item-actions"><select><option selected>Size M</option><option>S</option><option>L</option><option>XL</option></select><select><option>1</option><option>2</option><option>3</option></select></div><div class="cart-meta"><p><i class="fa-solid fa-cart-shopping"></i> Quedan pocos <span>- Solo quedan 44</span></p><p class="delivery-text">Llega en 1-2 dias <span>- Seguimiento incluido</span></p></div></div></article><div class="continue-shopping"><a href="products.html">Seguir comprando <i class="fa-solid fa-chevron-right"></i></a></div></section><aside class="summary-panel"><div class="summary-card surface-card"><h2>Resumen del pedido</h2><div class="coupon-box"><input type="text" placeholder="Codigo de descuento"><button type="button">Aplicar</button></div><div class="summary-lines"><div class="summary-line"><span>Subtotal</span><span>EUR 24,90</span></div><div class="summary-line discount"><span>Descuentos</span><span>EUR 0,00</span></div><div class="summary-line"><span>Envio</span><span>Gratis</span></div></div><div class="summary-total"><span>Total</span><span>EUR 24,90</span></div><button class="checkout-btn" type="button">Finalizar compra</button></div></aside></div></div></main>
+    <main class="cart-page page-shell"><div class="container"><div class="cart-header"><h1>Tu carrito</h1><p>Revisa tus productos antes de finalizar la compra.</p></div><div class="cart-layout"><section class="cart-items-panel" aria-busy="true"><span class="visually-hidden" role="status">Cargando tu carrito</span><div class="cart-line surface-card is-skeleton" aria-hidden="true"><span class="skel" style="width:104px;height:104px;border-radius:16px"></span><div style="flex:1"><span class="skel skel--title"></span><span class="skel skel--line"></span><span class="skel skel--line skel--short"></span></div><span class="skel" style="width:120px;height:40px;border-radius:999px"></span></div><div class="cart-line surface-card is-skeleton" aria-hidden="true"><span class="skel" style="width:104px;height:104px;border-radius:16px"></span><div style="flex:1"><span class="skel skel--title"></span><span class="skel skel--line"></span><span class="skel skel--line skel--short"></span></div><span class="skel" style="width:120px;height:40px;border-radius:999px"></span></div></section><aside class="summary-panel"><div class="summary-card surface-card"><h2>Resumen del pedido</h2><div class="summary-lines"><span class="skel skel--line"></span><span class="skel skel--line"></span><span class="skel skel--line"></span></div><div class="summary-total"><span class="skel" style="height:28px;width:100%"></span></div><button class="checkout-btn" type="button"><i class="fa-solid fa-lock" aria-hidden="true"></i>&nbsp; Finalizar compra</button><p class="summary-secure"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Pago simulado: los datos de la tarjeta solo se validan y nunca se guardan.</p></div></aside></div></div></main>
 
     <div class="payment-modal" id="payment-modal" hidden>
         <div class="payment-modal__backdrop" data-close-modal></div>
@@ -64,18 +62,19 @@
         <div class="site-footer__top">
             <div class="site-footer__brand-block">
                 <a href="index.html" class="site-footer__logo" aria-label="Purple One">PURPLE1</a>
-                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Formula 1.</p>
+                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Fórmula 1.</p>
                 <div class="site-footer__socials"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
             </div>
-            <div class="site-footer__nav-group"><h3>Navegacion</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
-            <div class="site-footer__nav-group"><h3>Categorias</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderias</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
-            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envios</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
+            <div class="site-footer__nav-group"><h3>Navegación</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
+            <div class="site-footer__nav-group"><h3>Categorías</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderías</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
+            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envíos</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
         </div>
-        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Terminos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
+        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Términos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
     </div>
 </footer>
     <script src="js/currency.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/media.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/fx.js"></script>
 </body>

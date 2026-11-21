@@ -1,9 +1,6 @@
-/* Avatar del perfil: escenario (izquierda) + selector de prendas (derecha) */
-.profile-avatar.has-avatar {
-    padding: 0;
-    overflow: hidden;
-    background: var(--color-brand-soft);
-}
+/* Componentes del avatar del perfil: dibujo SVG, pestañas de partes,
+   tarjetas de prendas y mensajes de estado. La distribución de la página
+   está en profile.css. */
 
 .profile-avatar svg,
 .avatar-stage__figure svg,
@@ -13,107 +10,22 @@
     height: 100%;
 }
 
-.avatar-studio {
-    display: grid;
-    grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
-    gap: 28px;
-    align-items: start;
-    padding: 24px 0 8px;
-}
-
-/* ---------- Escenario ---------- */
-.avatar-stage {
-    position: sticky;
-    top: 106px;
-}
-
-.avatar-stage__figure {
-    aspect-ratio: 200 / 260;
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    background: var(--color-brand-soft);
-    border: 1px solid var(--color-brand-border);
-    box-shadow: var(--shadow-lg);
-}
-
-.avatar-stage__preview {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: var(--color-text);
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.avatar-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 14px;
-}
-
-.avatar-stats > div {
-    padding: 12px 14px;
-    border-radius: var(--radius-sm);
-    background: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
-}
-
-.avatar-stats dt {
-    font-size: 0.78rem;
-    line-height: 1.25;
-    color: var(--color-text-soft);
-}
-
-.avatar-stats dd {
-    margin-top: 4px;
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--color-text);
-}
-
-.avatar-stats dd i {
-    font-size: 1.05rem;
-    color: #b8860b;
-}
-
-/* ---------- Selector ---------- */
-.avatar-picker__head h2 {
-    font-size: 1.5rem;
-}
-
-.avatar-picker__head p {
-    margin-top: 6px;
-    max-width: 62ch;
-    line-height: 1.5;
-    color: var(--color-text-soft);
-}
-
-.avatar-picker__head a {
-    color: var(--color-brand);
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
+/* ---------- Pestañas de partes (Piel, Cabeza, ...) ---------- */
 .avatar-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 18px 0 16px;
+    gap: 6px;
+    margin: 18px 0 14px;
 }
 
 .avatar-tab {
-    padding: 9px 16px;
+    padding: 7px 13px;
     border-radius: 999px;
     border: 1px solid var(--color-border);
     background: var(--color-surface);
-    color: var(--color-text-soft);
+    color: var(--color-text);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
@@ -129,23 +41,25 @@
     color: #fff;
 }
 
+/* ---------- Tarjetas de prendas: todas del mismo tamaño ---------- */
 .avatar-items {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 10px;
 }
 
 .avatar-item {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 8px 8px 12px;
-    border-radius: var(--radius-md);
-    border: 2px solid var(--color-border);
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 4px;
+    min-height: 136px;
+    padding: 6px 6px 10px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--color-border);
     background: var(--color-surface);
     text-align: left;
     cursor: pointer;
-    transition: border-color 0.15s ease, transform 0.15s ease;
+    transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
 }
 
 .avatar-item:hover {
@@ -156,7 +70,7 @@
 .avatar-item__preview {
     display: block;
     aspect-ratio: 6 / 5;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
     background: var(--color-brand-soft);
 }
@@ -164,18 +78,21 @@
 .avatar-item__name {
     padding: 2px 4px 0;
     font-weight: 700;
-    font-size: 0.92rem;
+    font-size: 0.8rem;
     line-height: 1.25;
     color: var(--color-text);
 }
 
 .avatar-item__tag {
+    align-self: end;
     padding: 0 4px;
-    font-size: 0.82rem;
+    font-size: 0.74rem;
     font-weight: 600;
+    line-height: 1.3;
     color: var(--color-text-soft);
 }
 
+/* Prenda en uso: borde morado y fondo ligeramente morado */
 .avatar-item.is-equipped {
     border-color: var(--color-brand);
     background: var(--color-brand-tint);
@@ -185,37 +102,42 @@
     color: var(--color-brand-strong);
 }
 
+/* Bloqueada: dibujo desaturado, texto legible */
 .avatar-item.is-locked .avatar-item__preview {
     filter: grayscale(0.85);
     opacity: 0.7;
-}
-
-.avatar-item.is-buy .avatar-item__tag i {
-    color: #b8860b;
 }
 
 .avatar-item.is-buy .avatar-item__tag {
     color: var(--color-text);
 }
 
-.avatar-item.is-preview {
-    border-color: var(--color-text);
+.avatar-item.is-buy .avatar-item__tag i {
+    color: #b8860b;
 }
 
-.avatar-item.is-preview.is-buy .avatar-item__tag {
-    align-self: flex-start;
-    margin-left: 4px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: var(--color-brand);
-    color: #fff;
-    font-size: 0.8rem;
-    white-space: nowrap;
+/* Vista previa de una prenda que todavía no se tiene */
+.avatar-item.is-preview {
+    border-color: var(--color-text);
 }
 
 .avatar-item.is-preview .avatar-item__preview {
     filter: none;
     opacity: 1;
+}
+
+.avatar-item.is-preview.is-buy .avatar-item__tag {
+    justify-self: start;
+    margin-left: 4px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: #fff;
+    white-space: nowrap;
+}
+
+.avatar-item.is-preview.is-buy .avatar-item__tag i {
+    color: #fff;
 }
 
 .avatar-tab:focus-visible,
@@ -224,39 +146,19 @@
     outline-offset: 2px;
 }
 
+/* ---------- Mensajes ---------- */
 .avatar-status {
     min-height: 1.5em;
-    margin-top: 14px;
+    margin-top: 12px;
+    font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.5;
     color: var(--color-text-soft);
 }
 
-.avatar-status.is-ok {
-    color: var(--color-success);
-}
-
-.avatar-status.is-error {
-    color: var(--color-danger);
-}
-
-.avatar-status.is-info {
-    color: var(--color-text);
-}
-
-@media (max-width: 900px) {
-    .avatar-studio {
-        grid-template-columns: 1fr;
-    }
-
-    .avatar-stage {
-        position: relative;
-        top: auto;
-        max-width: 300px;
-        margin: 0 auto;
-        width: 100%;
-    }
-}
+.avatar-status.is-ok { color: var(--color-success); }
+.avatar-status.is-error { color: var(--color-danger); }
+.avatar-status.is-info { color: var(--color-text); }
 
 @media (prefers-reduced-motion: reduce) {
     .avatar-item,

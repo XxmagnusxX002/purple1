@@ -1,0 +1,79 @@
+/* Mis pedidos: tarjetas con los importes originales de cada compra */
+.orders-list {
+    display: grid;
+    gap: 16px;
+    max-width: 860px;
+}
+
+.order-card {
+    display: grid;
+    gap: 14px;
+    padding: 20px 22px;
+    border-radius: var(--radius-lg);
+}
+
+.order-card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.order-card__head h2 { margin: 0; font-size: 1.1rem; font-weight: 800; }
+.order-card__head p { margin: 2px 0 0; color: var(--color-text-soft); font-size: 0.88rem; }
+
+.order-card__status {
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.order-card__status--paid,
+.order-card__status--delivered { background: var(--color-success-soft); color: var(--color-success); }
+.order-card__status--pending { background: var(--color-warning-soft); color: var(--color-warning); }
+.order-card__status--shipped { background: var(--color-brand-soft); color: var(--color-brand-strong); }
+.order-card__status--cancelled { background: var(--color-danger-soft); color: var(--color-danger-strong); }
+
+.order-card__lines {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-border);
+}
+
+.order-card__lines li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.92rem;
+}
+
+.order-card__lines a { color: var(--color-text); text-decoration: none; }
+.order-card__lines a:hover { color: var(--color-brand); }
+.order-card__lines small { display: block; color: var(--color-text-soft); font-size: 0.8rem; }
+.order-card__lines li > span:last-child { font-weight: 700; white-space: nowrap; }
+
+.order-card__foot dl {
+    display: grid;
+    gap: 6px;
+    max-width: 320px;
+    margin: 0 0 0 auto;
+}
+
+.order-card__foot dl > div { display: flex; justify-content: space-between; gap: 16px; font-size: 0.9rem; }
+.order-card__foot dt { color: var(--color-text-soft); }
+.order-card__foot dd { margin: 0; font-weight: 600; }
+.order-card__total { padding-top: 6px; border-top: 1px solid var(--color-border); }
+.order-card__total dt, .order-card__total dd { color: var(--color-text); font-size: 1.05rem; font-weight: 800; }
+
+.order-card__rate {
+    margin: 10px 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    text-align: right;
+}

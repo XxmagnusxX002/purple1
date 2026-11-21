@@ -1,4 +1,5 @@
 ﻿from database import fetch_all
+from pricing import PROMO_ACTIVE_SQL, PROMO_PERCENT_SQL, list_price_sql, sale_price_sql
 from utils import image_path
 
 
@@ -6,12 +7,19 @@ def product_summary_sql(extra_where=""):
     return f"""
         SELECT
             p.id, p.name, p.slug, p.description, p.base_price, p.is_featured,
-            pt.name AS product_type,
+            pt.name AS product_type, pt.uses_size, pt.uses_color,
+            {PROMO_PERCENT_SQL} AS promo_percent,
+            CASE WHEN {PROMO_ACTIVE_SQL} THEN p.promo_ends_at END AS promo_ends_at,
             COALESCE((
-                SELECT MIN(COALESCE(i.price_override, p.base_price))
+                SELECT MIN({sale_price_sql('i')})
                 FROM inventory i
                 WHERE i.product_id = p.id AND i.is_active = TRUE
-            ), p.base_price) AS final_price,
+            ), ROUND(p.base_price * (100 - {PROMO_PERCENT_SQL}) / 100, 2)) AS final_price,
+            COALESCE((
+                SELECT MIN({list_price_sql('i')})
+                FROM inventory i
+                WHERE i.product_id = p.id AND i.is_active = TRUE
+            ), p.base_price) AS list_price,
             COALESCE((
                 SELECT SUM(i.stock)
                 FROM inventory i
@@ -93,10 +101,10 @@ def filter_products(params):
         clauses.append("AND EXISTS (SELECT 1 FROM inventory fi JOIN colors fc ON fc.id = fi.color_id WHERE fi.product_id = p.id AND fc.name = %s AND fi.stock > 0 AND fi.is_active = TRUE)")
         values.append(color)
     if min_price:
-        clauses.append("AND EXISTS (SELECT 1 FROM inventory fpi WHERE fpi.product_id = p.id AND fpi.is_active = TRUE AND COALESCE(fpi.price_override, p.base_price) >= %s)")
+        clauses.append(f"AND EXISTS (SELECT 1 FROM inventory fpi WHERE fpi.product_id = p.id AND fpi.is_active = TRUE AND {sale_price_sql('fpi')} >= %s)")
         values.append(min_price)
     if max_price:
-        clauses.append("AND EXISTS (SELECT 1 FROM inventory fpi WHERE fpi.product_id = p.id AND fpi.is_active = TRUE AND COALESCE(fpi.price_override, p.base_price) <= %s)")
+        clauses.append(f"AND EXISTS (SELECT 1 FROM inventory fpi WHERE fpi.product_id = p.id AND fpi.is_active = TRUE AND {sale_price_sql('fpi')} <= %s)")
         values.append(max_price)
     if query:
         like = f"%{query}%"
@@ -119,8 +127,8 @@ def get_product_detail(product_id):
     for item in images:
         item["image_path"] = image_path(item.get("image_path"))
     inventory = fetch_all(
-        """
-        SELECT i.id, i.sku, i.stock, COALESCE(i.price_override, p.base_price) AS effective_price,
+        f"""
+        SELECT i.id, i.sku, i.stock, {sale_price_sql('i')} AS effective_price, {list_price_sql('i')} AS list_price,
                s.id AS size_id, s.name AS size_name, c.id AS color_id, c.name AS color_name, c.hex_code
         FROM inventory i
         JOIN products p ON p.id = i.product_id
@@ -131,6 +139,14 @@ def get_product_detail(product_id):
         """,
         (product_id,),
     )
+    specs = fetch_all(
+        "SELECT kind, label, value FROM product_specs WHERE product_id = %s ORDER BY kind, display_order, id",
+        (product_id,),
+    )
+    product["features"] = [row["value"] for row in specs if row["kind"] == "FEATURE"]
+    product["specs"] = [{"label": row["label"], "value": row["value"]} for row in specs if row["kind"] == "SPEC"]
+    product["uses_size"] = bool(product.get("uses_size"))
+    product["uses_color"] = bool(product.get("uses_color"))
     product["images"] = images
     product["inventory"] = inventory
     product["sizes"] = list({item["size_name"]: {"id": item["size_id"], "name": item["size_name"]} for item in inventory if item.get("size_name")}.values())

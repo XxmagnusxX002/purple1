@@ -3,101 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/mock-data.js"></script>
-    <script src="js/mock-api.js"></script>
     <title>Purple One | Mi perfil</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/avatar.css">
+    <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/fx.css">
 </head>
 <body class="site-body">
     <header class="navbar">
     <div class="container-wide nav-content">
         <a href="index.html" class="logo">PURPLE1</a>
-        <nav class="nav-links" aria-label="Navegacion principal">
+        <nav class="nav-links" aria-label="Navegación principal">
             <a href="index.html">Inicio</a>
             <a href="teams.html">Equipos</a>
             <a href="products.html">Tienda</a>
-            <a href="races.html">Pronosticos</a>
+            <a href="races.html">Pronósticos</a>
         </nav>
-        <div class="nav-icons" aria-label="Accesos rapidos">
+        <div class="nav-icons" aria-label="Accesos rápidos">
             <a href="products.html" aria-label="Explorar productos"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div class="nav-user-menu">
                 <button type="button" class="nav-user-toggle active" aria-label="Mi cuenta" aria-expanded="false"><i class="fa-regular fa-user"></i></button>
                 <div class="nav-user-dropdown">
                     <div class="nav-user-greeting">Mi cuenta</div>
                     <a href="profile.html">Mi perfil</a>
-                    <a href="change_password.html">Cambiar contrasena</a>
-                    <a href="auth.html">Iniciar sesion</a>
+                    <a href="change_password.html">Cambiar contraseña</a>
+                    <a href="auth.html">Iniciar sesión</a>
                 </div>
             </div>
             <a href="cart.html" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
     </div>
 </header>
-    <main class="profile-page page-shell">
-        <div class="container">
-            <section class="profile-card surface-card">
-                <div class="profile-hero">
-                    <div class="profile-identity">
-                        <div class="profile-avatar" id="profile-avatar-mini">P1</div>
-                        <div>
-                            <h1>Mi perfil</h1>
-                            <p>Tu avatar, tus datos personales y de entrega.</p>
-                        </div>
-                    </div>
-                    <img src="img/car.png" class="profile-car" alt="Carro Purple One">
-                </div>
+    <main class="pf-page page-shell">
+        <div class="container pf-container">
 
-                <section class="avatar-studio" id="avatar-studio" aria-labelledby="avatar-title">
-                    <div class="avatar-stage">
+            <!-- 1. Encabezado -->
+            <header class="pf-header">
+                <div class="pf-header__identity">
+                    <div class="pf-header__avatar profile-avatar" id="profile-avatar-mini" aria-hidden="true">P1</div>
+                    <div>
+                        <h1>Mi perfil</h1>
+                        <p>Tu avatar, tu progreso y tus datos personales.</p>
+                    </div>
+                </div>
+                <img src="img/car.png" class="pf-header__car" alt="Monoplaza de Purple One">
+            </header>
+
+            <section class="pf-card pf-guest" id="pf-guest" hidden>
+                <p>Inicia sesión para ver tu perfil, tu avatar y tu progreso.</p>
+                <a href="auth.html" class="btn-primary">Iniciar sesión</a>
+            </section>
+
+            <div class="pf-container" id="pf-content">
+                <!-- 2. Tarjeta del piloto -->
+                <section class="pf-card pf-driver" aria-label="Perfil del piloto">
+                    <div class="pf-driver__avatar">
                         <div class="avatar-stage__figure" id="avatar-figure"></div>
                         <p class="avatar-stage__preview" id="avatar-preview-flag" hidden>Vista previa</p>
-                        <dl class="avatar-stats">
-                            <div>
-                                <dt>Pronosticos acertados</dt>
-                                <dd id="avatar-wins">0</dd>
+                        <a href="#avatar-title" class="pf-driver__edit" aria-label="Personalizar avatar" title="Personalizar avatar"><i class="fa-solid fa-pen" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="pf-driver__progress" id="pf-progress" aria-live="polite">
+                        <span class="pf-eyebrow">Perfil del piloto</span>
+                        <h2 class="pf-rank" id="pf-rank">&nbsp;</h2>
+                        <div class="pf-level-row">
+                            <span class="pf-level-chip"><i class="fa-solid fa-award" aria-hidden="true"></i><span id="pf-level">Nivel –</span></span>
+                            <span class="pf-level-row__divider" aria-hidden="true"></span>
+                            <span class="pf-xp-total"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i><span id="pf-xp-total">0 XP acumulados</span></span>
+                        </div>
+                        <div class="pf-progress">
+                            <div class="pf-progress__labels"><span id="pf-next-label">Progreso hacia el siguiente nivel</span><strong id="pf-xp-ratio"></strong></div>
+                            <div class="pf-bar" role="progressbar" aria-label="Progreso hacia el siguiente nivel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="pf-bar"><span style="width:0%"></span></div>
+                            <p class="pf-muted" id="pf-remaining"></p>
+                        </div>
+                    </div>
+
+                    <div class="pf-driver__side">
+                        <dl class="pf-stats">
+                            <div class="pf-stat">
+                                <i class="fa-solid fa-bullseye" aria-hidden="true"></i>
+                                <div><dt>Pronósticos acertados</dt><dd id="avatar-wins">0</dd></div>
                             </div>
-                            <div>
-                                <dt>PitCoins</dt>
-                                <dd><i class="fa-solid fa-coins"></i> <span id="avatar-coins">0</span></dd>
+                            <div class="pf-stat">
+                                <i class="fa-solid fa-coins" aria-hidden="true"></i>
+                                <div><dt>Saldo de PitCoins</dt><dd id="avatar-coins">0</dd></div>
                             </div>
                         </dl>
-                    </div>
-                    <div class="avatar-picker">
-                        <div class="avatar-picker__head">
-                            <h2 id="avatar-title">Mi avatar</h2>
-                            <p>Viste a tu piloto. Las prendas con candado se abren al acertar <a href="races.html">pronosticos</a>; las que tienen precio se compran con PitCoins.</p>
+                        <div class="pf-reward" id="pf-reward" hidden>
+                            <i class="fa-solid fa-gift" aria-hidden="true"></i>
+                            <div class="pf-reward__text"><strong>Próxima recompensa</strong><span class="pf-muted" id="pf-reward-level"></span></div>
+                            <div class="pf-reward__amount"><strong id="pf-reward-amount"></strong><span>PitCoins</span></div>
                         </div>
-                        <div class="avatar-tabs" id="avatar-tabs" role="tablist" aria-label="Partes del avatar"></div>
-                        <div class="avatar-items" id="avatar-items"></div>
-                        <p class="avatar-status" id="avatar-status" role="status" aria-live="polite"></p>
                     </div>
                 </section>
 
-                <div class="profile-info-banner"><span>i</span><p>Estos datos se usaran automaticamente en el checkout para agilizar tus compras.</p></div>
-                <form class="profile-form">
-                    <div class="profile-grid-wrapper">
-                        <div class="profile-section">
-                            <div class="profile-section-header"><h2>Datos de cuenta</h2></div>
-                            <div class="profile-grid">
-                                <div class="profile-field readonly"><label>Nombre</label><span>Usuario</span></div>
-                                <div class="profile-field readonly"><label>Apellido</label><span>Demo</span></div>
-                                <div class="profile-field readonly profile-field--full"><label>Correo electronico</label><span>demo@purpleone.com</span></div>
+                <!-- 3. Personalización + actividad -->
+                <div class="pf-columns">
+                    <section class="pf-card pf-studio" id="avatar-studio" aria-labelledby="avatar-title">
+                        <div class="pf-card__head">
+                            <span class="pf-card__icon"><i class="fa-solid fa-shirt" aria-hidden="true"></i></span>
+                            <div>
+                                <h2 id="avatar-title">Personalización del avatar</h2>
+                                <p>Viste a tu piloto. Las prendas con candado se abren al acertar <a href="races.html">pronósticos</a>; las que tienen precio se compran con PitCoins.</p>
                             </div>
                         </div>
-                        <div class="profile-section">
-                            <div class="profile-section-header"><h2>Datos de entrega</h2></div>
-                            <div class="profile-grid">
-                                <div class="profile-field profile-field--full"><label>Telefono</label><input type="text" name="phone" placeholder="Agrega tu telefono"></div>
-                                <div class="profile-field profile-field--full"><label>Direccion</label><input type="text" name="address" placeholder="Agrega tu direccion"></div>
-                            </div>
+                        <div class="avatar-tabs" id="avatar-tabs" role="tablist" aria-label="Partes del avatar"><span class="skel" style="display:inline-block;width:72px;height:32px;border-radius:999px;margin-right:6px" aria-hidden="true"></span><span class="skel" style="display:inline-block;width:72px;height:32px;border-radius:999px;margin-right:6px" aria-hidden="true"></span><span class="skel" style="display:inline-block;width:72px;height:32px;border-radius:999px;margin-right:6px" aria-hidden="true"></span><span class="skel" style="display:inline-block;width:72px;height:32px;border-radius:999px;margin-right:6px" aria-hidden="true"></span><span class="skel" style="display:inline-block;width:72px;height:32px;border-radius:999px;margin-right:6px" aria-hidden="true"></span><span class="skel" style="display:inline-block;width:72px;height:32px;border-radius:999px;margin-right:6px" aria-hidden="true"></span></div>
+                        <div class="avatar-items" id="avatar-items"><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span><span class="skel" style="height:150px;border-radius:14px" aria-hidden="true"></span></div>
+                        <p class="avatar-status" id="avatar-status" role="status" aria-live="polite"></p>
+                    </section>
+
+                    <section class="pf-card pf-activity" aria-labelledby="activity-title">
+                        <div class="pf-card__head">
+                            <span class="pf-card__icon"><i class="fa-solid fa-chart-column" aria-hidden="true"></i></span>
+                            <div><h2 id="activity-title">Actividad reciente</h2></div>
                         </div>
+                        <div class="pf-tabs" role="tablist" aria-label="Tipo de actividad">
+                            <button type="button" class="pf-tab is-active" role="tab" aria-selected="true" aria-controls="pf-moves" data-tab="xp"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Experiencia (XP)</button>
+                            <button type="button" class="pf-tab" role="tab" aria-selected="false" aria-controls="pf-moves" data-tab="coins"><i class="fa-solid fa-coins" aria-hidden="true"></i>PitCoins</button>
+                        </div>
+                        <ul class="pf-moves" id="pf-moves" role="tabpanel" aria-live="polite"><li aria-hidden="true"><span class="skel" style="height:58px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:58px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:58px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:58px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:58px;width:100%"></span></li></ul>
+                        <div class="pf-activity__footer">
+                            <button type="button" class="pf-more" id="pf-more" hidden>Ver historial completo <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Canje de PitCoins por descuentos en la tienda -->
+                <section class="pf-card pf-rewards" aria-labelledby="rewards-title">
+                    <div class="pf-card__head">
+                        <span class="pf-card__icon"><i class="fa-solid fa-ticket" aria-hidden="true"></i></span>
+                        <div><h2 id="rewards-title">Canjea tus PitCoins</h2><p>Cambia tus PitCoins por un descuento en la tienda. Lo eliges al pagar el carrito.</p></div>
                     </div>
-                    <div class="profile-actions"><a href="change_password.html" class="profile-link-btn">Cambiar contrasena</a><button type="submit" class="btn-primary">Guardar perfil</button></div>
+                    <div class="pf-rewards__grid" id="pf-rewards" aria-live="polite"><div aria-hidden="true"><span class="skel" style="height:102px;margin-bottom:10px"></span><span class="skel" style="height:102px;margin-bottom:10px"></span><span class="skel" style="height:102px;margin-bottom:10px"></span><span class="skel" style="height:102px;margin-bottom:10px"></span></div><div aria-hidden="true"><span class="skel" style="height:64px;margin-bottom:10px"></span><span class="skel" style="height:64px;margin-bottom:10px"></span></div></div>
+                </section>
+
+                <!-- 4. Datos personales + 5. Acciones -->
+                <form class="pf-container profile-form" novalidate>
+                    <div class="pf-data">
+                        <section class="pf-card" aria-labelledby="account-title">
+                            <div class="pf-card__head">
+                                <span class="pf-card__icon"><i class="fa-regular fa-user" aria-hidden="true"></i></span>
+                                <div><h2 id="account-title">Datos de cuenta</h2></div>
+                            </div>
+                            <div class="pf-fields">
+                                <div class="pf-field"><label for="pf-first-name">Nombre</label><output id="pf-first-name"></output></div>
+                                <div class="pf-field"><label for="pf-last-name">Apellido</label><output id="pf-last-name"></output></div>
+                                <div class="pf-field pf-field--full"><label for="pf-email">Correo electrónico</label><output id="pf-email"></output></div>
+                            </div>
+                        </section>
+                        <section class="pf-card" aria-labelledby="delivery-title">
+                            <div class="pf-card__head">
+                                <span class="pf-card__icon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span>
+                                <div><h2 id="delivery-title">Datos de entrega</h2></div>
+                            </div>
+                            <div class="pf-fields">
+                                <div class="pf-field pf-field--full"><label for="pf-phone">Teléfono</label><input type="tel" id="pf-phone" name="phone" maxlength="10" placeholder="Agrega tu teléfono" autocomplete="tel"></div>
+                                <div class="pf-field pf-field--full"><label for="pf-address">Dirección</label><input type="text" id="pf-address" name="address" maxlength="200" placeholder="Agrega tu dirección" autocomplete="street-address"></div>
+                            </div>
+                            <p class="pf-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>Usaremos estos datos en el checkout para agilizar tus compras.</p>
+                        </section>
+                    </div>
+                    <div class="pf-card pf-actions">
+                        <a href="change_password.html" class="pf-btn-secondary"><i class="fa-solid fa-lock" aria-hidden="true"></i>Cambiar contraseña</a>
+                        <p class="pf-form-status" id="pf-form-status" role="status" aria-live="polite"></p>
+                        <button type="submit" class="btn-primary"><i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>Guardar perfil</button>
+                    </div>
                 </form>
-            </section>
+            </div>
         </div>
     </main>
     <footer class="site-footer">
@@ -107,19 +180,21 @@
         <div class="site-footer__top">
             <div class="site-footer__brand-block">
                 <a href="index.html" class="site-footer__logo" aria-label="Purple One">PURPLE1</a>
-                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Formula 1.</p>
+                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Fórmula 1.</p>
                 <div class="site-footer__socials"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
             </div>
-            <div class="site-footer__nav-group"><h3>Navegacion</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
-            <div class="site-footer__nav-group"><h3>Categorias</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderias</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
-            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envios</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
+            <div class="site-footer__nav-group"><h3>Navegación</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
+            <div class="site-footer__nav-group"><h3>Categorías</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderías</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
+            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envíos</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
         </div>
-        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Terminos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
+        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Términos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
     </div>
 </footer>
     <script src="js/navbar.js"></script>
     <script src="js/avatar.js"></script>
     <script src="js/profile.js"></script>
+    <script src="js/progress.js"></script>
+    <script src="js/rewards.js"></script>
     <script src="js/fx.js"></script>
 </body>
 </html>

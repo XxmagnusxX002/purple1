@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Productos | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="products" data-admin-title="Productos">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Productos</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar productos">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar productos</span>
+                            <input type="search" id="product-search" placeholder="Buscar por nombre, URL o SKU" autocomplete="off" maxlength="100">
+                        </label>
+                        <a class="btn-primary admin-toolbar__new" href="product.html"><i class="fa-solid fa-plus" aria-hidden="true"></i> Nuevo producto</a>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Vista" id="product-views">
+                        <button type="button" class="admin-chip" data-view="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-view="active" aria-pressed="false">Activos</button>
+                        <button type="button" class="admin-chip" data-view="inactive" aria-pressed="false">Inactivos</button>
+                        <button type="button" class="admin-chip" data-view="featured" aria-pressed="false">Destacados</button>
+                        <button type="button" class="admin-chip" data-view="low" aria-pressed="false">Stock bajo</button>
+                        <button type="button" class="admin-chip" data-view="out" aria-pressed="false">Agotados</button>
+                    </div>
+                    <div class="admin-toolbar__filters">
+                        <label class="admin-select">Categoría<select id="filter-category"><option value="">Todas</option></select></label>
+                        <label class="admin-select">Equipo<select id="filter-team"><option value="">Todos</option></select></label>
+                        <label class="admin-select">Ordenar<select id="filter-sort">
+                            <option value="recent">Más recientes</option>
+                            <option value="name">Nombre (A-Z)</option>
+                            <option value="sold">Más vendidos</option>
+                            <option value="stock">Menos stock</option>
+                            <option value="price_asc">Precio: menor a mayor</option>
+                            <option value="price_desc">Precio: mayor a menor</option>
+                        </select></label>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="products-alert" role="alert" hidden>
+                    <span id="products-alert-text"></span>
+                    <button type="button" class="admin-button" id="products-retry">Reintentar</button>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="products-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="products-heading">Catálogo</h2><p id="products-count" aria-live="polite">Cargando productos…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--products">
+                            <thead>
+                                <tr><th scope="col">Producto</th><th scope="col">Precio base</th><th scope="col">Stock</th><th scope="col">Vendidos</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr>
+                            </thead>
+                            <tbody id="products-body">
+                                <tr><td colspan="6"><span class="skeleton"></span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="admin-pagination" aria-label="Paginación" id="products-pagination" hidden>
+                        <button type="button" class="admin-button" data-page="prev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior</button>
+                        <span id="products-page"></span>
+                        <button type="button" class="admin-button" data-page="next">Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </nav>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

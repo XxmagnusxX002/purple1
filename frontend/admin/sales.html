@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Estadísticas de ventas | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="orders" data-admin-title="Estadísticas de ventas">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Estadísticas de ventas</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <nav class="admin-tabs" aria-label="Pedidos">
+                    <a href="orders.html">Pedidos</a>
+                    <a href="sales.html" aria-current="page">Estadísticas</a>
+                </nav>
+
+                <div class="stats-toolbar">
+                    <p class="admin-section-label">Tienda · importes en euros (EUR) · solo compras aprobadas</p>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Periodo" id="stats-period">
+                        <button type="button" class="admin-chip" data-period="7" aria-pressed="false">7 días</button>
+                        <button type="button" class="admin-chip" data-period="30" aria-pressed="true">30 días</button>
+                        <button type="button" class="admin-chip" data-period="90" aria-pressed="false">90 días</button>
+                        <button type="button" class="admin-chip" data-period="365" aria-pressed="false">12 meses</button>
+                        <button type="button" class="admin-chip" data-period="all" aria-pressed="false">Todo</button>
+                    </div>
+                </div>
+
+                <div class="admin-alert" id="stats-alert" role="alert" hidden>
+                    <span id="stats-alert-text"></span>
+                    <button type="button" class="admin-button" id="stats-retry">Reintentar</button>
+                </div>
+
+                <section class="kpi-grid" aria-label="Indicadores del periodo" id="stats-kpis">
+                    <article class="admin-card kpi"><span class="kpi__icon"><i class="fa-solid fa-receipt" aria-hidden="true"></i></span><span class="kpi__label">Ventas</span><strong class="kpi__value" id="kpi-sales"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot" id="kpi-sales-foot">&nbsp;</span></article>
+                    <article class="admin-card kpi kpi--money"><span class="kpi__icon"><i class="fa-solid fa-euro-sign" aria-hidden="true"></i></span><span class="kpi__label">Ingresos</span><strong class="kpi__value" id="kpi-revenue"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot" id="kpi-revenue-foot">&nbsp;</span></article>
+                    <article class="admin-card kpi kpi--money"><span class="kpi__icon"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span><span class="kpi__label">Ticket medio</span><strong class="kpi__value" id="kpi-average"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot">Por compra aprobada</span></article>
+                    <article class="admin-card kpi"><span class="kpi__icon"><i class="fa-solid fa-box" aria-hidden="true"></i></span><span class="kpi__label">Unidades vendidas</span><strong class="kpi__value" id="kpi-units"><span class="skeleton skeleton--value"></span></strong><span class="kpi__foot">En compras aprobadas</span></article>
+                </section>
+
+                <div class="dash-row dash-row--chart">
+                    <section class="admin-card" aria-labelledby="sales-heading">
+                        <div class="admin-card__head">
+                            <div><h2 id="sales-heading">Evolución de ventas</h2><p>Ingresos aprobados en EUR</p></div>
+                            <div class="admin-chips" role="group" aria-label="Agrupar ventas">
+                                <button type="button" class="admin-chip" data-sales-group="day" aria-pressed="true">Día</button>
+                                <button type="button" class="admin-chip" data-sales-group="month" aria-pressed="false">Mes</button>
+                            </div>
+                        </div>
+                        <div class="sales-chart" id="sales-chart" aria-live="polite"><span class="skeleton skeleton--block"></span></div>
+                        <div class="sales-summary" id="sales-summary"></div>
+                    </section>
+                    <section class="admin-card" aria-labelledby="status-heading">
+                        <div class="admin-card__head"><div><h2 id="status-heading">Pedidos por estado</h2><p id="status-subtitle">En el periodo</p></div></div>
+                        <div id="stats-status"><span class="skeleton"></span></div>
+                    </section>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="top-heading">
+                    <div class="admin-card__head admin-card__head--padded"><div><h2 id="top-heading">Productos más vendidos</h2><p>Unidades e ingresos del periodo, con el stock activo que les queda</p></div></div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead><tr><th scope="col">#</th><th scope="col">Producto</th><th scope="col">Unidades</th><th scope="col">Ingresos</th><th scope="col">Stock actual</th></tr></thead>
+                            <tbody id="top-body"><tr><td colspan="5"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="inventory-heading">
+                    <div class="admin-card__head admin-card__head--padded"><div><h2 id="inventory-heading">Inventario de lo que más se vende</h2><p id="inventory-subtitle">Variantes con más unidades vendidas en el periodo y su stock actual</p></div></div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--listing admin-table--inventory">
+                            <thead><tr><th scope="col">Variante</th><th scope="col">Vendidas</th><th scope="col">Stock actual</th><th scope="col">Situación</th><th scope="col">ACCIONES</th></tr></thead>
+                            <tbody id="inventory-body"><tr><td colspan="5"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/order-common.js"></script>
+    <script src="js/sales-chart.js"></script>
+    <script src="js/order-stats.js"></script>
+</body>
+</html>

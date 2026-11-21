@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Carrera | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="races" data-admin-title="Carrera">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Carrera</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content admin-content--form" id="admin-content">
+                <a class="admin-back" href="races.html" id="back-link"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a carreras</a>
+
+                <div class="admin-alert" id="form-alert" role="alert" hidden>
+                    <span id="form-alert-text"></span>
+                    <button type="button" class="admin-button" id="form-reload" hidden>Recargar</button>
+                </div>
+
+                <div id="form-loading" class="admin-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></div>
+
+                <section class="admin-card race-status" id="race-status" aria-labelledby="sec-status" hidden>
+                    <div class="race-status__head">
+                        <div>
+                            <h2 id="sec-status">Estado de la carrera</h2>
+                            <p id="status-help"></p>
+                        </div>
+                        <span id="status-pill"></span>
+                    </div>
+                    <div class="mini-stats" id="race-stats"></div>
+                    <div class="race-status__actions" id="status-actions"></div>
+                </section>
+
+                <form id="race-form" class="admin-form" novalidate hidden>
+                    <div class="admin-form-columns">
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-race">
+                            <div class="admin-card__head"><div><h2 id="sec-race">Datos del Gran Premio</h2><p>La hora se escribe en la hora local del circuito.</p></div></div>
+                            <div class="admin-form-grid">
+                                <label class="admin-field admin-field--wide">Nombre *
+                                    <input type="text" id="r-name" maxlength="150" required placeholder="Gran Premio de Mónaco" aria-describedby="hint-r-name err-r-name">
+                                    <span class="admin-field__hint" id="hint-r-name">Se pedirá escribirlo para confirmar la liquidación o la cancelación.</span>
+                                    <span class="admin-field__error" id="err-r-name" data-error-for="name"></span>
+                                </label>
+                                <label class="admin-field">Circuito *
+                                    <input type="text" id="r-circuit" maxlength="150" required placeholder="Circuit de Monaco" aria-describedby="err-r-circuit">
+                                    <span class="admin-field__error" id="err-r-circuit" data-error-for="circuit"></span>
+                                </label>
+                                <label class="admin-field">País
+                                    <span class="country-select"><span id="r-country-flag" aria-hidden="true"></span>
+                                        <select id="r-country" aria-describedby="hint-r-country err-r-country"></select></span>
+                                    <span class="admin-field__hint" id="hint-r-country">Define la bandera del Gran Premio y su zona horaria.</span>
+                                    <span class="admin-field__error" id="err-r-country" data-error-for="country"></span>
+                                </label>
+                                <label class="admin-field">Fecha *
+                                    <input type="date" id="r-date" required aria-describedby="err-r-date">
+                                    <span class="admin-field__error" id="err-r-date" data-error-for="date"></span>
+                                </label>
+                                <label class="admin-field">Hora de salida *
+                                    <input type="time" id="r-time" required step="60" aria-describedby="err-r-time">
+                                    <span class="admin-field__error" id="err-r-time" data-error-for="time"></span>
+                                </label>
+                                <label class="admin-field admin-field--wide" id="r-fold-field" hidden>Esa hora ocurre dos veces (cambio de horario) *
+                                    <select id="r-fold" aria-describedby="err-r-fold">
+                                        <option value="">Elige cuál de las dos es</option>
+                                        <option value="0">La primera: antes de atrasar el reloj</option>
+                                        <option value="1">La segunda: después de atrasar el reloj</option>
+                                    </select>
+                                    <span class="admin-field__error" id="err-r-fold" data-error-for="fold"></span>
+                                </label>
+                                <label class="admin-field admin-field--wide">Zona horaria del circuito *
+                                    <select id="r-timezone" required aria-describedby="hint-r-timezone err-r-timezone"></select>
+                                    <span class="admin-field__hint" id="hint-r-timezone">Hora local del circuito: se propone al elegir el país. Los pronósticos se cierran solos a esa hora.</span>
+                                    <span class="admin-field__error" id="err-r-timezone" data-error-for="timezone"></span>
+                                </label>
+                            </div>
+                        </section>
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-image">
+                            <div class="admin-card__head"><div><h2 id="sec-image">Imagen</h2><p>Póster de Pronósticos. Si no hay, se usa la bandera del país.</p></div></div>
+                            <div id="r-image"></div>
+                            <span class="admin-field__error" data-error-for="image_path"></span>
+                        </section>
+                    </div>
+
+                    <div class="admin-form-actions">
+                        <span class="admin-form-actions__state" id="dirty-state" aria-live="polite"></span>
+                        <a class="admin-button" href="races.html" id="cancel-link">Cancelar</a>
+                        <button type="submit" class="btn-primary" id="save-race">Guardar carrera</button>
+                    </div>
+                </form>
+
+                <section class="admin-card admin-card--flush" id="race-participants" aria-labelledby="sec-participants" hidden>
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="sec-participants">Participantes</h2><p id="participants-help">Pilotos entre los que se puede pronosticar.</p></div>
+                    </div>
+                    <ul class="participant-list" id="participant-list"></ul>
+                    <div class="participant-add" id="participant-add" hidden>
+                        <div class="participant-add__head">
+                            <h3 class="admin-subhead">Agregar pilotos del catálogo</h3>
+                            <button type="button" class="admin-button" id="select-all-drivers">Seleccionar todos</button>
+                        </div>
+                        <div class="admin-checklist participant-add__list" id="driver-choices" role="group" aria-label="Pilotos disponibles"></div>
+                        <p class="admin-field__error" id="participants-error" role="alert"></p>
+                        <button type="button" class="btn-primary" id="add-drivers" disabled>Agregar seleccionados</button>
+                    </div>
+                </section>
+
+                <section class="admin-card admin-card--flush" id="race-bets" aria-labelledby="sec-bets" hidden>
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="sec-bets">Pronósticos registrados</h2><p id="bets-help"></p></div>
+                        <a class="admin-link" id="bets-all" href="predictions.html">Ver en Pronósticos</a>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead><tr><th scope="col">Usuario</th><th scope="col">Piloto elegido</th><th scope="col">PitCoins</th><th scope="col">Cuota</th><th scope="col">Estado</th><th scope="col">Recibió</th><th scope="col">Neto</th><th scope="col">XP</th><th scope="col">Fecha</th></tr></thead>
+                            <tbody id="bets-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="admin-card" id="race-activity" aria-labelledby="sec-activity" hidden>
+                    <div class="admin-card__head"><div><h2 id="sec-activity">Actividad</h2><p>Quién hizo cada cambio en esta carrera.</p></div></div>
+                    <ul class="admin-list" id="activity-list"></ul>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="../js/media.js"></script>
+    <script src="js/race-common.js"></script>
+    <script src="js/race-form.js"></script>
+</body>
+</html>

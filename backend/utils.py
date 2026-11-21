@@ -1,4 +1,4 @@
-﻿from datetime import date, datetime
+from datetime import date, datetime
 from decimal import Decimal
 import hashlib
 import hmac
@@ -49,9 +49,20 @@ def public_user(user):
     return data
 
 
+PLACEHOLDER_IMAGE = re.compile(r"(?:^|/)[^/]*placeholder[^/]*\.(?:png|jpe?g|webp|gif|svg)$", re.IGNORECASE)
+
+
+def is_placeholder(path):
+    """True si la ruta apunta a una imagen provisional (archivos *placeholder*)."""
+    return bool(path and PLACEHOLDER_IMAGE.search(str(path).replace("\\", "/")))
+
+
 def image_path(path):
-    if not path:
-        return "img/placeholder-product.png"
+    """Ruta publica de una imagen real, o None si no hay imagen. Nunca devuelve
+    un placeholder: el frontend muestra un icono neutro (productos) o la
+    bandera del pais (carreras) cuando falta la imagen."""
+    if not path or is_placeholder(path):
+        return None
     text = str(path).replace("\\", "/")
     if text.startswith(("img/", "http://", "https://", "/")):
         return text

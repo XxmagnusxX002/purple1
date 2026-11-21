@@ -2,7 +2,6 @@ import re
 import secrets
 from datetime import datetime
 
-from database import execute_query, fetch_one
 from orders import create_order
 
 CARD_BRANDS = (
@@ -57,33 +56,24 @@ def _validate_card(data):
 
 def simulate_payment(data):
     valid, reason, parsed = _validate_card(data)
-
-    order_payload, error, status = create_order(data)
+    if not valid:
+        return {"success": True, "approved": False, "reason": reason,
+                "payment_status": "REJECTED", "order": None}, None, 200
+    reference = f"SIM-{secrets.token_hex(12).upper()}"
+    order_payload, error, status = create_order(data, payment_reference=reference)
     if error:
         return None, error, status
     order = order_payload["order"]
-
-    reference = f"SIM-{secrets.token_hex(4).upper()}"
-    payment_status = "APPROVED" if valid else "REJECTED"
-    order_status = "PAID" if valid else "CANCELLED"
     card_number = parsed.get("card_number", "")
-    card_last4 = card_number[-4:] if valid and len(card_number) >= 4 else ""
-    card_brand = _detect_brand(card_number) if valid else ""
-
-    execute_query(
-        """INSERT INTO payments (order_id, method, status, amount, reference)
-           VALUES (%s, 'CARD', %s, %s, %s)""",
-        (order["id"], payment_status, order["total"], reference),
-    )
-    execute_query("UPDATE orders SET status = %s WHERE id = %s", (order_status, order["id"]))
-
-    order = fetch_one("SELECT * FROM orders WHERE id = %s", (order["id"],))
+    card_last4 = card_number[-4:]
+    card_brand = _detect_brand(card_number)
     return {
         "success": True,
-        "approved": valid,
-        "reason": None if valid else reason,
-        "payment_status": payment_status,
+        "approved": True,
+        "reason": None,
+        "payment_status": "APPROVED",
         "card_brand": card_brand,
+        "pitcoins_balance": order_payload.get("pitcoins_balance"),
         "card_last4": card_last4,
         "reference": reference,
         "order": order,

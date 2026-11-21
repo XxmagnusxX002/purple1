@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Carreras | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="races" data-admin-title="Carreras">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Carreras</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar carreras">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar carreras</span>
+                            <input type="search" id="race-search" placeholder="Buscar por Gran Premio, circuito o país" autocomplete="off" maxlength="100">
+                        </label>
+                        <a class="btn-primary admin-toolbar__new" href="race.html"><i class="fa-solid fa-plus" aria-hidden="true"></i> Nueva carrera</a>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado" id="race-status">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todas</button>
+                        <button type="button" class="admin-chip" data-status="SCHEDULED" aria-pressed="false">Programadas <span data-count="SCHEDULED"></span></button>
+                        <button type="button" class="admin-chip" data-status="OPEN" aria-pressed="false">Abiertas <span data-count="OPEN"></span></button>
+                        <button type="button" class="admin-chip" data-status="LOCKED" aria-pressed="false">Cerradas <span data-count="LOCKED"></span></button>
+                        <button type="button" class="admin-chip" data-status="FINISHED" aria-pressed="false">Liquidadas <span data-count="FINISHED"></span></button>
+                        <button type="button" class="admin-chip" data-status="CANCELLED" aria-pressed="false">Canceladas <span data-count="CANCELLED"></span></button>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="races-alert" role="alert" hidden>
+                    <span id="races-alert-text"></span>
+                    <button type="button" class="admin-button" id="races-retry">Reintentar</button>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="races-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="races-heading">Calendario</h2><p id="races-count" aria-live="polite">Cargando carreras…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--listing admin-table--races">
+                            <thead><tr><th scope="col">Gran Premio</th><th scope="col">Hora del circuito</th><th scope="col">Pilotos</th><th scope="col">Pronósticos</th><th scope="col">Estado</th><th scope="col">ACCIONES</th></tr></thead>
+                            <tbody id="races-body"><tr><td colspan="6"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/race-common.js"></script>
+    <script src="js/races.js"></script>
+</body>
+</html>

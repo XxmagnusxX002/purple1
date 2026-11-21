@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Pilotos | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="drivers" data-admin-title="Pilotos">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Pilotos</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar pilotos">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar pilotos</span>
+                            <input type="search" id="driver-search" placeholder="Buscar por nombre o nacionalidad" autocomplete="off" maxlength="100">
+                        </label>
+                        <a class="btn-primary admin-toolbar__new" href="driver.html" id="new-driver"><i class="fa-solid fa-plus" aria-hidden="true"></i> Nuevo piloto</a>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado" id="driver-status">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-status="active" aria-pressed="false">Activos</button>
+                        <button type="button" class="admin-chip" data-status="inactive" aria-pressed="false">Inactivos</button>
+                    </div>
+                    <div class="admin-toolbar__filters">
+                        <label class="admin-select">Equipo<select id="driver-team"><option value="">Todos</option><option value="none">Sin equipo</option></select></label>
+                        <label class="admin-select">Ordenar<select id="driver-sort"><option value="name">Nombre</option><option value="number">Dorsal</option><option value="team">Equipo</option></select></label>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="drivers-alert" role="alert" hidden>
+                    <span id="drivers-alert-text"></span>
+                    <button type="button" class="admin-button" id="drivers-retry">Reintentar</button>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="drivers-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="drivers-heading">Parrilla</h2><p id="drivers-count" aria-live="polite">Cargando pilotos…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--listing admin-table--drivers">
+                            <thead><tr><th scope="col">Piloto</th><th scope="col">Dorsal</th><th scope="col">Equipo actual</th><th scope="col">Nacionalidad</th><th scope="col">Carreras</th><th scope="col">Estado</th><th scope="col">ACCIONES</th></tr></thead>
+                            <tbody id="drivers-body"><tr><td colspan="7"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/drivers.js"></script>
+</body>
+</html>

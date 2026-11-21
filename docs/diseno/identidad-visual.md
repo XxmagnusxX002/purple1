@@ -42,8 +42,8 @@
 | Morado `#7B2CFF` sobre chip `#EFE5FB` | 4,7:1 | Sí |
 | Texto claro `#F0EAFF` sobre `#0B0718` | 16,9:1 | Sí |
 | Texto tenue `#8F89A6` sobre blanco | 3,3:1 | Solo texto grande |
-| Verde `#2F8B3F` sobre `#EDF7EF` | 3,9:1 | No: pendiente (tarea 3.2) |
-| Rojo `#EF3B5D` sobre blanco | 3,9:1 | No: pendiente (tarea 3.2) |
+| Verde `#2F8B3F` sobre `#EDF7EF` | 3,9:1 | No: pendiente (tarea P-2) |
+| Rojo `#EF3B5D` sobre blanco | 3,9:1 | No: pendiente (tarea P-2) |
 
 ## Tipografía (Google Fonts)
 
@@ -69,3 +69,9 @@
 - Pantalla principal (celular, 390 px): `referencias/pantalla-principal-390.png`
 - Tienda: `referencias/tienda.png`
 - Intro 3D: `referencias/intro-3d.png`
+
+## Panel administrativo
+
+- Mismos tokens de `global.css`; 23 pantallas en `frontend/admin/` con barra lateral y tablas.
+- Estados de carrera con chip de color: Programada (gris), Abierta (verde), Cerrada (ámbar `#936000`), Finalizada (morado), Cancelada (rojo).
+- Las acciones que mueven PitCoins piden confirmación y muestran una vista previa antes de aplicarse.

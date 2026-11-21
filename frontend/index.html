@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/mock-data.js"></script>
-    <script src="js/mock-api.js"></script>
     <title>Purple One</title>
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/banners.css">
     <link rel="stylesheet" href="css/intro.css">
     <script>
         /* Intro: se muestra una vez por visita (o siempre con index.html?intro=1).
@@ -58,21 +57,21 @@
     <header class="navbar">
     <div class="container-wide nav-content">
         <a href="index.html" class="logo">PURPLE1</a>
-        <nav class="nav-links" aria-label="Navegacion principal">
+        <nav class="nav-links" aria-label="Navegación principal">
             <a href="index.html" class="active">Inicio</a>
             <a href="teams.html">Equipos</a>
             <a href="products.html">Tienda</a>
-            <a href="races.html">Pronosticos</a>
+            <a href="races.html">Pronósticos</a>
         </nav>
-        <div class="nav-icons" aria-label="Accesos rapidos">
+        <div class="nav-icons" aria-label="Accesos rápidos">
             <a href="products.html" aria-label="Explorar productos"><i class="fa-solid fa-magnifying-glass"></i></a>
             <div class="nav-user-menu">
                 <button type="button" class="nav-user-toggle" aria-label="Mi cuenta" aria-expanded="false"><i class="fa-regular fa-user"></i></button>
                 <div class="nav-user-dropdown">
                     <div class="nav-user-greeting">Mi cuenta</div>
                     <a href="profile.html">Mi perfil</a>
-                    <a href="change_password.html">Cambiar contrasena</a>
-                    <a href="auth.html">Iniciar sesion</a>
+                    <a href="change_password.html">Cambiar contraseña</a>
+                    <a href="auth.html">Iniciar sesión</a>
                 </div>
             </div>
             <a href="cart.html" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></a>
@@ -80,88 +79,61 @@
     </div>
 </header>
     <main>
-    <section class="hero hero-home"><div class="container-wide hero-content"><div class="hero-text"><h1>LA LIGA DONDE LA <span>VELOCIDAD ES MORADA</span></h1><p>Sigue todas las carreras, pilotos y equipos del campeonato mas futurista.</p><a href="products.html" class="btn-primary hero-cta">Explorar tienda</a></div><div class="hero-image"><img src="img/car.png" alt="Carro Formula 1 morado"></div></div></section>
-    <section class="section products-section"><div class="container-wide"><h2 class="section-title">Destacados de <span>Purple1</span></h2><div class="products-grid featured-grid"><article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/hoodie-leclerc.jpeg" alt="Hoodie Leclerc"></div>
-        <div class="product-info"><h3>Hoodie Leclerc</h3><p class="price" data-price-eur="89.90">EUR 89,90</p><a href="product_detail.html?slug=hoodie-leclerc" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/sweater-redbull.jpeg" alt="Hoodie Red Bull"></div>
-        <div class="product-info"><h3>Hoodie Red Bull</h3><p class="price" data-price-eur="92.90">EUR 92,90</p><a href="product_detail.html?slug=hoodie-red-bull" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/polo-ferrari.jpeg" alt="Camiseta Ferrari Race Day"></div>
-        <div class="product-info"><h3>Camiseta Ferrari Race Day</h3><p class="price" data-price-eur="44.90">EUR 44,90</p><a href="product_detail.html?slug=camiseta-ferrari-race-day" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/shirt-mercedes.jpeg" alt="Camiseta Mercedes Pitwall"></div>
-        <div class="product-info"><h3>Camiseta Mercedes Pitwall</h3><p class="price" data-price-eur="46.90">EUR 46,90</p><a href="product_detail.html?slug=camiseta-mercedes-pitwall" class="btn-card">Ver producto</a></div>
-    </article></div></div></section>
-    <section class="section categories-section"><div class="container-wide"><h2 class="section-title">Explora por <span>Categorias</span></h2><div class="categories-grid"><article class="category-card surface-card"><img src="img/ropa.png" alt="Ropa"><span>Ropa</span></article><article class="category-card surface-card"><img src="img/accesorios.png" alt="Accesorios"><span>Accesorios</span></article><article class="category-card surface-card"><img src="img/escuderia.png" alt="Escuderias"><span>Escuderias</span></article><article class="category-card surface-card"><img src="img/coleccionables.png" alt="Coleccionables"><span>Coleccionables</span></article></div></div></section>
-    <section class="section best-sellers-section"><div class="container-wide"><h2 class="section-title">Lo Mas Vendido</h2><div class="products-grid products-grid-three"><article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/hoodie-leclerc.jpeg" alt="Hoodie Leclerc"></div>
-        <div class="product-info"><h3>Hoodie Leclerc</h3><p class="price" data-price-eur="89.90">EUR 89,90</p><a href="product_detail.html?slug=hoodie-leclerc" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/sweater-redbull.jpeg" alt="Hoodie Red Bull"></div>
-        <div class="product-info"><h3>Hoodie Red Bull</h3><p class="price" data-price-eur="92.90">EUR 92,90</p><a href="product_detail.html?slug=hoodie-red-bull" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        
-        <div class="product-image"><img src="img/polo-ferrari.jpeg" alt="Camiseta Ferrari Race Day"></div>
-        <div class="product-info"><h3>Camiseta Ferrari Race Day</h3><p class="price" data-price-eur="44.90">EUR 44,90</p><a href="product_detail.html?slug=camiseta-ferrari-race-day" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        
-        <div class="product-image"><img src="img/shirt-mercedes.jpeg" alt="Camiseta Mercedes Pitwall"></div>
-        <div class="product-info"><h3>Camiseta Mercedes Pitwall</h3><p class="price" data-price-eur="46.90">EUR 46,90</p><a href="product_detail.html?slug=camiseta-mercedes-pitwall" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/cap-maclaren.jpeg" alt="Gorra McLaren Apex"></div>
-        <div class="product-info"><h3>Gorra McLaren Apex</h3><p class="price" data-price-eur="29.90">EUR 29,90</p><a href="product_detail.html?slug=gorra-mclaren-apex" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        
-        <div class="product-image"><img src="img/cap-redbull.jpeg" alt="Gorra Red Bull Champion"></div>
-        <div class="product-info"><h3>Gorra Red Bull Champion</h3><p class="price" data-price-eur="31.90">EUR 31,90</p><a href="product_detail.html?slug=gorra-red-bull-champion" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/sack-redbull.jpeg" alt="Mochila Racing Travel"></div>
-        <div class="product-info"><h3>Mochila Racing Travel</h3><p class="price" data-price-eur="64.90">EUR 64,90</p><a href="product_detail.html?slug=mochila-racing-travel" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/carro-redbull.jpeg" alt="Miniatura F1 Ferrari SF-24"></div>
-        <div class="product-info"><h3>Miniatura F1 Ferrari SF-24</h3><p class="price" data-price-eur="59.90">EUR 59,90</p><a href="product_detail.html?slug=miniatura-f1-ferrari-sf-24" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        
-        <div class="product-image"><img src="img/placeholder-product.png" alt="Poster Formula 1 Night Race"></div>
-        <div class="product-info"><h3>Poster Formula 1 Night Race</h3><p class="price" data-price-eur="19.90">EUR 19,90</p><a href="product_detail.html?slug=poster-formula-1-night-race" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        
-        <div class="product-image"><img src="img/polo-mercedez.jpeg" alt="Pack Escuderia Mercedes"></div>
-        <div class="product-info"><h3>Pack Escuderia Mercedes</h3><p class="price" data-price-eur="74.90">EUR 74,90</p><a href="product_detail.html?slug=pack-escuderia-mercedes" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        
-        <div class="product-image"><img src="img/cap-maclaren.jpeg" alt="Pack Escuderia McLaren"></div>
-        <div class="product-info"><h3>Pack Escuderia McLaren</h3><p class="price" data-price-eur="72.90">EUR 72,90</p><a href="product_detail.html?slug=pack-escuderia-mclaren" class="btn-card">Ver producto</a></div>
-    </article>
-<article class="product-card">
-        <span class="badge top-badge">Destacado</span>
-        <div class="product-image"><img src="img/carro-redbull.jpeg" alt="Miniatura Red Bull RB20"></div>
-        <div class="product-info"><h3>Miniatura Red Bull RB20</h3><p class="price" data-price-eur="61.90">EUR 61,90</p><a href="product_detail.html?slug=miniatura-red-bull-rb20" class="btn-card">Ver producto</a></div>
-    </article></div></div></section>
+    <section id="home-banners" class="home-banners container-wide" aria-label="Novedades" aria-busy="true">
+        <div class="banner-carousel is-skeleton" aria-hidden="true"><div class="banner-track"><article class="banner-slide is-active">
+            <div class="banner-slide__copy"><span class="skel" style="height:34px;width:85%"></span><span class="skel" style="height:34px;width:60%;margin-top:10px"></span>
+                <span class="skel skel--line" style="width:75%;margin-top:18px"></span><span class="skel skel--line skel--mid"></span><span class="skel" style="height:44px;width:150px;border-radius:12px;margin-top:18px"></span></div>
+            <div class="banner-slide__media"><span class="skel" style="width:100%;height:100%"></span></div>
+        </article></div></div>
+    </section>
+    <div class="home-alert container-wide" id="home-alert" role="alert" hidden>
+        <p><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> No pudimos cargar el contenido de la tienda. Revisa tu conexión e inténtalo de nuevo.</p>
+        <button type="button" class="btn-card" id="home-retry">Reintentar</button>
+    </div>
+
+    <section class="section products-section" id="home-featured" aria-busy="true" aria-labelledby="featured-title">
+        <div class="container-wide">
+            <h2 class="section-title" id="featured-title">Destacados de <span>Purple1</span></h2>
+            <div class="products-grid featured-grid" id="featured-grid"><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article></div>
+        </div>
+    </section>
+
+    <section class="section categories-section" id="home-categories" aria-busy="true" aria-labelledby="categories-title">
+        <div class="container-wide">
+            <h2 class="section-title" id="categories-title">Explora por <span>categorías</span></h2>
+            <div class="categories-grid" id="categories-grid"><span class="category-card surface-card is-skeleton" aria-hidden="true"><span class="skel" style="width:44px;height:44px"></span><span style="flex:1"><span class="skel skel--line skel--mid"></span><span class="skel skel--line skel--short"></span></span></span><span class="category-card surface-card is-skeleton" aria-hidden="true"><span class="skel" style="width:44px;height:44px"></span><span style="flex:1"><span class="skel skel--line skel--mid"></span><span class="skel skel--line skel--short"></span></span></span><span class="category-card surface-card is-skeleton" aria-hidden="true"><span class="skel" style="width:44px;height:44px"></span><span style="flex:1"><span class="skel skel--line skel--mid"></span><span class="skel skel--line skel--short"></span></span></span><span class="category-card surface-card is-skeleton" aria-hidden="true"><span class="skel" style="width:44px;height:44px"></span><span style="flex:1"><span class="skel skel--line skel--mid"></span><span class="skel skel--line skel--short"></span></span></span></div>
+        </div>
+    </section>
+
+    <section class="section best-sellers-section" id="home-best" aria-busy="true" aria-labelledby="best-title">
+        <div class="container-wide">
+            <h2 class="section-title" id="best-title">Lo más <span>vendido</span></h2>
+            <div class="products-grid featured-grid" id="best-grid"><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article></div>
+        </div>
+    </section>
+
+    <section class="section products-section" id="home-new" aria-busy="true" aria-labelledby="new-title">
+        <div class="container-wide">
+            <h2 class="section-title" id="new-title">Novedades</h2>
+            <div class="products-grid featured-grid" id="new-grid"><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article><article class="product-card is-skeleton" aria-hidden="true"><div class="product-image"><span class="skel"></span></div><div class="product-info"><span class="skel skel--title"></span><span class="skel skel--price"></span><span class="skel skel--button"></span></div></article></div>
+        </div>
+    </section>
+
+    <section class="section home-races" id="home-races" aria-busy="true" aria-labelledby="races-title">
+        <div class="container-wide">
+            <h2 class="section-title" id="races-title">Pronósticos de <span>carrera</span></h2>
+            <div class="home-races__grid">
+                <div class="home-races__main" id="races-main"><article class="surface-card home-next-race is-skeleton" aria-hidden="true">
+                    <div class="home-next-race__head"><span class="skel" style="width:48px;height:32px"></span><div style="flex:1"><span class="skel skel--line skel--short"></span><span class="skel skel--title"></span></div></div>
+                    <span class="skel skel--line skel--mid"></span><span class="skel skel--line skel--short"></span><span class="skel" style="height:30px;width:60%;margin-top:12px"></span></article></div>
+                <aside class="surface-card home-ranking" aria-labelledby="ranking-title">
+                    <h3 id="ranking-title"><i class="fa-solid fa-trophy" aria-hidden="true"></i> Ranking de PitCoins</h3>
+                    <ol class="home-ranking__list" id="ranking-list"><li aria-hidden="true"><span class="skel" style="height:26px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:26px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:26px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:26px;width:100%"></span></li><li aria-hidden="true"><span class="skel" style="height:26px;width:100%"></span></li></ol>
+                    <a href="races.html" class="home-link">Ver pronósticos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </aside>
+            </div>
+        </div>
+    </section>
 </main>
     <footer class="site-footer">
     <div class="site-footer__glow site-footer__glow--left"></div>
@@ -170,17 +142,20 @@
         <div class="site-footer__top">
             <div class="site-footer__brand-block">
                 <a href="index.html" class="site-footer__logo" aria-label="Purple One">PURPLE1</a>
-                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Formula 1.</p>
+                <p class="site-footer__copy">Purple One combina moda, velocidad y coleccionismo en una tienda con identidad visual premium inspirada en la Fórmula 1.</p>
                 <div class="site-footer__socials"><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></div>
             </div>
-            <div class="site-footer__nav-group"><h3>Navegacion</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
-            <div class="site-footer__nav-group"><h3>Categorias</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderias</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
-            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envios</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
+            <div class="site-footer__nav-group"><h3>Navegación</h3><a href="index.html">Inicio</a><a href="teams.html">Equipos</a><a href="products.html">Tienda</a><a href="cart.html">Carrito</a></div>
+            <div class="site-footer__nav-group"><h3>Categorías</h3><a href="products.html">Ropa</a><a href="teams.html">Escuderías</a><a href="products.html">Coleccionables</a><a href="products.html">Accesorios</a></div>
+            <div class="site-footer__nav-group"><h3>Experiencia</h3><a href="#">Preguntas frecuentes</a><a href="#">Envíos</a><a href="#">Cambios y devoluciones</a><a href="auth.html">Mi cuenta</a></div>
         </div>
-        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Terminos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
+        <div class="site-footer__bottom"><p>© 2026 Purple One. Todos los derechos reservados.</p><div class="site-footer__bottom-links"><a href="#">Términos</a><a href="#">Privacidad</a><a href="#">Cookies</a></div></div>
     </div>
 </footer>
     <script src="js/currency.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/banners.js"></script>
+    <script src="js/home.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/intro.js"></script>
     <script src="js/fx.js"></script>

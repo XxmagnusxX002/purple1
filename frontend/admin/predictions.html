@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Pronósticos | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="predictions" data-admin-title="Pronósticos">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Pronósticos</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content" id="admin-content">
+                <p class="admin-section-label">PitCoins · moneda virtual, sin valor monetario · solo consulta</p>
+
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar pronósticos">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar pronósticos</span>
+                            <input type="search" id="bet-search" placeholder="Buscar por usuario, piloto o carrera" autocomplete="off" maxlength="100">
+                        </label>
+                        <label class="admin-select">Carrera<select id="bet-race"><option value="">Todas</option></select></label>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Estado del pronóstico" id="bet-status">
+                        <button type="button" class="admin-chip" data-status="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-status="PENDING" aria-pressed="false">Pendientes</button>
+                        <button type="button" class="admin-chip" data-status="WON" aria-pressed="false">Acertados</button>
+                        <button type="button" class="admin-chip" data-status="LOST" aria-pressed="false">No acertados</button>
+                        <button type="button" class="admin-chip" data-status="REFUNDED" aria-pressed="false">Devueltos</button>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="bets-alert" role="alert" hidden>
+                    <span id="bets-alert-text"></span>
+                    <button type="button" class="admin-button" id="bets-retry">Reintentar</button>
+                </div>
+
+                <section class="mini-stats" id="bet-stats" aria-label="Resumen de los pronósticos filtrados"><div class="mini-stat" aria-hidden="true"><span class="skeleton"></span><span class="skeleton" style="height:22px;margin-top:8px"></span></div><div class="mini-stat" aria-hidden="true"><span class="skeleton"></span><span class="skeleton" style="height:22px;margin-top:8px"></span></div><div class="mini-stat" aria-hidden="true"><span class="skeleton"></span><span class="skeleton" style="height:22px;margin-top:8px"></span></div><div class="mini-stat" aria-hidden="true"><span class="skeleton"></span><span class="skeleton" style="height:22px;margin-top:8px"></span></div></section>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="bets-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="bets-heading">Pronósticos</h2><p id="bets-count" aria-live="polite">Cargando pronósticos…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--listing admin-table--predictions">
+                            <thead><tr><th scope="col">Carrera</th><th scope="col">Usuario</th><th scope="col">Piloto elegido</th><th scope="col">PitCoins</th><th scope="col">Resultado</th><th scope="col">Fecha</th><th scope="col">ACCIONES</th></tr></thead>
+                            <tbody id="bets-body"><tr><td colspan="7"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                    <nav class="admin-pagination" aria-label="Paginación" id="bets-pagination" hidden>
+                        <button type="button" class="admin-button" data-page="prev"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior</button>
+                        <span id="bets-page"></span>
+                        <button type="button" class="admin-button" data-page="next">Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                    </nav>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/race-common.js"></script>
+    <script src="js/predictions.js"></script>
+</body>
+</html>

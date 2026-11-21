@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>PitCoins | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="pitcoins" data-admin-title="PitCoins">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">PitCoins</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+            <main class="admin-content" id="admin-content">
+                <section class="admin-card admin-toolbar" aria-label="Buscar y filtrar movimientos">
+                    <div class="admin-toolbar__row">
+                        <label class="admin-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <span class="visually-hidden">Buscar movimientos</span>
+                            <input type="search" id="coin-search" placeholder="Buscar por nombre o correo electrónico" autocomplete="off" maxlength="100">
+                        </label>
+                        <button type="button" class="btn-primary admin-toolbar__new" id="coin-adjust-open"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Ajuste manual</button>
+                    </div>
+                    <div class="admin-chips admin-chips--wrap" role="group" aria-label="Sentido del movimiento" id="coin-views">
+                        <button type="button" class="admin-chip" data-direction="" aria-pressed="true">Todos</button>
+                        <button type="button" class="admin-chip" data-direction="in" aria-pressed="false">Ingresos</button>
+                        <button type="button" class="admin-chip" data-direction="out" aria-pressed="false">Egresos</button>
+                    </div>
+                    <div class="admin-toolbar__filters">
+                        <label class="admin-select">Tipo de movimiento<select id="filter-kind"><option value="">Todos</option></select></label>
+                        <label class="admin-select">Desde<input type="date" id="filter-from"></label>
+                        <label class="admin-select">Hasta<input type="date" id="filter-to"></label>
+                    </div>
+                </section>
+
+                <div class="admin-alert" id="coin-alert" role="alert" hidden>
+                    <span id="coin-alert-text"></span>
+                    <button type="button" class="admin-button" id="coin-retry">Reintentar</button>
+                </div>
+
+                <section class="admin-card admin-card--flush" aria-labelledby="coin-heading">
+                    <div class="admin-card__head admin-card__head--padded">
+                        <div><h2 id="coin-heading">Movimientos</h2><p id="coin-count" aria-live="polite">Cargando movimientos…</p></div>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table admin-table--coins">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Tipo de movimiento</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Importe</th>
+                                    <th scope="col">Saldo resultante</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coin-body"><tr><td colspan="6"><span class="skeleton"></span></td></tr></tbody>
+                        </table>
+                    </div>
+                    <nav class="admin-pagination" aria-label="Paginación" id="coin-pagination" hidden></nav>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="admin-modal" id="adjust-modal" hidden>
+        <div class="admin-modal__backdrop" data-close-adjust></div>
+        <section class="admin-modal__card detail-card" role="dialog" aria-modal="true" aria-labelledby="adjust-title">
+            <header class="detail-card__head">
+                <div><h2 id="adjust-title">Ajuste manual de PitCoins</h2><p>Positivo suma, negativo resta. El saldo nunca puede quedar bajo cero y el ajuste queda en la auditoría.</p></div>
+                <button type="button" class="admin-icon-button" data-close-adjust aria-label="Cerrar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            </header>
+            <form id="coin-adjust" class="admin-form-grid" novalidate>
+                <label class="admin-field admin-field--wide">Correo del usuario *
+                    <input type="email" name="email" maxlength="190" required autocomplete="off" placeholder="cliente@correo.com">
+                    <span class="admin-field__hint" id="adjust-user-hint">Se busca la cuenta exacta antes de aplicar.</span>
+                </label>
+                <label class="admin-field">Importe *<input type="number" name="amount" step="1" required placeholder="100 o -100"></label>
+                <label class="admin-field">Motivo *<input name="reason" maxlength="255" required placeholder="Compensación por incidencia"></label>
+                <label class="admin-toggle admin-field--wide"><input type="checkbox" name="confirm" role="switch"><span class="admin-toggle__track" aria-hidden="true"></span>
+                    <span><strong>Confirmo el ajuste</strong><small>Se registrará con mi usuario como responsable.</small></span></label>
+                <p class="admin-field__error admin-field--wide" id="coin-error" role="alert"></p>
+                <div class="catalog-editor__actions admin-field--wide">
+                    <button type="button" class="admin-button" data-close-adjust>Cancelar</button>
+                    <button type="submit" class="btn-primary catalog-editor__save"><i class="fa-solid fa-check" aria-hidden="true"></i> Aplicar ajuste</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="js/admin.js"></script>
+    <script src="js/pitcoins.js"></script>
+</body>
+</html>

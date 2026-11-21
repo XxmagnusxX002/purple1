@@ -331,3 +331,7 @@
         justify-content: space-between;
     }
 }
+
+/* Promoción real del producto (Fase 3) */
+.promo-badge { background: var(--color-brand); color: #fff; }
+.product-info .price .old-price { margin-left: 6px; font-size: 0.85em; font-weight: 500; }

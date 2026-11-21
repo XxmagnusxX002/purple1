@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Piloto | Purple One Admin</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body admin-body--driver-form" data-admin-page="drivers" data-admin-title="Piloto">
+    <div class="admin-shell" id="admin-shell">
+        <aside class="admin-sidebar" id="admin-sidebar" aria-label="Menú del panel"></aside>
+        <div class="admin-overlay" id="admin-overlay" hidden></div>
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <button type="button" class="admin-icon-button admin-menu-toggle" id="admin-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="admin-sidebar"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <h1 id="admin-title">Piloto</h1>
+                <div class="admin-user" id="admin-user"></div>
+            </header>
+
+            <main class="admin-content admin-content--form" id="admin-content">
+                <a class="admin-back" href="drivers.html" id="back-link"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a pilotos</a>
+
+                <div class="admin-alert" id="form-alert" role="alert" hidden>
+                    <span id="form-alert-text"></span>
+                    <button type="button" class="admin-button" id="form-reload" hidden>Recargar</button>
+                </div>
+
+                <div id="form-loading" class="admin-card"><span class="skeleton"></span><span class="skeleton skeleton--spaced"></span></div>
+
+                <form id="driver-form" class="admin-form" novalidate hidden>
+                    <div class="driver-form-scroll">
+                    <div class="admin-form-columns driver-layout">
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-driver">
+                            <div class="admin-card__head"><div><h2 id="sec-driver">Datos del piloto</h2><p>Se usan al asignar pilotos a las carreras.</p></div></div>
+                            <div class="admin-form-grid driver-fields">
+                                <label class="admin-field admin-field--wide">Nombre *
+                                    <input type="text" id="d-name" maxlength="100" required aria-describedby="err-d-name">
+                                    <span class="admin-field__error" id="err-d-name" data-error-for="name"></span>
+                                </label>
+                                <label class="admin-field">Dorsal
+                                    <input type="number" id="d-number" min="1" max="99" step="1" inputmode="numeric" aria-describedby="hint-d-number err-d-number">
+                                    <span class="admin-field__hint" id="hint-d-number">Entre 1 y 99, único entre pilotos activos.</span>
+                                    <span class="admin-field__error" id="err-d-number" data-error-for="number"></span>
+                                </label>
+                                <label class="admin-field">Nacionalidad
+                                    <input type="text" id="d-nationality" maxlength="100" placeholder="Monegasco" aria-describedby="err-d-nationality">
+                                    <span class="admin-field__error" id="err-d-nationality" data-error-for="nationality"></span>
+                                </label>
+                                <label class="admin-field admin-field--wide">Equipo actual
+                                    <select id="d-team" aria-describedby="hint-d-team err-d-team"><option value="">Sin equipo</option></select>
+                                    <span class="admin-field__hint" id="hint-d-team">Cambiarlo no altera las carreras ya registradas.</span>
+                                    <span class="admin-field__error" id="err-d-team" data-error-for="team_id"></span>
+                                </label>
+                                <div class="admin-switches driver-active">
+                                    <label class="admin-check"><input type="checkbox" id="d-active" checked> <span><strong>Activo</strong><small>Disponible para nuevas carreras</small></span></label>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="admin-card admin-form-section" aria-labelledby="sec-photo">
+                            <div class="admin-card__head"><div><h2 id="sec-photo">Fotografía</h2><p>Se muestra en el panel y, en A5, en los pronósticos.</p></div></div>
+                            <div id="d-image" class="driver-photo">
+                                <button type="button" id="d-photo-pick" class="driver-photo__picker" aria-label="Subir fotografía" aria-describedby="d-photo-hint">
+                                    <span id="d-photo-visual" class="driver-photo__empty"><i class="fa-solid fa-camera" aria-hidden="true"></i><span>Subir fotografía</span></span>
+                                </button>
+                                <input type="file" id="d-photo-upload" accept="image/png,image/jpeg,image/webp" hidden data-no-dirty>
+                                <p class="admin-field__hint" id="d-photo-hint">PNG, JPEG o WebP de hasta 2 MB.</p>
+                                <p class="driver-photo__status" id="d-photo-status" role="status" aria-live="polite"></p>
+                            </div>
+                            <span class="admin-field__error" data-error-for="image_path"></span>
+                        </section>
+                    </div>
+
+                    <section class="admin-card admin-card--flush admin-form-section" aria-labelledby="sec-history" id="driver-history" hidden>
+                        <div class="admin-card__head admin-card__head--padded">
+                            <div><h2 id="sec-history">Historial de carreras</h2><p>Nombre y equipo tal como quedaron registrados en cada carrera.</p></div>
+                        </div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table">
+                                <thead><tr><th scope="col">Carrera</th><th scope="col">Registrado como</th><th scope="col">Equipo en esa carrera</th><th scope="col">Pronósticos</th><th scope="col">Estado</th></tr></thead>
+                                <tbody id="history-body"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    </div>
+                    <div class="admin-form-actions">
+                        <span class="admin-form-actions__state" id="dirty-state" aria-live="polite"></span>
+                        <a class="admin-button" href="drivers.html" id="cancel-link">Cancelar</a>
+                        <button type="submit" class="btn-primary" id="save-driver">Guardar piloto</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/forms.js"></script>
+    <script src="js/driver-form.js"></script>
+</body>
+</html>
