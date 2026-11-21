@@ -82,7 +82,41 @@ def _get_pool():
     return _pool
 
 
+# Conexion compartida por peticion (solo lecturas GET): las consultas de una
+# misma peticion usan una conexion en lugar de pedir una al pool cada vez.
+_local = threading.local()
+
+
+@contextmanager
+def request_scope():
+    _local.active = True
+    _local.connection = None
+    try:
+        yield
+    finally:
+        connection = getattr(_local, "connection", None)
+        _local.active = False
+        _local.connection = None
+        if connection is not None:
+            try:
+                connection.rollback()
+            except Error:
+                pass
+            try:
+                connection.close()
+            except Error:
+                pass
+
+
 def get_connection():
+    if getattr(_local, "active", False):
+        if _local.connection is None:
+            _local.connection = _open_connection()
+        return _local.connection
+    return _open_connection()
+
+
+def _open_connection():
     if DB_CONFIG["password"] is None:
         raise RuntimeError("Falta la contrasena de MySQL: ejecuta python main.py o define PURPLE1_DB_PASSWORD.")
     config = _connection_config()
@@ -104,6 +138,8 @@ def close_connection(connection=None, cursor=None):
             cursor.close()
         except Error:
             pass
+    if connection is not None and connection is getattr(_local, "connection", None):
+        return  # la devuelve request_scope al terminar la peticion
     if connection is not None:
         # En una conexion del pool, close() la devuelve al pool (no la cierra).
         try:

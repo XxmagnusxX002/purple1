@@ -30,7 +30,7 @@ from bets import get_leaderboard, get_race_detail, get_user_bets, list_races, pl
 from cart import add_to_cart, get_cart, remove_cart_item, update_cart_item
 from categories import get_categories, get_colors, get_sizes, get_teams
 from coins import adjust_balance, get_movements
-from database import test_connection
+from database import request_scope, test_connection
 from home import get_home
 from orders import get_user_orders
 from payments_sim import simulate_payment
@@ -234,7 +234,9 @@ class PurpleOneHandler(SimpleHTTPRequestHandler):
             self._static = True
             return super().do_GET()
         try:
-            self.route_get(parsed.path, parse_qs(parsed.query))
+            # Todas las consultas de esta lectura comparten una sola conexion.
+            with request_scope():
+                self.route_get(parsed.path, parse_qs(parsed.query))
         except (ValueError, json.JSONDecodeError):
             self.send_error_json("Solicitud inválida.", 400)
         except Exception as exc:
