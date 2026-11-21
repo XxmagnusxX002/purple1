@@ -90,14 +90,62 @@ def list_races(params=None):
     if status:
         where, args = "WHERE status = %s", (status,)
     races = fetch_all(f"SELECT * FROM races {where} ORDER BY race_date ASC", args)
+    if not races:
+        return races
+    # Se cargan todas las carreras con 4 o 5 consultas en total, no 5 por carrera:
+    # con la base en la nube cada consulta es un viaje por internet.
+    ids = [race["id"] for race in races]
+    marks = ", ".join(["%s"] * len(ids))
+    options_by_race = {}
+    for row in fetch_all(
+        f"""SELECT ro.id, ro.race_id, ro.driver_name, ro.team_id, ro.image_path,
+                   t.name AS team_name, t.logo_path AS team_logo
+            FROM race_options ro LEFT JOIN teams t ON t.id = ro.team_id
+            WHERE ro.race_id IN ({marks}) ORDER BY ro.id""", tuple(ids)):
+        options_by_race.setdefault(row["race_id"], []).append(row)
+    pools, counts = {}, {}
+    for row in fetch_all(
+        f"""SELECT race_id, option_id, COUNT(*) AS c,
+                   COALESCE(SUM(CASE WHEN status != 'REFUNDED' THEN amount ELSE 0 END), 0) AS total
+            FROM bets WHERE race_id IN ({marks}) GROUP BY race_id, option_id""", tuple(ids)):
+        counts.setdefault(row["race_id"], {})[row["option_id"]] = int(row["c"])
+        if int(row["total"]) > 0:
+            pools.setdefault(row["race_id"], {})[row["option_id"]] = int(row["total"])
+    stats_by_race = {row["race_id"]: row for row in fetch_all(
+        f"""SELECT race_id, COUNT(*) AS bets, COUNT(DISTINCT user_id) AS participants, COALESCE(SUM(amount), 0) AS staked,
+                   COALESCE(SUM(CASE WHEN status IN ('WON', 'REFUNDED') THEN payout ELSE 0 END), 0) AS paid_out,
+                   COALESCE(SUM(status = 'WON'), 0) AS winners, COALESCE(SUM(status = 'REFUNDED'), 0) AS refunded
+            FROM bets WHERE race_id IN ({marks}) GROUP BY race_id""", tuple(ids))}
+    user_bets = {}
+    if user_id:
+        user_bets = {row["race_id"]: row for row in fetch_all(
+            f"SELECT * FROM bets WHERE user_id = %s AND race_id IN ({marks})", (user_id, *ids))}
+    empty_stats = {"bets": 0, "participants": 0, "staked": 0, "paid_out": 0, "winners": 0, "refunded": 0}
     for race in races:
         _prepare_race(race)
-        user_bet = fetch_one("SELECT * FROM bets WHERE race_id = %s AND user_id = %s", (race["id"], user_id)) if user_id else None
-        options, total_pool = _decorate_options(race["id"], _load_options(race["id"]), user_bet)
+        user_bet = user_bets.get(race["id"])
+        race_pools = pools.get(race["id"], {})
+        total_pool = sum(race_pools.values())
+        options = options_by_race.get(race["id"], [])
+        for option in options:
+            option["image_path"] = image_path(option.get("image_path") or option.get("team_logo"))
+            pool = race_pools.get(option["id"], 0)
+            option["pool"] = pool
+            option["odds"] = round(total_pool / pool, 2) if pool > 0 else None
+            option["is_user_pick"] = bool(user_bet and user_bet["option_id"] == option["id"])
+            option["bets"] = counts.get(race["id"], {}).get(option["id"], 0)
         race["options"] = options
         race["total_pool"] = total_pool
         race["user_bet"] = user_bet
-        _race_totals(race)
+        stats = stats_by_race.get(race["id"], empty_stats)
+        race["participants"] = int(stats["participants"])
+        race["bets_count"] = int(stats["bets"])
+        race["total_staked"] = int(stats["staked"])
+        race["paid_out"] = int(stats["paid_out"])
+        race["winners_count"] = int(stats["winners"])
+        race["refunded_count"] = int(stats["refunded"])
+        winner = next((o for o in options if o["id"] == race.get("winner_option_id")), None)
+        race["winner_name"] = winner["driver_name"] if winner else None
     return races
 
 
