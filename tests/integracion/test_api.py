@@ -76,7 +76,16 @@ class CatalogoPublico(unittest.TestCase):
         self.assertIn("final_price", datos["products"][0])
 
     def test_busqueda_resiste_inyeccion_sql(self):
+        # El firewall de la plataforma (Vercel/Render) puede cortar la petición
+        # con 403 antes de llegar al servidor; si llega, el SQL parametrizado la
+        # trata como texto y no devuelve nada.
         estado, datos, _ = Cliente().pedir("GET", "/api/products/search?q=%27%20OR%201%3D1%20--")
+        self.assertIn(estado, (200, 403))
+        if estado == 200:
+            self.assertEqual(datos["products"], [])
+
+    def test_busqueda_con_comilla_llega_al_servidor_sin_error(self):
+        estado, datos, _ = Cliente().pedir("GET", "/api/products/search?q=O%27Ward")
         self.assertEqual(estado, 200)
         self.assertEqual(datos["products"], [])
 
