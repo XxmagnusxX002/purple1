@@ -10,7 +10,7 @@ Es un proyecto universitario hecho con tecnologías básicas:
 
 > **Fines académicos.** Los pagos y los pronósticos son simulados: no hay dinero real. Los PitCoins no se compran con dinero, no se retiran, no se transfieren ni se convierten en efectivo. Los clientes, ventas y pronósticos de demostración son ficticios; las escuderías, pilotos, calendario, participantes y ganadores de la temporada 2026 de Fórmula 1 son datos oficiales (formula1.com).
 
-**Versión en la nube (Diplomado IA, U4):** [purple1-seven.vercel.app](https://purple1-seven.vercel.app/). La tienda está en Vercel y la API, el panel y MySQL en Railway. Pasos en [DESPLIEGUE.md](DESPLIEGUE.md). Documentación SDD en [docs/](docs/README.md).
+**Versión en la nube (Diplomado IA, U4):** [purple1-seven.vercel.app](https://purple1-seven.vercel.app/). La tienda está en Vercel, la API y el panel en Render y la base MySQL en Railway. Pasos en [DESPLIEGUE.md](DESPLIEGUE.md). Documentación SDD en [docs/](docs/README.md).
 
 **¿Instalar en otro computador con los mismos datos?** Sigue [INSTALACION_OTRO_PC.md](INSTALACION_OTRO_PC.md): basta con importar `database/purple1_completo.sql`.
 
@@ -40,7 +40,6 @@ purple1/
 │   ├── upgrade_06_fidelizacion.sql # Parámetros administrables (app_settings)
 │   ├── upgrade_07_f1_2026.sql      # Datos oficiales de F1 2026 (escuderías, pilotos, calendario y resultados)
 │   ├── upgrade_08_canje_pitcoins.sql # Economía definitiva: descuentos canjeables con PitCoins
-│   ├── upgrade_09_clasificacion.sql  # Clasificación oficial de cada carrera disputada
 │   ├── demo_data.sql     # Datos de DEMOSTRACIÓN simulados (clientes, ventas, pronósticos)
 │   └── purple1_completo.sql        # Copia completa de la base (para otro computador)
 ├── frontend/
@@ -77,7 +76,7 @@ Hay dos formas de tener la base:
 |---|---|
 | `schema.sql` | Estructura: tablas, claves, restricciones e índices |
 | `seed.sql` | Configuración inicial y catálogos oficiales: monedas, parámetros, descuentos con PitCoins, categorías, tallas, colores, productos base, escuderías, pilotos, calendario 2026 con participantes y ganadores |
-| `demo_data.sql` | **Datos simulados para fines académicos**: 30 clientes ficticios de Latinoamérica, 2 cuentas del equipo, 37 productos más, 150 pedidos (junio–noviembre de 2026), 268 pronósticos en las 20 carreras oficiales ya disputadas, PitCoins, XP, niveles, canjes y 3 banners |
+| `demo_data.sql` | **Datos simulados para fines académicos**: 30 clientes ficticios de Latinoamérica, 2 cuentas del equipo, 37 productos más, 149 pedidos (junio–noviembre de 2026), 223 pronósticos en carreras oficiales ya disputadas, PitCoins, XP, niveles, canjes y 3 banners |
 | `upgrade_*.sql` | Actualizan una base existente de una versión anterior |
 | `purple1_completo.sql` | Copia completa de la base `purple1` (estructura + datos) |
 
@@ -111,7 +110,6 @@ Si ya tenías la base `purple1` de una versión anterior:
 | `upgrade_06_fidelizacion.sql` | Tabla `app_settings` (parámetros de PitCoins, XP y descuentos) y primera versión de recompensas | Existe la tabla `app_settings` |
 | `upgrade_07_f1_2026.sql` | 11 escuderías, 25 pilotos, calendario de 23 Grandes Premios, participantes y ganadores oficiales. Se puede ejecutar más de una vez; no crea PitCoins ni XP | Existe la carrera «Gran Premio de Baréin en Malasia» |
 | `upgrade_08_canje_pitcoins.sql` | Economía definitiva: tabla `discount_rewards`, descuento canjeado en cada pedido y tipo de movimiento `DISCOUNT_REDEMPTION` (retira los cupones por objetivos de la versión anterior) | Existe la tabla `discount_rewards` |
-| `upgrade_09_clasificacion.sql` | Posición oficial de cada participante (NC = no clasificado) en las carreras disputadas | Existe la columna `race_options.finish_position` |
 
 Una instalación nueva con `schema.sql` ya incluye todo: no ejecutes estos scripts en ella.
 
@@ -295,13 +293,6 @@ UPDATE purple1.users SET is_staff = TRUE WHERE email = 'correo@ejemplo.com';
 - Imágenes subidas desde el panel: `frontend/img/uploads/`.
 
 ### Imágenes que faltan
-
-**Por conseguir para la exposición** (formato JPEG o WebP, menos de 2 MB; se suben desde el panel):
-
-- *Productos* (1000 × 1250 px, 4:5, producto centrado sobre fondo blanco o gris muy claro): Hoodie McLaren Papaya, Hoodie Aston Martin Racing Green, Camiseta Williams Grove, Camiseta Cadillac Debut Season, Camiseta Audi R26, Chaqueta Red Bull Softshell, Chaqueta Mercedes Impermeable, Gorra Haas F1 Team, Gorra Alonso 14, Mochila Ferrari Commuter, Mochila Racing Travel, Riñonera McLaren, Llavero Volante F1, Termo Paddock, Miniatura Mercedes W17 1:43, Miniatura McLaren MCL40 1:43, Miniatura F1 Ferrari SF-24, Casco Réplica Leclerc 1:2, Póster Calendario 2026, Póster Circuitos Icónicos, Pack Escudería Ferrari, Pack Escudería McLaren (y Camiseta Temporada 2025, inactiva).
-- *Banners* (1600 × 900 px, 16:9, sin texto en la imagen, motivo a la derecha; guardarlos en `frontend/img/banners/`): `banner-tienda.jpg` (hoodie, gorra y miniatura sobre fondo lavanda #F3ECFF con acentos #7B2CFF; hoy usa `img/ropa.png`) y `banner-pronosticos.jpg` (casco y monoplaza en pista nocturna con luces moradas; hoy usa `img/escuderia.png`).
-
-Mientras tanto la tienda muestra el icono neutro, sin imágenes provisionales.
 
 La tienda nunca muestra imágenes provisionales. Cuando un producto no tiene imagen real se ve un **icono neutro** según su tipo (prenda, bolso, trofeo, bandera a cuadros o caja) sobre un fondo lavanda; si un archivo de imagen se borra, la tienda pasa sola a ese icono. Cada Gran Premio se identifica con la **bandera de su país** (SVG simplificado incluido en `frontend/js/media.js`, sin descargas): se resuelve con el campo *País* de la carrera y, si falta, con el nombre de la carrera o del circuito. Si no se reconoce, se muestra un icono de bandera a cuadros.
 

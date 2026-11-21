@@ -309,591 +309,591 @@ WHERE NOT EXISTS (SELECT 1 FROM races WHERE name = 'Gran Premio de Abu Dabi' AND
 -- escuderia de ese dia (p. ej. Lawson con Red Bull en Zandvoort, Monza y Madrid).
 -- Las Vegas: alineacion vigente de la pagina oficial de pilotos. Catar y Abu Dabi
 -- quedan sin participantes hasta que se confirme la lista de inscritos.
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'George Russell' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 17 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Australia' AND r.race_date_utc = '2026-03-08 04:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 16 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 17 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de China' AND r.race_date_utc = '2026-03-15 07:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 20 AS fin_order, 20 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Japón' AND r.race_date_utc = '2026-03-29 05:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Miami' AND r.race_date_utc = '2026-05-03 17:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 17 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Canadá' AND r.race_date_utc = '2026-05-24 20:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 17 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Mónaco' AND r.race_date_utc = '2026-06-07 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Barcelona-Cataluña' AND r.race_date_utc = '2026-06-14 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'George Russell' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Austria' AND r.race_date_utc = '2026-06-28 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 20 AS fin_order, 20 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Gran Bretaña' AND r.race_date_utc = '2026-07-05 14:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Bélgica' AND r.race_date_utc = '2026-07-19 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Hungría' AND r.race_date_utc = '2026-07-26 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'red-bull' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Yuki Tsunoda' AS driver, 'racing-bulls' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Yuki Tsunoda' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de los Países Bajos' AND r.race_date_utc = '2026-08-23 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Yuki Tsunoda' AS driver, 'racing-bulls' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'red-bull' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Yuki Tsunoda' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Italia' AND r.race_date_utc = '2026-09-06 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Yuki Tsunoda' AS driver, 'racing-bulls' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Yuki Tsunoda' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de España' AND r.race_date_utc = '2026-09-13 13:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'George Russell' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 17 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Azerbaiyán' AND r.race_date_utc = '2026-09-26 11:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 20 AS fin_order, 20 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Baréin en Malasia' AND r.race_date_utc = '2026-10-04 07:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Singapur' AND r.race_date_utc = '2026-10-11 12:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Esteban Ocon' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Estados Unidos' AND r.race_date_utc = '2026-10-25 20:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Ryo Hirakawa' AS driver, 'haas' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 18 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 19 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 20 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Ryo Hirakawa' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de la Ciudad de México' AND r.race_date_utc = '2026-11-01 20:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'Lando Norris' AS driver, 'mclaren' AS team, 1 AS fin_order, 1 AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, 2 AS fin_order, 2 AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, 3 AS fin_order, 3 AS fin_pos
-    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team, 4 AS fin_order, 4 AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, 5 AS fin_order, 5 AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, 6 AS fin_order, 6 AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, 7 AS fin_order, 7 AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, 8 AS fin_order, 8 AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, 9 AS fin_order, 9 AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, 10 AS fin_order, 10 AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, 11 AS fin_order, 11 AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, 12 AS fin_order, 12 AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, 13 AS fin_order, 13 AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, 14 AS fin_order, 14 AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, 15 AS fin_order, 15 AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, 16 AS fin_order, 16 AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, 17 AS fin_order, 17 AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, 18 AS fin_order, 18 AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, 19 AS fin_order, 19 AS fin_pos
-    UNION ALL SELECT 'Rafael Câmara' AS driver, 'haas' AS team, 20 AS fin_order, 20 AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, 21 AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, 22 AS fin_order, NULL AS fin_pos
+    SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Rafael Câmara' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de São Paulo' AND r.race_date_utc = '2026-11-08 17:00:00';
-INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id, finish_order, finish_position)
-SELECT r.id, d.name, t.id, d.image_path, d.id, p.fin_order, p.fin_pos
+INSERT IGNORE INTO race_options (race_id, driver_name, team_id, image_path, driver_id)
+SELECT r.id, d.name, t.id, d.image_path, d.id
 FROM (
-    SELECT 'George Russell' AS driver, 'mercedes' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Rafael Câmara' AS driver, 'haas' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team, NULL AS fin_order, NULL AS fin_pos
-    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team, NULL AS fin_order, NULL AS fin_pos
+    SELECT 'George Russell' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Kimi Antonelli' AS driver, 'mercedes' AS team
+    UNION ALL SELECT 'Charles Leclerc' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Lewis Hamilton' AS driver, 'ferrari' AS team
+    UNION ALL SELECT 'Max Verstappen' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Isack Hadjar' AS driver, 'red-bull' AS team
+    UNION ALL SELECT 'Lando Norris' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Oscar Piastri' AS driver, 'mclaren' AS team
+    UNION ALL SELECT 'Liam Lawson' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Arvid Lindblad' AS driver, 'racing-bulls' AS team
+    UNION ALL SELECT 'Pierre Gasly' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Franco Colapinto' AS driver, 'alpine' AS team
+    UNION ALL SELECT 'Oliver Bearman' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Rafael Câmara' AS driver, 'haas' AS team
+    UNION ALL SELECT 'Nico Hülkenberg' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Gabriel Bortoleto' AS driver, 'audi' AS team
+    UNION ALL SELECT 'Carlos Sainz' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Alexander Albon' AS driver, 'williams' AS team
+    UNION ALL SELECT 'Fernando Alonso' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Lance Stroll' AS driver, 'aston-martin' AS team
+    UNION ALL SELECT 'Sergio Pérez' AS driver, 'cadillac' AS team
+    UNION ALL SELECT 'Valtteri Bottas' AS driver, 'cadillac' AS team
 ) AS p
 JOIN drivers d ON d.name = p.driver JOIN teams t ON t.slug = p.team
 JOIN races r ON r.name = 'Gran Premio de Las Vegas' AND r.race_date_utc = '2026-11-22 04:00:00';

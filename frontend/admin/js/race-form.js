@@ -223,26 +223,10 @@
         $("#race-stats").innerHTML = [
             ["Salida (hora del circuito)", R.when(race)],
             ["Pilotos", A.formatNumber(race.participants)],
-            ...(race.status === "FINISHED" ? finishedFacts() : [
-                ["Pronósticos", A.formatNumber(race.bets)],
-                ["PitCoins en juego", R.coins(race.pending_pool)],
-            ]),
+            ["Pronósticos", A.formatNumber(race.bets)],
+            [race.status === "FINISHED" ? "Bote repartido" : "PitCoins en juego", R.coins(race.status === "FINISHED" ? race.pool : race.pending_pool)],
         ].map(([label, value]) => `<div class="mini-stat"><span>${esc(label)}</span><strong>${value}</strong></div>`).join("");
         $("#status-actions").innerHTML = statusButtons();
-    }
-
-    // Carrera liquidada: cifras definitivas desde los pronósticos registrados.
-    function finishedFacts() {
-        const by = race.bets_by_status || {};
-        const get = (status, key) => (by[status] || {})[key] || 0;
-        const users = new Set(race.bets_list.map(bet => bet.user_id)).size;
-        const staked = ["WON", "LOST", "REFUNDED"].reduce((sum, status) => sum + get(status, "amount"), 0);
-        return [
-            ["Usuarios que pronosticaron", A.formatNumber(users)],
-            ["Acertados · fallidos · devueltos", `${A.formatNumber(get("WON", "count"))} · ${A.formatNumber(get("LOST", "count"))} · ${A.formatNumber(get("REFUNDED", "count"))}`],
-            ["PitCoins utilizados", R.coins(staked)],
-            [get("WON", "count") ? "PitCoins repartidos en premios" : "PitCoins devueltos", R.coins(get("WON", "payout") + get("REFUNDED", "payout"))],
-        ];
     }
 
     async function changeStatus(target) {
@@ -290,10 +274,10 @@
         if (!option.driver_id) notes.push("sin ficha de piloto");
         else if (option.driver_active === false) notes.push("piloto inactivo");
         return `<li class="participant${race.winner_option_id === option.id ? " is-winner" : ""}" data-option-id="${option.id}">
-            ${option.finish_order ? `<span class="participant__pos" title="Posición oficial">${option.finish_position ?? "NC"}</span>` : ""}${A.driverAvatar(option.driver_name, option.image_path)}
+            ${A.driverAvatar(option.driver_name, option.image_path)}
             <div class="participant__main"><strong>${option.number ? `<span class="driver-number">${esc(option.number)}</span> ` : ""}${esc(option.driver_name)}</strong>
                 <small>${esc(notes.join(" · "))}</small></div>
-            <div class="participant__stats"><strong>${A.formatNumber(option.bets)}</strong> ${option.bets === 1 ? "pronóstico" : "pronósticos"}<small>${R.coins(option.pool)}${option.odds ? ` · cuota ${esc(option.odds)}` : ""}</small></div>
+            <div class="participant__stats"><strong>${A.formatNumber(option.bets)}</strong> pronósticos<small>${R.coins(option.pool)}${option.odds ? ` · cuota ${esc(option.odds)}` : ""}</small></div>
             ${removable ? `<button type="button" class="admin-icon-button admin-icon-button--danger" data-remove-option aria-label="Quitar a ${esc(option.driver_name)}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>` : ""}
         </li>`;
     }
@@ -372,21 +356,15 @@
         $("#bets-help").textContent = race.bets
             ? `${A.formatNumber(race.bets)} pronósticos${shown < race.bets ? ` · se muestran los ${A.formatNumber(shown)} más recientes` : ""}.`
             : "Aún no hay pronósticos.";
-        $("#bets-body").innerHTML = shown ? race.bets_list.map(bet => {
-            const name = `${bet.first_name || ""} ${bet.last_name || ""}`.trim() || bet.username;
-            const net = bet.net;
-            return `<tr class="bet-row bet-row--${bet.status.toLowerCase()}">
-                <td data-label="Usuario"><span class="product-cell user-cell">${A.driverAvatar(name, null)}<span><strong>${esc(name)}</strong><small class="user-cell__email">${esc(bet.email)}</small></span></span></td>
+        $("#bets-body").innerHTML = shown ? race.bets_list.map(bet => `
+            <tr>
+                <td data-label="Usuario">${esc(bet.username)}</td>
                 <td data-label="Piloto elegido"><span class="product-cell">${A.driverAvatar(bet.driver_name, race.options.find(option => option.id === bet.option_id)?.image_path)}<span>${esc(bet.driver_name)}</span></span></td>
                 <td data-label="PitCoins">${R.coins(bet.amount)}</td>
-                <td data-label="Cuota">${bet.odds ? `x${Number(bet.odds).toFixed(2)}` : '<span class="admin-muted">—</span>'}</td>
                 <td data-label="Estado">${R.betPill(bet.status)}</td>
                 <td data-label="Recibió">${bet.status === "PENDING" ? '<span class="admin-muted">—</span>' : R.coins(bet.payout)}</td>
-                <td data-label="Neto">${net == null ? '<span class="admin-muted">—</span>' : `<span class="coin-delta coin-delta--${net > 0 ? "in" : net < 0 ? "out" : "zero"}">${net > 0 ? "+" : net < 0 ? "−" : ""}${A.formatNumber(Math.abs(net))}</span>`}</td>
-                <td data-label="XP">${bet.status === "PENDING" ? '<span class="admin-muted">—</span>' : `+${A.formatNumber(bet.xp_gained)} XP`}</td>
                 <td data-label="Fecha">${esc(A.formatDateTime(bet.created_at))}</td>
-            </tr>`;
-        }).join("") : '<tr><td colspan="9"><p class="admin-empty">Cuando los usuarios pronostiquen, aparecerán aquí.</p></td></tr>';
+            </tr>`).join("") : '<tr><td colspan="6"><p class="admin-empty">Cuando los usuarios pronostiquen, aparecerán aquí.</p></td></tr>';
     }
 
     function activityDetail(item) {

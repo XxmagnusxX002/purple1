@@ -7,7 +7,7 @@
 
 | Regla | Detalle |
 |---|---|
-| Base | `/api` (en producción, Vercel la reenvía a Railway: el navegador ve el mismo dominio) |
+| Base | `/api` (en producción, Vercel la reenvía a Render: el navegador ve el mismo dominio) |
 | Sesión | Cookie `purple1_session` (`HttpOnly`, `SameSite=Strict`, `Secure` en la nube), 7 días. El token se guarda con hash en `auth_sessions`. |
 | Usuario | Siempre sale de la sesión. Si el cuerpo trae `user_id`, el servidor lo reemplaza por el de la sesión. |
 | Origen | Todo POST/PUT/DELETE debe venir del mismo sitio (`Origin`/`Referer` = `Host` o un dominio de `PURPLE1_ALLOWED_ORIGINS`). Si no: **403 "Origen no permitido."** |
@@ -202,4 +202,4 @@ Los precios se guardan en EUR; el front muestra la conversión, pero **el cobro 
 | No es superadmin | 403 | — |
 
 ### Páginas del panel (`/admin/*.html`)
-Las sirve Railway, no Vercel. El servidor las protege: sin sesión de staff redirige al login del panel. Solo `login.html` y sus recursos son públicos.
+Las sirve Render, no Vercel. El servidor las protege: sin sesión de staff redirige al login del panel. Solo `login.html` y sus recursos son públicos.

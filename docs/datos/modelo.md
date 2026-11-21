@@ -149,7 +149,7 @@ Ranking público: solo nombre y PitCoins, nunca correo.
 | Archivo | Para qué |
 |---|---|
 | `database/schema.sql` | Esquema completo (equivale a la migración inicial) |
-| `database/upgrade_02` … `upgrade_09_*.sql` | Migraciones incrementales, una por fase |
+| `database/upgrade_02` … `upgrade_08_*.sql` | Migraciones incrementales, una por fase |
 | `database/seed.sql` | Configuración, catálogo base y datos oficiales de F1 2026 |
 | `database/demo_data.sql` | Datos simulados de demostración (clientes ficticios, pedidos y pronósticos) |
 | `database/purple1_completo.sql` | Copia completa para instalar; **no va a GitHub** |

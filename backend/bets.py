@@ -31,19 +31,6 @@ def _race_pool_map(race_id):
     return {row["option_id"]: int(row["total"]) for row in rows}
 
 
-def _user_bet(race_id, user_id):
-    """Pronóstico del usuario con el XP que le dio y su ganancia o pérdida neta."""
-    if not user_id:
-        return None
-    bet = fetch_one(
-        """SELECT b.*, (SELECT COALESCE(SUM(x.amount), 0) FROM xp_events x WHERE x.bet_id = b.id) AS xp_gained
-           FROM bets b WHERE b.race_id = %s AND b.user_id = %s""", (race_id, user_id))
-    if bet:
-        bet["xp_gained"] = int(bet["xp_gained"] or 0)
-        bet["net"] = int(bet["payout"]) - int(bet["amount"]) if bet["status"] != "PENDING" else None
-    return bet
-
-
 def _race_totals(race):
     """Cifras de la carrera desde MySQL. En una carrera liquidada el bote ya no
     esta 'en juego': se informa lo apostado, lo repartido y los pronosticos por piloto."""
@@ -64,11 +51,6 @@ def _race_totals(race):
     race["refunded_count"] = int(stats["refunded"])
     winner = next((o for o in race["options"] if o["id"] == race.get("winner_option_id")), None)
     race["winner_name"] = winner["driver_name"] if winner else None
-    race["winner"] = {"name": winner["driver_name"], "team": winner.get("team_name"), "image_path": winner.get("image_path"),
-                      "number": winner.get("number"), "team_color": winner.get("team_color")} if winner else None
-    # Cuota definitiva: bote total / lo apostado al ganador (si alguien acertó).
-    winning_pool = next((o["pool"] for o in race["options"] if o["id"] == race.get("winner_option_id")), 0)
-    race["final_odds"] = round(race["total_staked"] / winning_pool, 2) if winning_pool else None
 
 
 def _decorate_options(race_id, options, user_bet=None):
@@ -90,13 +72,11 @@ def _load_options(race_id):
     return fetch_all(
         """
         SELECT ro.id, ro.race_id, ro.driver_name, ro.team_id, ro.image_path,
-               t.name AS team_name, t.logo_path AS team_logo, t.primary_color AS team_color, d.number,
-               ro.finish_position, ro.finish_order
+               t.name AS team_name, t.logo_path AS team_logo
         FROM race_options ro
         LEFT JOIN teams t ON t.id = ro.team_id
-        LEFT JOIN drivers d ON d.id = ro.driver_id
         WHERE ro.race_id = %s
-        ORDER BY COALESCE(ro.finish_order, 255), ro.id
+        ORDER BY ro.id
         """,
         (race_id,),
     )
@@ -112,7 +92,7 @@ def list_races(params=None):
     races = fetch_all(f"SELECT * FROM races {where} ORDER BY race_date ASC", args)
     for race in races:
         _prepare_race(race)
-        user_bet = _user_bet(race["id"], user_id)
+        user_bet = fetch_one("SELECT * FROM bets WHERE race_id = %s AND user_id = %s", (race["id"], user_id)) if user_id else None
         options, total_pool = _decorate_options(race["id"], _load_options(race["id"]), user_bet)
         race["options"] = options
         race["total_pool"] = total_pool
@@ -126,7 +106,7 @@ def get_race_detail(race_id, user_id=0):
     if not race:
         return None
     _prepare_race(race)
-    user_bet = _user_bet(race_id, user_id)
+    user_bet = fetch_one("SELECT * FROM bets WHERE race_id = %s AND user_id = %s", (race_id, user_id)) if user_id else None
     options, total_pool = _decorate_options(race_id, _load_options(race_id), user_bet)
     race["options"] = options
     race["total_pool"] = total_pool

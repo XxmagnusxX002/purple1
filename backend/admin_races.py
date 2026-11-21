@@ -239,11 +239,10 @@ def list_races(params):
 def _options(cursor, race_id):
     cursor.execute(
         """SELECT ro.id, ro.driver_id, ro.driver_name, ro.team_id, ro.image_path, t.name AS team_name, d.number, d.is_active AS driver_active,
-                  ro.finish_position, ro.finish_order,
                   (SELECT COUNT(*) FROM bets b WHERE b.option_id = ro.id) AS bets,
                   (SELECT COALESCE(SUM(b.amount), 0) FROM bets b WHERE b.option_id = ro.id AND b.status <> 'REFUNDED') AS pool
            FROM race_options ro LEFT JOIN teams t ON t.id = ro.team_id LEFT JOIN drivers d ON d.id = ro.driver_id
-           WHERE ro.race_id = %s ORDER BY COALESCE(ro.finish_order, 255), ro.id""",
+           WHERE ro.race_id = %s ORDER BY ro.id""",
         (race_id,),
     )
     options = cursor.fetchall()
@@ -282,18 +281,12 @@ def _load_race(cursor, race_id):
     race["version"] = record_version(race, RACE_VERSION)
     race["options"] = _options(cursor, race_id)
     cursor.execute(
-        """SELECT b.id, b.user_id, u.username, u.email, u.first_name, u.last_name, b.option_id, ro.driver_name, b.amount, b.status,
-                  b.payout, b.created_at, (SELECT COALESCE(SUM(x.amount), 0) FROM xp_events x WHERE x.bet_id = b.id) AS xp_gained
+        """SELECT b.id, b.user_id, u.username, b.option_id, ro.driver_name, b.amount, b.status, b.payout, b.created_at
            FROM bets b JOIN users u ON u.id = b.user_id JOIN race_options ro ON ro.id = b.option_id
-           WHERE b.race_id = %s ORDER BY FIELD(b.status, 'WON', 'PENDING', 'REFUNDED', 'LOST'), b.payout DESC, b.created_at DESC, b.id DESC LIMIT %s""",
+           WHERE b.race_id = %s ORDER BY b.created_at DESC, b.id DESC LIMIT %s""",
         (race_id, BETS_LIMIT),
     )
     race["bets_list"] = cursor.fetchall()
-    for bet in race["bets_list"]:
-        bet["xp_gained"] = int(bet["xp_gained"] or 0)
-        bet["net"] = None if bet["status"] == "PENDING" else int(bet["payout"]) - int(bet["amount"])
-        # Cuota definitiva obtenida por quien acertó: lo recibido / lo apostado.
-        bet["odds"] = round(int(bet["payout"]) / int(bet["amount"]), 2) if bet["status"] == "WON" and bet["amount"] else None
     cursor.execute(
         "SELECT status, COUNT(*) AS total, COALESCE(SUM(amount), 0) AS amount, COALESCE(SUM(payout), 0) AS payout FROM bets WHERE race_id = %s GROUP BY status",
         (race_id,),

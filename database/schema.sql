@@ -413,8 +413,6 @@ CREATE TABLE race_options (
     team_id INT NULL,
     image_path VARCHAR(255),
     driver_id INT NULL,
-    finish_position TINYINT UNSIGNED NULL,   -- posicion oficial (NULL = no clasificado)
-    finish_order TINYINT UNSIGNED NULL,      -- orden en la clasificacion oficial
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (race_id) REFERENCES races(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE SET NULL ON UPDATE CASCADE,

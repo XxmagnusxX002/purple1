@@ -1,0 +1,33 @@
+# Servicio de Render para la API y el panel de Purple One.
+# La base de datos MySQL está en Railway: sus datos van en las variables
+# PURPLE1_DB_* que se escriben en el panel de Render (sync: false), nunca aquí.
+services:
+  - type: web
+    name: purple1-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /api/currencies
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: PURPLE1_HOST
+        value: 0.0.0.0
+      - key: PURPLE1_TRUST_PROXY
+        value: "1"
+      - key: PURPLE1_COOKIE_SECURE
+        value: "1"
+      - key: PURPLE1_ALLOWED_ORIGINS
+        value: purple1-seven.vercel.app
+      - key: PURPLE1_DB_NAME
+        value: purple1
+      - key: PURPLE1_DB_HOST
+        sync: false
+      - key: PURPLE1_DB_PORT
+        sync: false
+      - key: PURPLE1_DB_USER
+        sync: false
+      - key: PURPLE1_DB_PASSWORD
+        sync: false

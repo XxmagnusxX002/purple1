@@ -6,7 +6,7 @@ Tienda web de merch de Fórmula 1 que muestra y cobra en la moneda del cliente (
 - Front: HTML5 + CSS3 + JavaScript sin frameworks (`frontend/`, panel en `frontend/admin/`). WebGL para la intro 3D, SVG para el avatar y las banderas.
 - Back: Python 3 con `http.server` (`backend/`, 35 módulos), API REST en JSON.
 - Datos: MySQL 8, base `purple1`, 33 tablas (`database/schema.sql`, `seed.sql`, `demo_data.sql`, `upgrade_*.sql`).
-- Despliegue: GitHub + Vercel (tienda) + Railway (API, panel y MySQL). Vercel reenvía `/api`, `/admin` e `/img/uploads` a Railway (`vercel.json`).
+- Despliegue: GitHub (con GitHub Actions) + Vercel (tienda) + Render (API y panel, `render.yaml`) + MySQL en Railway. Vercel reenvía `/api`, `/admin` e `/img/uploads` a Render (`vercel.json`).
 
 ## Documentación (léela antes de cualquier cambio)
 - Problema, usuarios y alcance: @docs/producto.md

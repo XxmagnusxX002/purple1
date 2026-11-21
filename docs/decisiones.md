@@ -16,12 +16,13 @@
 | Módulo de IA (U3) | Publicar el front en Vercel con datos mock | Vercel no corre Python ni MySQL; el mock dejaba probar el recorrido desde una URL. **Reemplazada en U4.** |
 | Módulo de IA (U3) | Contraseña de MySQL fuera del código, en `.env` | El repositorio es público; las llaves nunca van en el código |
 | Módulo de IA (U3) | No migrar a Next.js por ahora | El sistema ya funciona y se sustenta así; migrar es una mejora futura |
-| Módulo de IA (U4) | Reemplazar la versión anterior por el sistema completo (panel, 11 monedas, XP, descuentos, clasificación) | Es la versión que se sustenta; la del mock ya no representa el producto |
+| Módulo de IA (U4) | Reemplazar la versión anterior por el sistema completo (panel, 11 monedas, XP y descuentos) | Es la versión que se sustenta; la del mock ya no representa el producto |
 | Módulo de IA (U4) | Quedarnos con Python + MySQL en lugar de Supabase | La guía admite Spring Boot + MySQL; el sistema ya funciona y tiene 33 tablas con restricciones. Migrar a Postgres sería reescribir el back |
 | Módulo de IA (U4) | Sin RLS: la autorización por fila vive en el servidor | MySQL no tiene RLS. Cada consulta personal filtra por el `user_id` de la sesión y el cuerpo nunca decide el usuario (skill `backend-seguro`) |
-| Módulo de IA (U4) | API, panel y MySQL en Railway; la tienda en Vercel con rewrites | Vercel no corre un servidor Python permanente. Los rewrites dejan un solo dominio, así la cookie `SameSite=Strict` sigue funcionando |
-| Módulo de IA (U4) | El panel `/admin` lo sirve solo Railway | Sus páginas las protege el servidor; si Vercel las sirviera como estáticas, cualquiera vería el HTML del panel |
-| Módulo de IA (U4) | `PURPLE1_ALLOWED_ORIGINS` explícito | El control de origen compara con el Host; detrás del rewrite el Host es el de Railway y el Origin el de Vercel |
-| Módulo de IA (U4) | `purple1_completo.sql` fuera de Git | Trae datos de usuarios de prueba y hashes; se importa a Railway desde el computador |
+| Módulo de IA (U4) | API y panel en Render, MySQL en Railway; la tienda en Vercel con rewrites | Es el esquema de clase (back en Render). Vercel no corre un servidor Python permanente y Render solo ofrece Postgres, por eso la base MySQL queda en Railway. Los rewrites dejan un solo dominio, así la cookie `SameSite=Strict` sigue funcionando |
+| Módulo de IA (U4) | El panel `/admin` lo sirve solo Render | Sus páginas las protege el servidor; si Vercel las sirviera como estáticas, cualquiera vería el HTML del panel |
+| Módulo de IA (U4) | `PURPLE1_ALLOWED_ORIGINS` explícito | El control de origen compara con el Host; detrás del rewrite el Host es el de Render y el Origin el de Vercel |
+| Módulo de IA (U4) | `purple1_completo.sql` fuera de Git | Trae datos de usuarios de prueba y hashes; se importa a MySQL en Railway desde el computador |
 | Módulo de IA (U4) | Eliminar el modo mock | Con back en la nube ya no hace falta y evita dos fuentes de verdad |
 | Módulo de IA (U4) | GitHub Actions revisa cada push y cada PR a `main` | Es la parte de CI/CD del esquema de clase: si el back no compila o se cuela la copia de la base, el cambio se marca en rojo antes de llegar a Vercel y Railway |
+| Módulo de IA (U4) | Volver a la versión del 19 nov 11:07 p. m. (`upgrade_08`), sin la clasificación completa de carreras | Decisión del equipo: es la versión que se presenta. El administrador elige solo al ganador |

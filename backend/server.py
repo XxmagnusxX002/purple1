@@ -43,17 +43,17 @@ from security import (clear_cookie, complete_reset, create_session, read_session
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
-# En local escucha solo en este computador. En la nube (Railway) se define
+# En local escucha solo en este computador. En la nube (Render) se define
 # PURPLE1_HOST=0.0.0.0 para que el proxy de la plataforma pueda llegar.
 HOST = os.getenv("PURPLE1_HOST", "127.0.0.1").strip() or "127.0.0.1"
 # Puerto del servidor (8000). Si esta ocupado: $env:PURPLE1_PORT = "8080" antes de python main.py.
 # En la nube la plataforma asigna el puerto en la variable PORT.
 PORT = int(os.getenv("PURPLE1_PORT") or os.getenv("PORT") or "8000")
-# Detras de Vercel y Railway la IP que ve el servidor es la del proxy. Solo si
+# Detras de Vercel y Render la IP que ve el servidor es la del proxy. Solo si
 # PURPLE1_TRUST_PROXY=1 se lee la IP del cliente desde X-Forwarded-For.
 TRUST_PROXY = os.getenv("PURPLE1_TRUST_PROXY", "0") == "1"
 # Dominios desde los que se aceptan peticiones que cambian datos, ademas del propio.
-# Ejemplo en Railway: PURPLE1_ALLOWED_ORIGINS=purple1.vercel.app
+# Ejemplo en Render: PURPLE1_ALLOWED_ORIGINS=purple1.vercel.app
 ALLOWED_ORIGIN_HOSTS = {
     host.strip().lower().removeprefix("https://").removeprefix("http://").rstrip("/")
     for host in os.getenv("PURPLE1_ALLOWED_ORIGINS", "").split(",") if host.strip()
@@ -185,7 +185,7 @@ class PurpleOneHandler(SimpleHTTPRequestHandler):
         if parsed.scheme not in ("http", "https"):
             return False
         # En la nube el navegador habla con el dominio de Vercel y Vercel reenvia la
-        # peticion a Railway con otro Host: ese dominio se autoriza de forma explicita.
+        # peticion a Render con otro Host: ese dominio se autoriza de forma explicita.
         return parsed.netloc == self.headers.get("Host") or parsed.netloc.lower() in ALLOWED_ORIGIN_HOSTS
 
     def read_json(self):

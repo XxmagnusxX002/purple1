@@ -168,73 +168,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         target.innerHTML = `<span>${escapeHTML(pilot.driver_name)}</span><strong>${Number.isFinite(amount) ? amount : "—"} PitCoins</strong><span>Cuota indicativa <strong>${odds}</strong></span>`;
     }
 
-    // ---------- Carrera finalizada: diseño de resultados (sin formulario de pronóstico)
-    const coins = value => Number(value || 0).toLocaleString("es-CO");
-    const BET_TEXT = { WON: "Acertaste", LOST: "No acertaste", REFUNDED: "Devuelto", PENDING: "Pendiente" };
-
-    function personalResult(race) {
-        if (!user) return `<div class="results-personal results-personal--muted">Inicia sesión para ver tu resultado en esta carrera.</div>`;
-        const bet = race.user_bet;
-        if (!bet) return `<div class="results-personal results-personal--muted">No participaste en esta carrera.</div>`;
-        const pick = race.options.find(option => option.id === bet.option_id);
-        const net = Number(bet.net || 0);
-        return `<div class="results-personal results-personal--${bet.status.toLowerCase()}">
-            <div class="results-personal__head">${pick ? pilotAvatar(pick) : ""}<div><span class="results-eyebrow">Tu pronóstico</span><strong>${escapeHTML(pick?.driver_name || "Piloto")}</strong></div>
-                <span class="results-badge results-badge--${bet.status.toLowerCase()}">${BET_TEXT[bet.status] || escapeHTML(bet.status)}</span></div>
-            <dl class="results-personal__facts">
-                <div><dt>PitCoins usados</dt><dd>${coins(bet.amount)}</dd></div>
-                <div><dt>Recibiste</dt><dd>${coins(bet.payout)}</dd></div>
-                <div><dt>Neto</dt><dd class="${net > 0 ? "is-gain" : net < 0 ? "is-loss" : ""}">${net > 0 ? "+" : net < 0 ? "−" : ""}${coins(Math.abs(net))}</dd></div>
-                <div><dt>XP obtenido</dt><dd>+${coins(bet.xp_gained)} XP</dd></div>
-            </dl>
-        </div>`;
-    }
-
-    function resultsMarkup(race) {
-        const winner = race.winner || {};
-        const withBets = race.options.filter(option => option.bets).sort((a, b) => b.bets - a.bets);
-        const maxBets = Math.max(1, ...withBets.map(option => option.bets));
-        const allRefunded = race.bets_count && !race.winners_count;
-        const classified = race.options.filter(option => option.finish_order);
-        const row = option => `<li class="${option.id === race.winner_option_id ? "is-winner" : ""}"><span class="results-pos">${option.finish_position ?? "NC"}</span>
-            ${pilotAvatar(option)}<span class="results-name"><strong>${escapeHTML(option.driver_name)}</strong><small>${escapeHTML(option.team_name || "")}</small></span></li>`;
-        return `<article class="featured-race surface-card race-results">
-            <div class="featured-race__head">
-                <div class="featured-race__identity">${window.PurpleMedia.raceFlag(race, "lg")}<div class="featured-race__name"><h3>${escapeHTML(race.name)}</h3><p>${escapeHTML(race.circuit)} · ${escapeHTML(raceDate(race))}</p></div></div>
-                <div class="featured-race__status">${statusMarkup(race)}</div>
-            </div>
-            <div class="results-winner" style="--team:${escapeHTML(winner.team_color || "#7b2cff")}">
-                <span class="results-winner__photo">${winner.image_path ? `<img src="${escapeHTML(winner.image_path)}" alt="${escapeHTML(winner.name)}">` : `<i class="fa-solid fa-trophy" aria-hidden="true"></i>`}</span>
-                <div><span class="results-eyebrow"><i class="fa-solid fa-trophy" aria-hidden="true"></i> Ganador oficial</span>
-                    <h4>${winner.number ? `<span class="results-number">${escapeHTML(winner.number)}</span> ` : ""}${escapeHTML(winner.name || "—")}</h4>
-                    <p>${escapeHTML(winner.team || "")}</p></div>
-            </div>
-            <dl class="results-stats">
-                <div><dt>Participantes</dt><dd>${coins(race.participants)}</dd></div>
-                <div><dt>PitCoins en juego</dt><dd>${coins(race.total_staked)}</dd></div>
-                <div><dt>PitCoins ${allRefunded ? "devueltos" : "repartidos"}</dt><dd>${coins(race.paid_out)}</dd></div>
-                <div><dt>Acertaron</dt><dd>${coins(race.winners_count)}${race.final_odds ? `<small>cuota x${Number(race.final_odds).toFixed(2)}</small>` : ""}</dd></div>
-            </dl>
-            ${allRefunded ? '<p class="results-note">Nadie eligió al ganador: según las reglas, se devolvieron los PitCoins a todos los participantes.</p>' : ""}
-            ${personalResult(race)}
-            <div class="results-columns">
-                <section><h4>Pronósticos por piloto</h4>
-                    ${withBets.length ? `<ul class="results-dist">${withBets.map(option => `<li class="${option.id === race.winner_option_id ? "is-winner" : ""}">
-                        <span class="results-name"><strong>${escapeHTML(option.driver_name)}</strong><small>${option.bets} ${option.bets === 1 ? "pronóstico" : "pronósticos"} · ${coins(option.pool)} PC${option.odds ? ` · cuota x${Number(option.odds).toFixed(2)}` : ""}</small></span>
-                        <span class="results-bar"><span style="width:${Math.round(option.bets / maxBets * 100)}%"></span></span></li>`).join("")}</ul>`
-                        : '<p class="results-note">Nadie pronosticó esta carrera.</p>'}
-                </section>
-                <section><h4>Clasificación oficial</h4>
-                    ${classified.length ? `<ol class="results-classification">${classified.slice(0, 10).map(row).join("")}</ol>
-                        ${classified.length > 10 ? `<details class="results-more"><summary>Ver clasificación completa (${classified.length})</summary><ol class="results-classification">${classified.slice(10).map(row).join("")}</ol></details>` : ""}`
-                        : '<p class="results-note">Clasificación no disponible.</p>'}
-                </section>
-            </div>
-        </article>`;
-    }
-
     function featuredMarkup(race) {
-        if (race.status === "FINISHED") return resultsMarkup(race);
         const status = raceStatus(race);
         const teams = [...new Map(race.options.map(option => [String(option.team_id ?? "none"), option.team_name || "Sin escudería"])).entries()];
         const teamOptions = teams.map(([id, name]) => `<option value="${escapeHTML(id)}">${escapeHTML(name)}</option>`).join("");
@@ -282,7 +216,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             ? `<h3>Sin carreras en esta sección</h3><p>Prueba otro filtro para consultar el calendario.</p>`
             : `<h3>Aún no hay carreras publicadas</h3><p>El calendario aparecerá aquí cuando el staff registre las próximas carreras.</p>`;
         featured.innerHTML = race ? featuredMarkup(race) : `<div class="race-message surface-card">${emptyMessage}</div>`;
-        if (race && race.status !== "FINISHED") {
+        if (race) {
             renderPilots();
             renderBetSummary();
         }
@@ -341,10 +275,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function historyOutcome(bet) {
-        if (bet.status === "WON") return `<span class="results-badge results-badge--won">Acertado</span><small>Premio: ${coins(bet.payout)} PC</small>`;
-        if (bet.status === "REFUNDED") return `<span class="results-badge results-badge--refunded">Devuelto</span><small>${coins(bet.payout)} PC</small>`;
-        if (bet.status === "LOST") return `<span class="results-badge results-badge--lost">No acertado</span><small>Premio: 0 PC</small>`;
-        return `<span class="results-badge results-badge--pending">Pendiente</span>`;
+        if (bet.status === "WON") return `Pago: ${bet.payout} PC`;
+        if (bet.status === "REFUNDED") return `Devueltos: ${bet.payout} PC`;
+        if (bet.status === "LOST") return "No acertado";
+        return "Pendiente";
     }
 
     async function loadHistory() {
@@ -357,7 +291,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const data = await getJSON("/api/bets");
             historyLoaded = true;
             historyList.innerHTML = data.bets.length ? data.bets.map(bet =>
-                `<div class="history-item"><div><strong>${escapeHTML(bet.race_name)}</strong><small>${escapeHTML(bet.driver_name)} · ${coins(bet.amount)} PitCoins · ${new Date(String(bet.created_at).replace(" ", "T")).toLocaleDateString("es-CO", { day: "2-digit", month: "short", year: "numeric" })}</small></div><span class="history-item__outcome">${historyOutcome(bet)}</span></div>`).join("")
+                `<div class="history-item"><div><strong>${escapeHTML(bet.race_name)}</strong><small>${escapeHTML(bet.driver_name)} · ${bet.amount} PitCoins apostados</small></div><span class="history-item__outcome">${historyOutcome(bet)}</span></div>`).join("")
                 : `<p class="history-empty">Todavía no tienes pronósticos registrados.</p>`;
         } catch (error) {
             historyList.innerHTML = `<p class="history-empty" role="alert">No se pudo cargar el historial: ${escapeHTML(error.message)}</p>`;

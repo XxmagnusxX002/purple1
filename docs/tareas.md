@@ -22,14 +22,14 @@
 - [x] T-B2 Escribir `docs/contratos/api.md` (cada operación con entradas, salidas, errores y códigos)
 - [x] T-B3 Agregar "Criterios de aceptación del back" a cada spec (F1 a F7)
 - [x] T-B4 Crear la skill `backend-seguro` y la sección Backend de `CLAUDE.md`
-- [x] T-B5 Migraciones y semilla: `schema.sql`, `upgrade_02` a `upgrade_09`, `seed.sql`, `demo_data.sql`
+- [x] T-B5 Migraciones y semilla: `schema.sql`, `upgrade_02` a `upgrade_08`, `seed.sql`, `demo_data.sql`
 - [x] T-B6 Preparar el servidor para la nube: `PORT`, `PURPLE1_HOST`, `PURPLE1_ALLOWED_ORIGINS`, `PURPLE1_TRUST_PROXY`
-- [x] T-B7 `railway.json`, `vercel.json` con rewrites y `.vercelignore` que deja el panel en Railway
+- [x] T-B7 `render.yaml`, `vercel.json` con rewrites y `.vercelignore` que deja el panel en Render
 - [x] T-B8 Quitar el modo mock: el front usa solo la API real
 - [ ] T-B9 Reemplazar el repositorio de GitHub por esta versión (ver `DESPLIEGUE.md`, paso 1)
-- [ ] T-B10 Crear el proyecto en Railway con MySQL e importar `purple1_completo.sql`
-- [ ] T-B11 Poner las variables de entorno en Railway y generar el dominio
-- [ ] T-B12 Cambiar `TU-BACKEND` en `vercel.json` y volver a publicar en Vercel
+- [ ] T-B10 Crear MySQL en Railway e importar `purple1_completo.sql`
+- [ ] T-B11 Crear el servicio en Render desde GitHub y poner las variables de entorno
+- [ ] T-B12 Cambiar `TU-BACKEND` en `vercel.json` por el dominio de Render y volver a publicar en Vercel
 - [ ] T-B13 Pruebas de fuego en la URL pública (ver `DESPLIEGUE.md`, paso 4)
 - [x] T-B16 CI con GitHub Actions (`.github/workflows/ci.yml`)
 - [x] T-B14 Auditoría del back (`docs/auditoria-u4.md`)
@@ -42,5 +42,5 @@
 
 ## Nube (U6)
 
-- [ ] N-1 Guardar las imágenes subidas en un almacenamiento persistente (volumen de Railway o bucket)
+- [ ] N-1 Guardar las imágenes subidas en un almacenamiento persistente (disco de Render o bucket)
 - [ ] N-2 Respaldo automático de la base de datos

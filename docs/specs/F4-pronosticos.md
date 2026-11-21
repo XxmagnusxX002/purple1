@@ -6,7 +6,7 @@ Como aficionado, quiero pronosticar quién gana cada Gran Premio con PitCoins pa
 ## Comportamiento
 1. En `races.html` el usuario ve el calendario F1 2026, los pilotos de cada carrera, la bolsa y la hora de cierre en su zona horaria.
 2. Elige un piloto, escribe cuántos PitCoins pone y confirma. Puede cambiar su pronóstico mientras la carrera esté abierta; se cierra solo a la hora de salida.
-3. El administrador registra la clasificación en el panel, revisa la vista previa y liquida. La bolsa se reparte entre quienes acertaron (parimutuel) y todos ganan XP.
+3. El administrador elige al ganador en el panel, revisa la vista previa y liquida. La bolsa se reparte entre quienes acertaron (parimutuel) y todos ganan XP.
 4. La tabla de posiciones ordena a los usuarios por PitCoins.
 
 ## Criterios de aceptación
@@ -32,7 +32,7 @@ Cada criterio se comprueba por fuera del formulario (curl o pestaña de red) con
 - Dada una carrera con pronósticos, cuando el administrador la cancela, entonces cada pronóstico queda `REFUNDED` con su movimiento `BET_REFUND`.
 
 ## Fuera de alcance
-Dinero real, resultados automáticos desde una API de F1, pronósticos de posiciones distintas al ganador (la clasificación completa se guarda pero solo se pronostica el ganador).
+Dinero real, resultados automáticos desde una API de F1, pronósticos de posiciones distintas al ganador.
 
 ## Archivos relacionados
 - Front: `frontend/races.html`, `js/races.js`

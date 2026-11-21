@@ -20,6 +20,6 @@ jobs:
         run: python -m compileall -q backend main.py
       - name: Revisar la configuración de despliegue
         run: |
-          python -c "import json; json.load(open('vercel.json')); json.load(open('railway.json'))"
+          python -c "import json; json.load(open('vercel.json'))"
       - name: Revisar que no se suba la copia de la base
         run: test ! -f database/purple1_completo.sql

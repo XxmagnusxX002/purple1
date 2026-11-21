@@ -47,7 +47,7 @@ Que un aficionado pueda, en una sola visita: ver los precios en su moneda, compr
 - Pagos reales (el pago es simulado y no guarda datos de la tarjeta).
 - Tasas de cambio en vivo (se usan tasas fijas).
 - Dinero real en los pronósticos: los PitCoins no se compran ni se cambian por dinero.
-- Resultados automáticos de las carreras (el administrador registra la clasificación desde el panel).
+- Resultados automáticos de las carreras (el administrador elige al ganador desde el panel).
 - App móvil nativa (es web, adaptada al celular).
 - Envíos e inventario reales (sin transportadoras ni bodega).
 - Minijuego 2D (se reemplazó por el avatar; ver `decisiones.md`).
@@ -55,7 +55,7 @@ Que un aficionado pueda, en una sola visita: ver los precios en su moneda, compr
 ## 7. Cómo sabremos que funciona
 
 - Un usuario nuevo completa el recorrido del MVP (registro → compra → pronóstico → avatar) sin ayuda.
-- Los profesores y compañeros pueden probarlo desde la URL pública de Vercel **con datos reales** (API y MySQL en Railway).
+- Los profesores y compañeros pueden probarlo desde la URL pública de Vercel **con datos reales** (API en Render y MySQL en Railway).
 - Siguiente paso: validar con aficionados reales si volverían por los pronósticos.
 
 ## 8. Contexto legal

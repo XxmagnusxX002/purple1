@@ -5,19 +5,19 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://TU-BACKEND.up.railway.app/api/:path*"
+      "destination": "https://TU-BACKEND.onrender.com/api/:path*"
     },
     {
       "source": "/admin",
-      "destination": "https://TU-BACKEND.up.railway.app/admin"
+      "destination": "https://TU-BACKEND.onrender.com/admin"
     },
     {
       "source": "/admin/:path*",
-      "destination": "https://TU-BACKEND.up.railway.app/admin/:path*"
+      "destination": "https://TU-BACKEND.onrender.com/admin/:path*"
     },
     {
       "source": "/img/uploads/:path*",
-      "destination": "https://TU-BACKEND.up.railway.app/img/uploads/:path*"
+      "destination": "https://TU-BACKEND.onrender.com/img/uploads/:path*"
     }
   ],
   "headers": [

@@ -8,21 +8,21 @@
 flowchart LR
   N[Navegador] -->|páginas de la tienda| V[Vercel<br/>frontend/]
   N -->|/api · /admin · /img/uploads| V
-  V -->|rewrite| R[Railway<br/>Python main.py]
+  V -->|rewrite| R[Render<br/>Python main.py]
   R -->|SQL parametrizado| M[(MySQL 8<br/>Railway)]
 ```
 
-Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un solo dominio** (el de Vercel). Vercel entrega la tienda y reenvía a Railway todo lo que necesita servidor: la API, el panel y las imágenes subidas. Así la cookie de sesión funciona sin configurar CORS.
+Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un solo dominio** (el de Vercel). Vercel entrega la tienda y reenvía a Render todo lo que necesita servidor: la API, el panel y las imágenes subidas. Así la cookie de sesión funciona sin configurar CORS.
 
 ## Dónde corre cada cosa
 
 | Pieza | Local | Nube |
 |---|---|---|
 | Tienda (12 páginas HTML) | `python main.py` → http://127.0.0.1:8000 | Vercel (`outputDirectory: frontend`) |
-| API `/api/*` | mismo proceso | Railway (`railway.json` → `python main.py`) |
-| Panel `/admin/*` (23 páginas) | mismo proceso | Railway (Vercel lo excluye con `.vercelignore` y lo reenvía) |
+| API `/api/*` | mismo proceso | Render (`render.yaml` → `python main.py`) |
+| Panel `/admin/*` (23 páginas) | mismo proceso | Render (Vercel lo excluye con `.vercelignore` y lo reenvía) |
 | Base de datos | MySQL local | MySQL de Railway |
-| Imágenes subidas desde el panel | `frontend/img/uploads/` | disco de Railway (ver hallazgo A-03) |
+| Imágenes subidas desde el panel | `frontend/img/uploads/` | disco de Render (ver hallazgo A-03) |
 
 ## Front
 
@@ -37,13 +37,13 @@ Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un 
 - Sesión con cookie `HttpOnly` y token con hash en `auth_sessions`. Contraseñas con PBKDF2-SHA256.
 - Única dependencia externa: `mysql-connector-python`.
 
-### Variables de entorno (Railway)
+### Variables de entorno (Render)
 
 | Variable | Valor | Para qué |
 |---|---|---|
-| `PORT` | la pone Railway | puerto donde escucha |
+| `PORT` | la pone Render | puerto donde escucha |
 | `PURPLE1_HOST` | `0.0.0.0` | aceptar conexiones de fuera del contenedor |
-| `PURPLE1_DB_HOST`, `_PORT`, `_USER`, `_PASSWORD`, `_NAME` | los de MySQL de Railway | conexión a la base |
+| `PURPLE1_DB_HOST`, `_PORT`, `_USER`, `_PASSWORD`, `_NAME` | los de la conexión pública de MySQL en Railway | conexión a la base |
 | `PURPLE1_ALLOWED_ORIGINS` | `purple1-seven.vercel.app` | aceptar POST que vienen del dominio de Vercel |
 | `PURPLE1_TRUST_PROXY` | `1` | leer la IP real del cliente (límite de intentos de login) |
 | `PURPLE1_COOKIE_SECURE` | `1` | cookie solo por HTTPS |
@@ -59,7 +59,7 @@ Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un 
 | Capa | Referencia (U4) | Purple One | Equivalencia |
 |---|---|---|---|
 | Front | Next.js en Vercel | HTML/CSS/JS en Vercel | Misma responsabilidad, sin framework |
-| Back | Supabase / Spring Boot | Python `http.server` en Railway | API REST propia |
+| Back | Supabase / Spring Boot | Python `http.server` en Render | API REST propia |
 | Datos | Postgres (Supabase) o MySQL | MySQL 8 | La guía admite Spring Boot + MySQL |
 | Autorización por fila | RLS | Filtro por `user_id` de la sesión en cada consulta | Equivalente en función (ver `decisiones.md`) |
 | Migraciones | `supabase/migrations/` | `database/schema.sql` + `upgrade_NN_*.sql` | Equivalente |
@@ -69,10 +69,10 @@ Tres capas: cada una habla solo con la de al lado. El navegador siempre ve **un 
 
 | Esquema de clase | Purple One | Nota |
 |---|---|---|
-| Frontend → Backend → Base de datos | Front (Vercel) → API REST en Python (Railway) → MySQL | Mismas tres capas, conectadas por REST |
+| Frontend → Backend → Base de datos | Front (Vercel) → API REST en Python (Render) → MySQL (Railway) | Mismas tres capas, conectadas por REST |
 | Spring Boot + Auth + Spring Security | Python `http.server` + sesión con cookie + roles en `server.py` | El back decide quién entra y qué puede hacer |
 | JDBC → Supabase (Postgres) | `mysql-connector-python` → MySQL | Misma idea: solo el back habla con la base |
 | RLS ✗ | Sin RLS | Como el acceso a los datos pasa siempre por el back, la autorización vive en el servidor |
-| GitHub: PR a `main` + GitHub Actions (CI/CD) | `.github/workflows/ci.yml` revisa cada push y PR | Vercel y Railway publican solos al hacer push a `main` |
+| GitHub: PR a `main` + GitHub Actions (CI/CD) | `.github/workflows/ci.yml` revisa cada push y PR | Vercel y Render publican solos al hacer push a `main` |
 | Front en Vercel / AWS / Azure / GCP | Vercel | Igual |
-| Back en Render / AWS / Azure / GCP | Railway | Railway trae MySQL en el mismo proyecto; Render solo ofrece Postgres administrado |
+| Back en Render / AWS / Azure / GCP | Render | Igual. Como Render solo ofrece Postgres administrado, la base MySQL está en Railway |

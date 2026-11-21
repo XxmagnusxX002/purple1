@@ -1,7 +1,7 @@
 # Auditoría del back · Unidad 4
 
 > Revisión del backend de Purple One con la skill `backend-seguro` (seis cerraduras) y el contrato `docs/contratos/api.md`.
-> Hecha por: el equipo con Claude como auditor. Fecha: noviembre de 2026. Versión: sistema completo (`upgrade_09`).
+> Hecha por: el equipo con Claude como auditor. Fecha: noviembre de 2026. Versión: sistema completo (`upgrade_08`).
 
 ## Resumen
 
@@ -29,8 +29,8 @@
 | ID | Hallazgo | Archivo:línea | Severidad | Cómo comprobarlo | Corrección |
 |---|---|---|---|---|---|
 | A-01 | Registro y recuperación de contraseña sin límite de intentos: se pueden crear cuentas o pedir correos en bucle | `server.py:743-752` | Media | `for i in $(seq 50); do curl -X POST .../api/auth/register ...; done` → todas responden | Reusar `auth_login_attempts` con una llave por IP para register y forgot-password (tarea T-B15) |
-| A-02 | Si alguien llama directo al dominio de Railway (sin pasar por Vercel), puede inventar `X-Forwarded-For` y saltarse el límite por IP del login | `server.py:142-149` | Media | `curl -H "X-Forwarded-For: 1.2.3.4" https://TU-BACKEND.up.railway.app/api/auth/login` con varias IP | El límite por cuenta sigue activo. Mejora: aceptar `X-Forwarded-For` solo si trae un encabezado secreto que añada Vercel, o tomar la última IP de la lista |
-| A-03 | Las imágenes subidas desde el panel se guardan en el disco del contenedor de Railway, que se borra en cada redespliegue | `uploads.py:16-53` | Media | Subir una imagen, hacer redeploy en Railway y abrirla → 404 | Volumen persistente de Railway montado en `frontend/img/uploads` o un bucket (tarea N-1) |
+| A-02 | Si alguien llama directo al dominio de Render (sin pasar por Vercel), puede inventar `X-Forwarded-For` y saltarse el límite por IP del login | `server.py:142-149` | Media | `curl -H "X-Forwarded-For: 1.2.3.4" https://TU-BACKEND.onrender.com/api/auth/login` con varias IP | El límite por cuenta sigue activo. Mejora: aceptar `X-Forwarded-For` solo si trae un encabezado secreto que añada Vercel, o tomar la última IP de la lista |
+| A-03 | Las imágenes subidas desde el panel se guardan en el disco del servicio de Render, que se borra en cada redespliegue | `uploads.py:16-53` | Media | Subir una imagen, hacer redeploy en Render y abrirla → 404 | Disco persistente de Render (plan pago) montado en `frontend/img/uploads` o un bucket (tarea N-1) |
 | A-04 | El servidor atiende una petición a la vez (`HTTPServer`, no `ThreadingHTTPServer`) | `server.py:887` | Baja | Varias pestañas pagando a la vez: responden en fila | **Corregido (C-04):** se cambió a `ThreadingHTTPServer`; cada petición abre su propia conexión y las transacciones con `FOR UPDATE` protegen la concurrencia |
 | A-05 | `GET /api/users/{id}` de otra persona responde 403 en vez de 404 (revela que el id existe) | `server.py:673-674` | Baja | Con sesión de A: `curl .../api/users/2` → 403 | Responder 404 "Usuario no encontrado." cuando no es el dueño ni staff |
 | A-06 | Las rutas de la tienda usan el id en la URL (`/api/users/{id}`) en vez de `/api/users/me` | `server.py:668, 794, 820` | Baja | Revisión de código | Está protegido (se compara con la sesión), pero `/me` evita el error de raíz |
@@ -40,10 +40,10 @@
 
 | ID | Qué se corrigió | Dónde |
 |---|---|---|
-| C-01 | Encabezados `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy` y `Permissions-Policy` en todas las páginas de Vercel; `X-Frame-Options: DENY` también en Railway | `vercel.json`, `server.py` (`end_headers`) |
+| C-01 | Encabezados `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy` y `Permissions-Policy` en todas las páginas de Vercel; `X-Frame-Options: DENY` también en Render | `vercel.json`, `server.py` (`end_headers`) |
 | C-02 | El control de origen aceptaba solo el mismo Host; detrás del rewrite de Vercel fallaba. Se agregó la lista explícita `PURPLE1_ALLOWED_ORIGINS` (no un comodín) | `server.py` (`same_origin`) |
 | C-04 | La página cargaba lenta porque el servidor atendía una petición a la vez | `server.py` línea 1 (`ThreadingHTTPServer`) |
-| C-03 | El panel ya no se publica como archivos estáticos en Vercel: `.vercelignore` excluye `frontend/admin/` y el rewrite lo manda a Railway, donde lo protege `admin_page_gate` | `.vercelignore`, `vercel.json` |
+| C-03 | El panel ya no se publica como archivos estáticos en Vercel: `.vercelignore` excluye `frontend/admin/` y el rewrite lo manda a Render, donde lo protege `admin_page_gate` | `.vercelignore`, `vercel.json` |
 
 ## Pruebas de fuego (a correr en la URL pública)
 

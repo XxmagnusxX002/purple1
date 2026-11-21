@@ -5,7 +5,7 @@ Como administrador de la tienda, quiero gestionar catálogo, carreras y pedidos 
 
 ## Comportamiento
 1. El staff entra por `/admin` con su cuenta. El servidor revisa el rol en cada petición.
-2. **Admin:** productos, variantes y stock, imágenes, categorías, banners, escuderías, pilotos, carreras, clasificación y liquidación, pedidos (solo lectura).
+2. **Admin:** productos, variantes y stock, imágenes, categorías, banners, escuderías, pilotos, carreras, ganador y liquidación, pedidos (solo lectura).
 3. **Superadmin:** además, monedas y tasas, descuentos, parámetros, usuarios y roles, ajustes de PitCoins y registro de auditoría.
 4. La liquidación muestra una vista previa (quién gana, cuánto y cuánto XP) y solo se aplica si nada cambió desde esa vista.
 

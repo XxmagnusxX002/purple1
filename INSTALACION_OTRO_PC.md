@@ -95,7 +95,7 @@ SELECT COUNT(*) AS carreras FROM purple1.races;
 SELECT COUNT(*) AS pronosticos FROM purple1.bets;
 ```
 
-Deben salir los mismos números que en el equipo original (en la copia del 19 de noviembre de 2026: 39 usuarios, 49 productos, 161 pedidos, 23 carreras y 268 pronósticos).
+Deben salir los mismos números que en el equipo original (en la copia del 19 de noviembre de 2026: 39 usuarios, 49 productos, 160 pedidos, 23 carreras y 223 pronósticos).
 
 ---
 

@@ -1,8 +1,8 @@
 # Vercel publica solo la tienda (carpeta frontend/). La API, el panel /admin/
-# y las imagenes subidas se piden al backend en Railway (ver vercel.json).
+# y las imagenes subidas se piden al backend en Render (ver vercel.json).
 backend/
 database/
 main.py
 requirements.txt
-railway.json
+render.yaml
 frontend/admin/

@@ -14,8 +14,9 @@
 | Diseño en Figma | "Haz la interfaz para Figma y que sea funcional" | 6 pantallas en SVG con las conexiones entre ellas |
 | Documentación SDD | "Organiza la documentación de problema y solución para el diplomado" | `docs/` con producto, arquitectura, identidad, specs, decisiones y tareas |
 | Publicar en Vercel (U3) | "Necesito el front desplegado en Vercel" | Modo mock que respondía como la API real (eliminado en U4) |
-| Reemplazar la versión (U4) | "La página ahora es distinta, ¿cómo elimino la que tenía y pongo esta funcionando?" | Repositorio reemplazado, back en Railway y rewrites en Vercel (`DESPLIEGUE.md`) |
+| Reemplazar la versión (U4) | "La página ahora es distinta, ¿cómo elimino la que tenía y pongo esta funcionando?" | Repositorio reemplazado, back en Render, MySQL en Railway y rewrites en Vercel (`DESPLIEGUE.md`) |
 | Modelo de datos (U4) | "Lee schema.sql y las specs y escribe docs/datos/modelo.md con ER, reglas por capa y dueño de cada fila" | `docs/datos/modelo.md` |
+| Cambio de versión (U4) | "Este es el zip que tiene que quedar: front en GitHub/Vercel y back en Render" | El agente avisó que era una versión anterior (sin clasificación de carreras); el equipo confirmó usarla. Se pasó el back de Railway a Render (`render.yaml`) |
 | Contrato (U4) | "Escribe el contrato de cada operación con entradas, salidas, errores y códigos, igual a lo que hace server.py" | `docs/contratos/api.md` |
 | Seguridad (U4) | "Crea la skill backend-seguro adaptada a Python + MySQL sin RLS" | `.claude/skills/backend-seguro/SKILL.md` |
 | Auditoría (U4) | "Audita el back con la skill y dame hallazgo, archivo:línea, severidad, cómo comprobar y corrección" | `docs/auditoria-u4.md` |
@@ -32,8 +33,8 @@
 | Vercel no puede correr el servidor Python ni MySQL | Vercel publica el front; la base de datos es local | Datos mock en el navegador con la misma forma que la API real |
 | El contrato decía que registrarse dejaba la sesión iniciada | El agente lo supuso sin leer `server.py` | Se revisó la ruta: el registro devuelve 201 sin cookie; se corrigió el contrato |
 | El contrato tenía mensajes de error inventados ("Debes iniciar sesión.") | Se escribieron de memoria | Se sacaron los mensajes reales con `grep` del código |
-| Detrás de Vercel, todos los POST respondían 403 "Origen no permitido." | El control de origen comparaba con el Host, que ahora es el de Railway | Lista explícita `PURPLE1_ALLOWED_ORIGINS` (sin comodines) |
-| El panel `/admin` quedaba publicado como archivos estáticos en Vercel | Vercel publica toda la carpeta `frontend/` | `.vercelignore` excluye `frontend/admin/` y el rewrite lo manda a Railway |
+| Detrás de Vercel, todos los POST respondían 403 "Origen no permitido." | El control de origen comparaba con el Host, que ahora es el del back | Lista explícita `PURPLE1_ALLOWED_ORIGINS` (sin comodines) |
+| El panel `/admin` quedaba publicado como archivos estáticos en Vercel | Vercel publica toda la carpeta `frontend/` | `.vercelignore` excluye `frontend/admin/` y el rewrite lo manda a Render |
 | La guía pide RLS de Supabase y Purple One usa MySQL | MySQL no tiene RLS | La autorización por fila vive en el servidor; documentado en `decisiones.md` y en la skill |
 | Instalar una librería de íconos por npm falló | Restricción de red del entorno del agente | Se dibujaron los íconos a mano en SVG; no se insistió con otros comandos |
 
